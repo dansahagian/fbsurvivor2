@@ -8,69 +8,160 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Player',
+            name="Player",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('username', models.CharField(max_length=20, unique=True)),
-                ('link', models.CharField(max_length=44, unique=True)),
-                ('email', models.CharField(max_length=100)),
-                ('phone', models.CharField(max_length=12, null=True)),
-                ('is_admin', models.BooleanField(default=False)),
-                ('is_email_confirmed', models.BooleanField(default=False)),
-                ('is_phone_confirmed', models.BooleanField(default=False)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("username", models.CharField(max_length=20, unique=True)),
+                ("link", models.CharField(max_length=44, unique=True)),
+                ("email", models.CharField(max_length=100)),
+                ("phone", models.CharField(max_length=12, null=True)),
+                ("is_admin", models.BooleanField(default=False)),
+                ("is_email_confirmed", models.BooleanField(default=False)),
+                ("is_phone_confirmed", models.BooleanField(default=False)),
             ],
         ),
         migrations.CreateModel(
-            name='Season',
+            name="Season",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('year', models.PositiveSmallIntegerField(unique=True)),
-                ('is_locked', models.BooleanField(default=True)),
-                ('is_current', models.BooleanField(default=False)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("year", models.PositiveSmallIntegerField(unique=True)),
+                ("is_locked", models.BooleanField(default=True)),
+                ("is_current", models.BooleanField(default=False)),
             ],
         ),
         migrations.CreateModel(
-            name='Week',
+            name="Week",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('week_num', models.PositiveSmallIntegerField()),
-                ('lock_datetime', models.DateTimeField()),
-                ('season', models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to='core.Season')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("week_num", models.PositiveSmallIntegerField()),
+                ("lock_datetime", models.DateTimeField()),
+                (
+                    "season",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.DO_NOTHING, to="core.Season"
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='Team',
+            name="Team",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('team_code', models.CharField(max_length=3)),
-                ('bye_week', models.PositiveSmallIntegerField()),
-                ('season', models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to='core.Season')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("team_code", models.CharField(max_length=3)),
+                ("bye_week", models.PositiveSmallIntegerField()),
+                (
+                    "season",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.DO_NOTHING, to="core.Season"
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='PlayerStatus',
+            name="PlayerStatus",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('is_paid', models.BooleanField(default=False)),
-                ('is_retired', models.BooleanField(default=False)),
-                ('is_survivor', models.BooleanField(default=True)),
-                ('player', models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to='core.Player')),
-                ('season', models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to='core.Season')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("is_paid", models.BooleanField(default=False)),
+                ("is_retired", models.BooleanField(default=False)),
+                ("is_survivor", models.BooleanField(default=True)),
+                (
+                    "player",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.DO_NOTHING, to="core.Player"
+                    ),
+                ),
+                (
+                    "season",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.DO_NOTHING, to="core.Season"
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='Pick',
+            name="Pick",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('result', models.CharField(choices=[('W', 'WIN'), ('L', 'LOSS'), ('R', 'RETIRED')], max_length=1, null=True)),
-                ('player', models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to='core.Player')),
-                ('team', models.ForeignKey(null=True, on_delete=django.db.models.deletion.DO_NOTHING, to='core.Team')),
-                ('week', models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to='core.Week')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "result",
+                    models.CharField(
+                        choices=[("W", "WIN"), ("L", "LOSS"), ("R", "RETIRED")],
+                        max_length=1,
+                        null=True,
+                    ),
+                ),
+                (
+                    "player",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.DO_NOTHING, to="core.Player"
+                    ),
+                ),
+                (
+                    "team",
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.DO_NOTHING,
+                        to="core.Team",
+                    ),
+                ),
+                (
+                    "week",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.DO_NOTHING, to="core.Week"
+                    ),
+                ),
             ],
         ),
     ]

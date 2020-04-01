@@ -32,7 +32,7 @@ class Week(models.Model):
         models.UniqueConstraint(fields=["season", "week_num"], name="unique_week")
 
     def __str__(self):
-        return f"{self.week_num} - {self.season}"
+        return f"{self.week_num}"
 
 
 class PlayerStatus(models.Model):
@@ -44,6 +44,7 @@ class PlayerStatus(models.Model):
 
     class Meta:
         models.UniqueConstraint(fields=["player", "season"], name="unique_playerstatus")
+        verbose_name_plural = "playerstatuses"
 
     def __str__(self):
         return f"{self.player} - {self.season}"
@@ -58,7 +59,7 @@ class Team(models.Model):
         models.UniqueConstraint(fields=["season", "team_code"], name="unique_team")
 
     def __str__(self):
-        return f"{self.team_code} - {self.season}"
+        return f"{self.team_code}"
 
 
 class Pick(models.Model):

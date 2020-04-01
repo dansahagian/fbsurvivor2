@@ -1,0 +1,127 @@
+@font-face {
+    font-family: "Open Sans Regular";
+    src: url("../fonts/OpenSans-Regular.ttf"),
+         url("../fonts/OpenSans-Regular.eot");
+}
+
+html {
+    -webkit-text-size-adjust: 100%;
+    background: #f9f9f9;
+    font-family: "Open Sans Regular";
+    letter-spacing: .04em;
+}
+
+body { 
+    font-size: .85em;
+    color: black;
+    text-align: center;
+    line-height: 1.5em;
+    padding-top: .50em;
+}
+
+a {
+    background: lightgray;
+    color: black;
+	text-decoration: none;
+    padding-left: 1.0em;
+    padding-right: 1.0em;
+    border-radius: .25em;
+}
+
+a:hover {
+    background: black;
+    color: white;
+}
+
+table {
+    margin: 0 auto;
+    border-collapse: collapse;
+}
+
+table, th, td {
+    border: 2px solid lightgray;
+    border-radius: .25em;
+    border-collapse: collapse;
+}
+
+table a {
+    padding-left: .20em;
+    padding-right: .20em;
+}
+
+th, td {
+    padding-left: .33em;
+    padding-right: .33em;
+    text-align: left;
+}
+
+th {
+    text-align: center;
+}
+
+ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+li {
+    color: red;
+}
+
+.main {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1.5em;
+    padding-right: 1.5em;
+}
+
+.win {
+    background: #68c659;
+}
+
+.loss {
+    color: white;
+    background: #890101;
+}
+
+.black {
+    color: black;
+    background: black;
+}
+
+.paid {
+    background: #96c2ff;
+}
+
+
+.small {
+    font-size: .8em;
+}
+
+.resizedTextBox {
+    width: 15em;
+    height: 1.5em;
+}
+
+.rules {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 30em;;
+    text-align: center;
+}
+
+.notfound {
+    font-size: 1.50em;
+    font-weight: 800;
+}
+
+.space {
+    padding-left: .5em;
+    padding-right: .5em;
+}
+
+.title {
+    font-size: 1.10em;
+    color: dimgray;
+}

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+    <head>
+        <title>FB Survivor</title>
+        <link rel="stylesheet" href="{% static "css/main.css" %}" type="text/css">
+        <meta name="viewport" content="initial-scale=1.0">
+        <meta name="robots" content="noindex,nofollow" />
+    </head>
+    <body>
+        <div class="main">
+            <span class="title">Football Survivor League</span>
+            <br>
+            {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+                            {{ message }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+            <br>
+            <div id="content">
+                {% block content %}{% endblock %}
+            </div>
+        </div>
+    </body>
+</html>
+

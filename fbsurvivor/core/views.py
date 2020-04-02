@@ -3,21 +3,20 @@ from django.http import HttpResponse, Http404
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 
+from fbsurvivor import settings
 from fbsurvivor.core.forms import PlayerForm, CodeForm, EmailForm
-from fbsurvivor.core.models import Season, Player
+from fbsurvivor.core.models import Season, Player, PlayerStatus
 from fbsurvivor.core.utils import (
-    get_current_season,
     generate_link,
     generate_code,
     send_email,
 )
-from fbsurvivor import settings
 
 
 def home(request):
-    season: Season = get_current_season()
+    current_season = get_object_or_404(Season, is_current=True)
 
-    if season.is_locked:
+    if current_season.is_locked:
         messages.warning(request, "Sign Ups are currently locked!")
         return render(request, "locked.html")
 
@@ -101,6 +100,38 @@ def forgot(request):
                 return render(request, "forgot-sent.html")
 
 
-def player_page(request, link):
+def player_redirect(request, link):
+    get_object_or_404(Player, link=link)
+    current_season = get_object_or_404(Season, is_current=True)
+    return redirect(reverse("player_page", args=[link, current_season.year]))
+
+
+def player_page(request, link, year):
     player = get_object_or_404(Player, link=link)
+    season = get_object_or_404(Season, year=year)
+    try:
+        player_status = PlayerStatus.objects.get(player=player, season=season)
+        is_retired = player_status.is_retired
+    except PlayerStatus.DoesNotExist:
+        player_status = None
+        is_retired = False
+
+    can_retire = player_status and (not is_retired) and season.is_current
+    years = (
+        PlayerStatus.objects.filter(player=player)
+        .values_list("season__year", flat=True)
+        .order_by("season__year")
+    )
+
+    context = {
+        "player": player,
+        "season": season,
+        "player_status": player_status,
+        "years": years,
+        "can_retire": can_retire,
+        "board": None
+    }
+
+    return render(request, "player-page.html", context=context)
+
     return HttpResponse(f"You made it {player.username}")

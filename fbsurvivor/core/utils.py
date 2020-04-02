@@ -4,7 +4,7 @@ import string
 from email.mime.text import MIMEText
 
 from fbsurvivor import settings
-from fbsurvivor.core.models import Season, Player
+from fbsurvivor.core.models import Player
 
 
 def generate_link() -> str:
@@ -21,10 +21,6 @@ def generate_link() -> str:
 
 def generate_code() -> int:
     return secrets.choice(range(111111, 1000000))
-
-
-def get_current_season() -> Season:
-    return Season.objects.get(is_current=True)
 
 
 def send_email(subject, recipients, message):

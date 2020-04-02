@@ -1,0 +1,40 @@
+{% extends "./base.html" %}
+    {% block content %}
+        {{ player.username }} - {{ season.year }} - Board<br><br>
+        {% if player_status %}
+            <span class="space"><a href="#">Picks</a></span>
+        {% else %}
+            <span class="space"><a href="#">Play</a></span>
+        {% endif %}
+        {%  if player.is_admin %}
+            <br><br>
+            <span class="space"><a href="#">Paid</a></span>
+            <span class="space"><a href="#">Results</a></span>
+            <span class="space"><a href="#">Remind</a></span>
+        {% endif %}
+
+        <br><br>
+        <span class="space paid">PAID</span>
+        <span class="space win">WIN</span>
+        <span class="space loss">LOSS</span>
+        <br><br>
+        <table>
+            <tr>
+                <th>Username</th>
+                <th>Ws</th>
+                <th>Ls</th>
+                <th style="border-right: 10px solid #f9f9f9;">Current</th>
+                {% if board %}
+
+                {% endif %}
+            </tr>
+        </table><br><br>
+        {% for year in years %}
+            <span class="space">
+                <a href="{% url 'player_page' player.link year %}">{{ year }}</a>
+            </span>
+        {% endfor %}<br><br>
+        {% if can_retire %}
+            <a href="#">Retire</a>
+        {% endif %}
+    {% endblock %}

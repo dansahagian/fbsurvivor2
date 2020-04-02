@@ -4,7 +4,7 @@
             This website is used to run a private NFL Survivor Pool for family and friends.
             It's not intended for public consumption.
         </div><br>
-        <form action="/" method="POST">
+        <form action="{% url 'home' %}" method="POST">
             {% csrf_token %}
             <label for="{{ form.username.id_for_label }}">Username:</label>
             <br>
@@ -18,6 +18,6 @@
         </form>
         <br>
         <div>
-            <a href="/forgot">Forgot your link?</a>
+            <a href="{% url 'forgot' %}">Forgot your link?</a>
         </div>
     {% endblock %}

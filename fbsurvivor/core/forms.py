@@ -8,3 +8,7 @@ class PlayerForm(forms.Form):
 
 class CodeForm(forms.Form):
     confirmation_code = forms.CharField(max_length=6)
+
+
+class EmailForm(forms.Form):
+    email = forms.EmailField(label="email")

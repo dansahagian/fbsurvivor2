@@ -3,7 +3,7 @@ from django.http import HttpResponse, Http404
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 
-from fbsurvivor.core.forms import PlayerForm, CodeForm
+from fbsurvivor.core.forms import PlayerForm, CodeForm, EmailForm
 from fbsurvivor.core.models import Season, Player
 from fbsurvivor.core.utils import (
     get_current_season,
@@ -11,6 +11,7 @@ from fbsurvivor.core.utils import (
     generate_code,
     send_email,
 )
+from fbsurvivor import settings
 
 
 def home(request):
@@ -73,6 +74,31 @@ def confirm_contact(request, link, contact):
                 setattr(player, f"is_{contact}_confirmed", True)
                 player.save()
                 return redirect(reverse("player_page", args=[link]))
+
+
+def forgot(request):
+    if request.method == "GET":
+        context = {
+            "form": EmailForm(),
+        }
+        return render(request, "forgot.html", context=context)
+
+    if request.method == "POST":
+        form = EmailForm(request.POST)
+
+        if form.is_valid():
+            email = form.cleaned_data["email"]
+            players = Player.objects.filter(email=email)
+            if players:
+                subject = "Survivor - Player Links"
+                message = (
+                    "We found the following links associated with your email address:"
+                )
+                for player in players:
+                    message += f"\n\n{settings.DOMAIN}/{player.link}"
+
+                send_email(subject, [email], message)
+                return render(request, "forgot-sent.html")
 
 
 def player_page(request, link):

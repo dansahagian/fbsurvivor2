@@ -1,0 +1,14 @@
+{% extends "./base.html" %}
+    {% block content %}
+        <div class="rules">
+            Enter your email address and we will send you your links if there is a match.
+        </div><br>
+        <form action="{% url 'forgot' %}" method="POST">
+            {% csrf_token %}
+            <label for="{{ form.email.id_for_label }}">Email:</label>
+            <br>
+            {{ form.email }}
+            <br><br>
+            <input type="submit" value="Send" />
+        </form>
+    {% endblock %}

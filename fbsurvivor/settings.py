@@ -4,7 +4,7 @@ from decouple import config
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
+DOMAIN = config("DOMAIN")
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
@@ -106,3 +106,13 @@ USE_TZ = True
 
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 STATIC_URL = "/static/"
+
+SMTP_SERVER = config("SMTP_SERVER")
+SMTP_SENDER = config("SMTP_SENDER")
+SMTP_USER = config("SMTP_USER")
+SMTP_PASSWORD = config("SMTP_PASSWORD")
+SMTP_PORT = config("SMTP_PORT")
+
+TWILIO_SID = config("TWILIO_SID")
+TWILIO_KEY = config("TWILIO_KEY")
+TWILIO_NUM = config("TWILIO_NUM")

@@ -1,3 +1,4 @@
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 
 
@@ -9,6 +10,11 @@ class Player(models.Model):
     is_admin = models.BooleanField(default=False)
     is_email_confirmed = models.BooleanField(default=False)
     is_phone_confirmed = models.BooleanField(default=False)
+    confirmation_code = models.IntegerField(
+        null=True,
+        default=None,
+        validators=[MinValueValidator(111111), MaxValueValidator(999999)],
+    )
 
     def __str__(self):
         return f"{self.username}"

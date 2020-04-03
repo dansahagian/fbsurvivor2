@@ -1,5 +1,5 @@
 from django.contrib import messages
-from django.http import HttpResponse, Http404
+from django.http import Http404
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 
@@ -123,15 +123,20 @@ def player_page(request, link, year):
         .order_by("season__year")
     )
 
+    player_statuses = PlayerStatus.objects.filter(season=season).order_by(
+        "is_retired", "player__username", "loss_count", "win_count", "is_survivor"
+    )
+
+    for status in player_statuses:
+        print(status.player.username)
+
     context = {
         "player": player,
         "season": season,
         "player_status": player_status,
         "years": years,
         "can_retire": can_retire,
-        "board": None
+        "board": None,
     }
 
     return render(request, "player-page.html", context=context)
-
-    return HttpResponse(f"You made it {player.username}")

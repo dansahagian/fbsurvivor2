@@ -12,6 +12,8 @@ django = "*"
 python-dotenv = "*"
 python-decouple = "*"
 psycopg2-binary = "*"
+django-extensions = "*"
+django-dirtyfields = "*"
 
 [requires]
 python_version = "3.8"

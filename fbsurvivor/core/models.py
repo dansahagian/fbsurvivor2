@@ -1,5 +1,9 @@
+import datetime
+
+import pytz
+from dirtyfields import DirtyFieldsMixin
 from django.core.validators import MinValueValidator, MaxValueValidator
-from django.db import models
+from django.db import models, transaction
 
 
 class Player(models.Model):
@@ -34,26 +38,11 @@ class Week(models.Model):
     week_num = models.PositiveSmallIntegerField()
     lock_datetime = models.DateTimeField()
 
-    class Meta:
-        models.UniqueConstraint(fields=["season", "week_num"], name="unique_week")
-
     def __str__(self):
         return f"{self.week_num}"
 
-
-class PlayerStatus(models.Model):
-    player = models.ForeignKey(Player, on_delete=models.DO_NOTHING)
-    season = models.ForeignKey(Season, on_delete=models.DO_NOTHING)
-    is_paid = models.BooleanField(default=False)
-    is_retired = models.BooleanField(default=False)
-    is_survivor = models.BooleanField(default=True)
-
     class Meta:
-        models.UniqueConstraint(fields=["player", "season"], name="unique_playerstatus")
-        verbose_name_plural = "playerstatuses"
-
-    def __str__(self):
-        return f"{self.player} - {self.season}"
+        models.UniqueConstraint(fields=["season", "week_num"], name="unique_week")
 
 
 class Team(models.Model):
@@ -61,14 +50,14 @@ class Team(models.Model):
     team_code = models.CharField(max_length=3)
     bye_week = models.PositiveSmallIntegerField()
 
-    class Meta:
-        models.UniqueConstraint(fields=["season", "team_code"], name="unique_team")
-
     def __str__(self):
         return f"{self.team_code}"
 
+    class Meta:
+        models.UniqueConstraint(fields=["season", "team_code"], name="unique_team")
 
-class Pick(models.Model):
+
+class Pick(DirtyFieldsMixin, models.Model):
     result_choices = [
         ("W", "WIN"),
         ("L", "LOSS"),
@@ -79,8 +68,60 @@ class Pick(models.Model):
     team = models.ForeignKey(Team, on_delete=models.DO_NOTHING, null=True)
     result = models.CharField(choices=result_choices, max_length=1, null=True)
 
-    class Meta:
-        models.UniqueConstraint(fields=["player", "week"], name="unique_pick")
+    FIELDS_TO_CHECK = ["result"]
+
+    def save(self, *args, **kwargs):
+        if not self._state.adding and self.is_dirty():
+            ps = PlayerStatus.objects.get(player=self.player, season=self.week.season,)
+            result = self.get_dirty_fields(verbose=True)["result"]
+            saved_value = result["saved"]
+            current_value = result["current"]
+
+            if current_value == "W":
+                ps.win_count += 1
+
+            if current_value == "L":
+                ps.loss_count += 1
+
+            if saved_value == "W":
+                ps.win_count += -1
+
+            if saved_value == "L":
+                ps.loss_count += -1
+
+            with transaction.atomic():
+                ps.save()
+                super().save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.player} - {self.week} - {self.team}"
+
+    class Meta:
+        models.UniqueConstraint(fields=["player", "week"], name="unique_pick")
+
+
+class PlayerStatus(models.Model):
+    player = models.ForeignKey(Player, on_delete=models.DO_NOTHING)
+    season = models.ForeignKey(Season, on_delete=models.DO_NOTHING)
+    is_paid = models.BooleanField(default=False)
+    is_retired = models.BooleanField(default=False)
+    is_survivor = models.BooleanField(default=True)
+    win_count = models.SmallIntegerField(default=0)
+    loss_count = models.SmallIntegerField(default=0)
+
+    def get_picks(self):
+        right_now = pytz.timezone("US/Pacific").localize(datetime.datetime.now())
+
+        return Pick.objects.filter(
+            player=self.player,
+            week__season=self.season,
+            week__lock_datetime__lte=right_now,
+        )
+
+    def __str__(self):
+        return f"{self.player} - {self.season}"
+
+    class Meta:
+        models.UniqueConstraint(fields=["player", "season"], name="unique_playerstatus")
+        verbose_name_plural = "playerstatuses"

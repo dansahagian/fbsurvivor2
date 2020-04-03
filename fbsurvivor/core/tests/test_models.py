@@ -3,7 +3,7 @@ import datetime
 import pytz
 from django.test import TestCase
 
-from fbsurvivor.core.models import Player, Season, Week, Team, Pick, PlayerStatus
+from fbsurvivor.core.models import Player, PlayerStatus, Pick, Season, Team, Week
 
 PST = pytz.timezone("US/Pacific")
 

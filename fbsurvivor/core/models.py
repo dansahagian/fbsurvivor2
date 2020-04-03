@@ -57,7 +57,18 @@ class Team(models.Model):
         models.UniqueConstraint(fields=["season", "team_code"], name="unique_team")
 
 
+class PickQuerySet(models.QuerySet):
+    def for_player_season(self, player, season):
+        right_now = pytz.timezone("US/Pacific").localize(datetime.datetime.now())
+
+        return self.filter(
+            player=player, week__season=season, week__lock_datetime__lte=right_now,
+        )
+
+
 class Pick(DirtyFieldsMixin, models.Model):
+    objects = PickQuerySet.as_manager()
+
     result_choices = [
         ("W", "WIN"),
         ("L", "LOSS"),
@@ -75,23 +86,18 @@ class Pick(DirtyFieldsMixin, models.Model):
             ps = PlayerStatus.objects.get(player=self.player, season=self.week.season,)
             result = self.get_dirty_fields(verbose=True)["result"]
             saved_value = result["saved"]
-            current_value = result["current"]
+            dirty_value = result["current"]
 
-            if current_value == "W":
-                ps.win_count += 1
+            ps.win_count = ps.win_count + 1 if dirty_value == "W" else ps.win_count
+            ps.win_count = ps.win_count - 1 if saved_value == "W" else ps.win_count
 
-            if current_value == "L":
-                ps.loss_count += 1
-
-            if saved_value == "W":
-                ps.win_count += -1
-
-            if saved_value == "L":
-                ps.loss_count += -1
+            ps.loss_count = ps.loss_count + 1 if dirty_value == "L" else ps.loss_count
+            ps.loss_count = ps.loss_count - 1 if saved_value == "L" else ps.loss_count
 
             with transaction.atomic():
                 ps.save()
                 super().save(*args, **kwargs)
+
         super().save(*args, **kwargs)
 
     def __str__(self):
@@ -109,15 +115,6 @@ class PlayerStatus(models.Model):
     is_survivor = models.BooleanField(default=True)
     win_count = models.SmallIntegerField(default=0)
     loss_count = models.SmallIntegerField(default=0)
-
-    def get_picks(self):
-        right_now = pytz.timezone("US/Pacific").localize(datetime.datetime.now())
-
-        return Pick.objects.filter(
-            player=self.player,
-            week__season=self.season,
-            week__lock_datetime__lte=right_now,
-        )
 
     def __str__(self):
         return f"{self.player} - {self.season}"

@@ -1,11 +1,12 @@
 from django.contrib import messages
+from django.db.models.functions import Lower
 from django.http import Http404
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 
 from fbsurvivor import settings
 from fbsurvivor.core.forms import PlayerForm, CodeForm, EmailForm
-from fbsurvivor.core.models import Season, Player, PlayerStatus
+from fbsurvivor.core.models import Season, Player, PlayerStatus, Pick, Week
 from fbsurvivor.core.utils import (
     generate_link,
     generate_code,
@@ -117,18 +118,25 @@ def player_page(request, link, year):
         is_retired = False
 
     can_retire = player_status and (not is_retired) and season.is_current
+
     years = (
         PlayerStatus.objects.filter(player=player)
         .values_list("season__year", flat=True)
         .order_by("season__year")
     )
 
-    player_statuses = PlayerStatus.objects.filter(season=season).order_by(
-        "is_retired", "player__username", "loss_count", "win_count", "is_survivor"
+    player_statuses = (
+        PlayerStatus.objects.filter(season=season)
+        .annotate(lower=Lower("player__username"))
+        .order_by("-is_survivor", "is_retired", "-win_count", "loss_count", "lower",)
     )
 
-    for status in player_statuses:
-        print(status.player.username)
+    weeks = Week.objects.for_display(season).values_list("week_num", flat=True)
+
+    board = [
+        (ps, list(Pick.objects.for_player_season(ps.player, season)))
+        for ps in player_statuses
+    ]
 
     context = {
         "player": player,
@@ -136,7 +144,8 @@ def player_page(request, link, year):
         "player_status": player_status,
         "years": years,
         "can_retire": can_retire,
-        "board": None,
+        "weeks": weeks,
+        "board": board,
     }
 
     return render(request, "player-page.html", context=context)

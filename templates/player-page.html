@@ -25,9 +25,52 @@
                 <th>Ls</th>
                 <th style="border-right: 10px solid #f9f9f9;">Current</th>
                 {% if board %}
-
+                {% for week in weeks %}
+                    <th>{{ week|stringformat:"02d" }}</th>
+                {% endfor %}
                 {% endif %}
             </tr>
+            {% for ps, picks in board %}
+                {% if ps.player == player %}
+                    <tr style="font-weight:bold; border: 3px solid black;">
+                {% else %}
+                    <tr>
+                {% endif %}
+                    <td {% if ps.is_paid %} class="paid" {% endif %}>
+                        {{ ps.player.username }}
+                    </td>
+                    <td>{{ ps.win_count }}</td>
+                    <td>{{ ps.loss_count }}</td>
+
+                        <td style="border-right: 10px solid #f9f9f9;"
+                            {% with picks|last as current %}
+                                {% if current.team is None and current.result == "R" %}
+                                    class="black"
+                                {% elif current.result == "W" %}
+                                    class="win"
+                                {% elif current.result == "L" %}
+                                    class="loss"
+                                {% endif %}
+                                >
+                                {% if current.team %}{{ current.team }}{% endif %}
+                            {% endwith %}
+                        </td>
+                    {% for pick in picks %}
+                        <td
+                            {% if pick.team is None and pick.result == "R" %}
+                                class="black"
+                            {% elif pick.result == "W" %}
+                                class="win"
+                            {% elif pick.result == "L" %}
+                                class="loss"
+                            {% endif %}
+                        >
+                        {% if pick.team %}{{ pick.team }}{% endif %}
+                        </td>
+                    {% endfor %}
+                    </tr>
+            {% endfor %}
+
         </table><br><br>
         {% for year in years %}
             <span class="space">

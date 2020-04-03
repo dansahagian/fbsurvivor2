@@ -33,7 +33,18 @@ class Season(models.Model):
         return f"{self.year}"
 
 
+class WeekQuerySet(models.QuerySet):
+    def for_display(self, season):
+        right_now = pytz.timezone("US/Pacific").localize(datetime.datetime.now())
+
+        return self.filter(season=season, lock_datetime__lte=right_now).order_by(
+            "week_num"
+        )
+
+
 class Week(models.Model):
+    objects = WeekQuerySet.as_manager()
+
     season = models.ForeignKey(Season, on_delete=models.DO_NOTHING)
     week_num = models.PositiveSmallIntegerField()
     lock_datetime = models.DateTimeField()
@@ -63,7 +74,7 @@ class PickQuerySet(models.QuerySet):
 
         return self.filter(
             player=player, week__season=season, week__lock_datetime__lte=right_now,
-        )
+        ).order_by("week__week_num")
 
 
 class Pick(DirtyFieldsMixin, models.Model):

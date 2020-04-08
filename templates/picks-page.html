@@ -23,18 +23,18 @@
                         {% elif pick.result == "L" %}
                             class="loss"
                         {% endif %}
-                    >{% if pick.team %}{{ pick.team }}{% endif %}</td>
+                    >{% if pick.team.team_code %}{{ pick.team.team_code }}{% endif %}</td>
 
                     <td>
                         {% if pick.week.is_locked %}
                             locked
                         {% else %}
-                            <a href="/{{ link }}/{{ year }}/picks/{{ pick.id }}">
+                            <a href="{% url 'pick_view' player.link season.year pick.week.week_num %}">
                                 edit
                             </a>
                         {% endif %}
                     </td>
-                    <td>{{ pick.week.lock_datetime|date:"m-d-Y h:i A" }}</td>
+                    <td>{{ pick.week.lock_datetime|date:"m-d-Y h:i A T" }}</td>
                 </tr>
             {% endfor %}
             </table>

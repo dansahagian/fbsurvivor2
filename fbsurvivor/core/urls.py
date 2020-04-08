@@ -8,5 +8,6 @@ urlpatterns = [
     path("<str:link>", views.player_redirect, name="player_redirect"),
     path("<str:link>/<int:year>/", views.player_view, name="player_view"),
     path("<str:link>/<int:year>/picks", views.picks_view, name="picks_view"),
+    path("<str:link>/<int:year>/picks/<int:week>", views.pick_view, name="pick_view"),
     path("<str:link>/<str:contact>/", views.confirm_contact, name="confirm_contact"),
 ]

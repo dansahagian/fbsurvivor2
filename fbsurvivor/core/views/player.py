@@ -55,7 +55,7 @@ def player_view(request, link, year):
         "can_retire": can_retire,
         "weeks": weeks,
         "board": board,
-        "player_count": player_statuses.count()
+        "player_count": player_statuses.count(),
     }
 
     return render(request, "player-page.html", context=context)

@@ -22,6 +22,11 @@ class Week(models.Model):
     week_num = models.PositiveSmallIntegerField()
     lock_datetime = models.DateTimeField()
 
+    @property
+    def is_locked(self):
+        right_now = pytz.timezone("US/Pacific").localize(datetime.datetime.now())
+        return right_now > self.lock_datetime
+
     def __str__(self):
         return f"{self.week_num}"
 

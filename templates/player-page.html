@@ -2,7 +2,7 @@
     {% block content %}
         {{ player.username }} - {{ season.year }} - Board<br><br>
         {% if player_status %}
-            <span class="space"><a href="#">Picks</a></span>
+            <span class="space"><a href="{% url 'picks_view' player.link season.year %}">Picks</a></span>
         {% endif %}
         {%  if player.is_admin %}
             <br><br>

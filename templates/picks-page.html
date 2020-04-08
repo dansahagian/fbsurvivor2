@@ -1,0 +1,44 @@
+{% extends "./base.html" %}
+    {% block content %}
+        {{ player.username }} - {{ season.year }} - Picks
+        <br><br>
+        <a href="{% url 'player_view' player.link season.year %}">Back</a>
+        <br><br>
+        {% if picks %}
+            Record: {{ player_status.win_count }} - {{ player_status.loss_count }}
+            <br><br>
+            <table>
+                <tr>
+                    <th>Wk</th>
+                    <th>W/L</th>
+                    <th>Status</th>
+                    <th>Deadline</th>
+                </tr>
+            {% for pick in picks %}
+                <tr>
+                    <td>{{ pick.week.week_num|stringformat:"02d" }}</td>
+                    <td
+                        {% if pick.result == "W" %}
+                            class="win"
+                        {% elif pick.result == "L" %}
+                            class="loss"
+                        {% endif %}
+                    >{% if pick.team %}{{ pick.team }}{% endif %}</td>
+
+                    <td>
+                        {% if pick.week.is_locked %}
+                            locked
+                        {% else %}
+                            <a href="/{{ link }}/{{ year }}/picks/{{ pick.id }}">
+                                edit
+                            </a>
+                        {% endif %}
+                    </td>
+                    <td>{{ pick.week.lock_datetime|date:"m-d-Y h:i A" }}</td>
+                </tr>
+            {% endfor %}
+            </table>
+        {% else %}
+            No pick data available for {{ year }}!
+        {% endif %}
+    {% endblock %}

@@ -4,7 +4,7 @@ import string
 from email.mime.text import MIMEText
 
 from fbsurvivor import settings
-from fbsurvivor.core.models import Player
+from fbsurvivor.core.models import Player, Season, PlayerStatus
 
 
 def generate_link() -> str:

@@ -3,8 +3,6 @@
         {{ player.username }} - {{ season.year }} - Board<br><br>
         {% if player_status %}
             <span class="space"><a href="#">Picks</a></span>
-        {% else %}
-            <span class="space"><a href="#">Play</a></span>
         {% endif %}
         {%  if player.is_admin %}
             <br><br>
@@ -12,69 +10,75 @@
             <span class="space"><a href="#">Results</a></span>
             <span class="space"><a href="#">Remind</a></span>
         {% endif %}
+        {% if player_status %}
+            <br><br>
+            <span class="space paid">PAID</span>
+            <span class="space win">WIN</span>
+            <span class="space loss">LOSS</span>
+            <br><br>
+            <table>
+                <tr>
+                    <th>Username</th>
+                    <th>Ws</th>
+                    <th>Ls</th>
+                    <th style="border-right: 10px solid #f9f9f9;">Current</th>
+                    {% if board %}
+                    {% for week in weeks %}
+                        <th>{{ week|stringformat:"02d" }}</th>
+                    {% endfor %}
+                    {% endif %}
+                </tr>
+                {% for ps, picks in board %}
+                    {% if ps.player == player %}
+                        <tr style="font-weight:bold; border: 3px solid black;">
+                    {% else %}
+                        <tr>
+                    {% endif %}
+                        <td {% if ps.is_paid %} class="paid" {% endif %}>
+                            {{ ps.player.username }}
+                        </td>
+                        <td>{{ ps.win_count }}</td>
+                        <td>{{ ps.loss_count }}</td>
 
-        <br><br>
-        <span class="space paid">PAID</span>
-        <span class="space win">WIN</span>
-        <span class="space loss">LOSS</span>
-        <br><br>
-        <table>
-            <tr>
-                <th>Username</th>
-                <th>Ws</th>
-                <th>Ls</th>
-                <th style="border-right: 10px solid #f9f9f9;">Current</th>
-                {% if board %}
-                {% for week in weeks %}
-                    <th>{{ week|stringformat:"02d" }}</th>
-                {% endfor %}
-                {% endif %}
-            </tr>
-            {% for ps, picks in board %}
-                {% if ps.player == player %}
-                    <tr style="font-weight:bold; border: 3px solid black;">
-                {% else %}
-                    <tr>
-                {% endif %}
-                    <td {% if ps.is_paid %} class="paid" {% endif %}>
-                        {{ ps.player.username }}
-                    </td>
-                    <td>{{ ps.win_count }}</td>
-                    <td>{{ ps.loss_count }}</td>
-
-                        <td style="border-right: 10px solid #f9f9f9;"
-                            {% with picks|last as current %}
-                                {% if current.team is None and current.result == "R" %}
+                            <td style="border-right: 10px solid #f9f9f9;"
+                                {% with picks|last as current %}
+                                    {% if current.team is None and current.result == "R" %}
+                                        class="black"
+                                    {% elif current.result == "W" %}
+                                        class="win"
+                                    {% elif current.result == "L" %}
+                                        class="loss"
+                                    {% endif %}
+                                    >
+                                    {% if current.team %}{{ current.team }}{% endif %}
+                                {% endwith %}
+                            </td>
+                        {% for pick in picks %}
+                            <td
+                                {% if pick.team is None and pick.result == "R" %}
                                     class="black"
-                                {% elif current.result == "W" %}
+                                {% elif pick.result == "W" %}
                                     class="win"
-                                {% elif current.result == "L" %}
+                                {% elif pick.result == "L" %}
                                     class="loss"
                                 {% endif %}
-                                >
-                                {% if current.team %}{{ current.team }}{% endif %}
-                            {% endwith %}
-                        </td>
-                    {% for pick in picks %}
-                        <td
-                            {% if pick.team is None and pick.result == "R" %}
-                                class="black"
-                            {% elif pick.result == "W" %}
-                                class="win"
-                            {% elif pick.result == "L" %}
-                                class="loss"
-                            {% endif %}
-                        >
-                        {% if pick.team %}{{ pick.team }}{% endif %}
-                        </td>
-                    {% endfor %}
-                    </tr>
-            {% endfor %}
+                            >
+                            {% if pick.team %}{{ pick.team }}{% endif %}
+                            </td>
+                        {% endfor %}
+                        </tr>
+                {% endfor %}
+            </table><br><br>
+        {% else %}
+            <strong>{{ player_count }}</strong> players have clicked Play! Will you join them?<br><br>
+            <span class="space">
+                <a href="#">Play</a><br><br><br>
+            </span>
+        {% endif %}
 
-        </table><br><br>
         {% for year in years %}
             <span class="space">
-                <a href="{% url 'player_page' player.link year %}">{{ year }}</a>
+                <a href="{% url 'player_view' player.link year %}">{{ year }}</a>
             </span>
         {% endfor %}<br><br>
         {% if can_retire %}

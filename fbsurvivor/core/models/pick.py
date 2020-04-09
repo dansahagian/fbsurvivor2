@@ -36,7 +36,7 @@ class Pick(DirtyFieldsMixin, models.Model):
 
     def save(self, *args, **kwargs):
         if not self._state.adding and self.is_dirty():
-            ps = PlayerStatus.objects.get(player=self.player, season=self.week.season,)
+            ps = PlayerStatus.objects.get(player=self.player, season=self.week.season)
             result = self.get_dirty_fields(verbose=True)["result"]
             saved_value = result["saved"]
             dirty_value = result["current"]
@@ -46,6 +46,8 @@ class Pick(DirtyFieldsMixin, models.Model):
 
             ps.loss_count = ps.loss_count + 1 if dirty_value == "L" else ps.loss_count
             ps.loss_count = ps.loss_count - 1 if saved_value == "L" else ps.loss_count
+
+            ps.is_survivor = False if ps.loss_count > 0 else True
 
             with transaction.atomic():
                 ps.save()

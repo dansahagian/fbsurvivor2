@@ -48,7 +48,7 @@ def signup(request):
             return redirect(reverse("home"))
 
 
-def confirm_contact(request, link, contact):
+def confirm(request, link, contact):
     player = get_object_or_404(Player, link=link)
 
     if contact not in ["email", "phone"]:
@@ -94,7 +94,7 @@ def forgot(request):
                     "We found the following links associated with your email address:"
                 )
                 for player in players:
-                    message += f"\n\n{settings.DOMAIN}/{player.link}"
+                    message += f"\n\n{settings.DOMAIN}/{player.link}/"
 
                 send_email(subject, [email], message)
                 return render(request, "forgot-sent.html")

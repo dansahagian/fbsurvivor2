@@ -4,12 +4,12 @@
         <br><br>
         {% if player_status %}
             <span class="space">
-                <a href="{% url 'picks_view' player.link season.year %}">Picks</a>
+                <a href="{% url 'picks' player.link season.year %}">Picks</a>
             </span>
         {% endif %}
         {%  if player.is_admin %}
             <span class="space">
-                <a href="#">Admin</a>
+                <a href="{% url 'manager' player.link season.year %}">Admin</a>
             </span>
         {% endif %}
         {% if can_play %}
@@ -82,7 +82,7 @@
         {% endif %}
         {% for year in years %}
             <span class="space">
-                <a href="{% url 'player_view' player.link year %}">{{ year }}</a>
+                <a href="{% url 'player' player.link year %}">{{ year }}</a>
             </span>
         {% endfor %}<br><br>
         {% if can_retire %}

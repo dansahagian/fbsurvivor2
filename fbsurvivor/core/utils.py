@@ -28,7 +28,7 @@ def send_to_latest_season_played(request, link, year):
     if ps:
         latest = ps[0].season.year
         messages.warning(request, f"You did NOT play in {year}. Here is {latest}")
-        return redirect(reverse("player_view", args=[link, latest]))
+        return redirect(reverse("player", args=[link, latest]))
     else:
         messages.warning(request, f"We don't have a record of you playing any season.")
         return redirect(reverse("home"))

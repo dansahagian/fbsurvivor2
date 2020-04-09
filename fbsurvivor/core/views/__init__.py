@@ -1,3 +1,4 @@
-from .player import player_view, player_redirect, play_view
-from .signup import signup, confirm_contact, forgot
-from .pick import picks_view, pick_view
+from .player import player_redirect, player, play
+from .signup import signup, confirm, forgot
+from .pick import picks, pick
+from .admin import manager, paid, user_paid, results, remind

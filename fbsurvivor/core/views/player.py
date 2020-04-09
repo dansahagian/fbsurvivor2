@@ -10,10 +10,10 @@ from fbsurvivor.core.utils import get_player_info, send_to_latest_season_played
 def player_redirect(request, link):
     get_object_or_404(Player, link=link)
     current_season = get_object_or_404(Season, is_current=True)
-    return redirect(reverse("player_view", args=[link, current_season.year]))
+    return redirect(reverse("player", args=[link, current_season.year]))
 
 
-def player_view(request, link, year):
+def player(request, link, year):
     player, season, player_status = get_player_info(link, year)
 
     if season.is_locked and not player_status:
@@ -51,15 +51,15 @@ def player_view(request, link, year):
         "player_count": player_statuses.count(),
     }
 
-    return render(request, "player-page.html", context=context)
+    return render(request, "player.html", context=context)
 
 
-def play_view(request, link, year):
+def play(request, link, year):
     player, season, player_status = get_player_info(link, year)
 
     if player_status:
         messages.info(request, f"You are already playing for {year}!")
-        return redirect(reverse("player_view", args=[link, year]))
+        return redirect(reverse("player", args=[link, year]))
 
     if season.is_locked:
         return send_to_latest_season_played(request, link, year)
@@ -78,4 +78,4 @@ def play_view(request, link, year):
         picks = [Pick(player=player, week=week) for week in weeks]
         Pick.objects.bulk_create(picks)
         messages.success(request, f"Congrats on joining the {year} league. Good luck!")
-        return redirect(reverse("player_view", args=[link, year]))
+        return redirect(reverse("player", args=[link, year]))

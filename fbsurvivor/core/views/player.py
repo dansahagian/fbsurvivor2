@@ -79,3 +79,20 @@ def play(request, link, year):
         Pick.objects.bulk_create(picks)
         messages.success(request, f"Congrats on joining the {year} league. Good luck!")
         return redirect(reverse("player", args=[link, year]))
+
+
+def retire(request, link, year):
+    player, season, player_status = get_player_info(link, year)
+
+    if not player_status:
+        messages.info(request, "You can NOT retire from a season you didn't play!")
+    elif player_status.is_retired:
+        messages.info(request, f"You already retired in {year}!")
+    elif not season.is_current:
+        messages.info(request, f"You can NOT retire from a past season!")
+    else:
+        player_status.is_retired = True
+        player_status.save()
+        messages.success(request, f"You have retired. See you next year!")
+
+    return redirect(reverse("player", args=[link, year]))

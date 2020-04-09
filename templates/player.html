@@ -9,7 +9,7 @@
         {% endif %}
         {%  if player.is_admin %}
             <span class="space">
-                <a href="{% url 'manager' player.link season.year %}">Admin</a>
+                <a href="{% url 'manager' player.link season.year %}">Manage</a>
             </span>
         {% endif %}
         {% if can_play %}
@@ -86,6 +86,6 @@
             </span>
         {% endfor %}<br><br>
         {% if can_retire %}
-            <a href="#">Retire</a>
+            <a href="{% url 'retire' player.link season.year %}">Retire</a>
         {% endif %}
     {% endblock %}

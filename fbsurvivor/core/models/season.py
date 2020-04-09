@@ -8,3 +8,6 @@ class Season(models.Model):
 
     def __str__(self):
         return f"{self.year}"
+
+    class Meta:
+        ordering = ["-year"]

@@ -14,6 +14,7 @@ urlpatterns = [
         "paid/<str:link>/<int:year>/<str:user_link>/", views.user_paid, name="user_paid"
     ),
     path("play/<str:link>/<int:year>/", views.play, name="play"),
+    path("retire/<str:link>/<int:year>/", views.retire, name="retire"),
     path("picks/<str:link>/<int:year>/", views.picks, name="picks"),
     path("picks/<str:link>/<int:year>/<int:week>/", views.pick, name="pick"),
     path("confirm/<str:link>/<str:contact>/", views.confirm, name="confirm",),

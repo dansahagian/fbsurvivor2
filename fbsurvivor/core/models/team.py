@@ -13,3 +13,4 @@ class Team(models.Model):
 
     class Meta:
         models.UniqueConstraint(fields=["season", "team_code"], name="unique_team")
+        ordering = ["-season", "team_code"]

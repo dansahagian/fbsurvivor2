@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.db.models.functions import Lower
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
 
@@ -19,8 +20,10 @@ def manager(request, link, year):
 
 def paid(request, link, year):
     player, season, context = get_admin_info(link, year)
-    ps = PlayerStatus.objects.filter(season=season).order_by(
-        "-is_paid", "player__username"
+    ps = (
+        PlayerStatus.objects.filter(season=season)
+        .annotate(lower=Lower("player__username"))
+        .order_by("-is_paid", "lower")
     )
     context["player_statuses"] = ps
     return render(request, "paid.html", context=context)

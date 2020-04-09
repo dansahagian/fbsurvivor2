@@ -1,14 +1,24 @@
 {% extends "./base.html" %}
     {% block content %}
-        {{ player.username }} - {{ season.year }} - Board<br><br>
+        {{ player.username }} - {{ season.year }} - Board
+        <br><br>
         {% if player_status %}
-            <span class="space"><a href="{% url 'picks_view' player.link season.year %}">Picks</a></span>
+            <span class="space">
+                <a href="{% url 'picks_view' player.link season.year %}">Picks</a>
+            </span>
         {% endif %}
         {%  if player.is_admin %}
-            <br><br>
-            <span class="space"><a href="#">Paid</a></span>
-            <span class="space"><a href="#">Results</a></span>
-            <span class="space"><a href="#">Remind</a></span>
+            <span class="space">
+                <a href="#">Admin</a>
+            </span>
+        {% endif %}
+        {% if can_play %}
+            <br><br><br><br>
+            <strong>{{ player_count }}</strong> players have joined! Will you?<br><br>
+            <span class="space">
+                <a href="{% url 'play_view' player.link season.year %}">Play</a>
+            <br><br><br><br>
+            </span>
         {% endif %}
         {% if player_status %}
             <br><br>
@@ -69,13 +79,7 @@
                         </tr>
                 {% endfor %}
             </table><br><br>
-        {% else %}
-            <strong>{{ player_count }}</strong> players have clicked Play! Will you join them?<br><br>
-            <span class="space">
-                <a href="#">Play</a><br><br><br>
-            </span>
         {% endif %}
-
         {% for year in years %}
             <span class="space">
                 <a href="{% url 'player_view' player.link year %}">{{ year }}</a>

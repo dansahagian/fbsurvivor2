@@ -1,0 +1,26 @@
+{% extends "./base.html" %}
+    {% block content %}
+        <div class="rules">
+            Rules and Confirmation<br><br>
+
+            Each Week:<br>
+            Pick one team to win. Ties are losses.<br>
+            Submit your pick by the deadline shown.<br>
+            Picks will lock at the deadline.<br>
+            Each team can only be used once.<br>
+            If technical issues, email your pick to picks@fbsurvivor.com.<br>
+            <br>
+            Payouts are dependent on participation!<br>
+            Survivor: at least 7x the buy in.<br>
+            Best Record: 2-4x the buy in.<br>
+            2nd Best Record: 1-2x the buy in.<br>
+            If there are ties, players will split the corresponding payout.
+            <br><br>
+
+            <form action="{% url "play_view" player.link season.year %}" method="POST">
+                {% csrf_token %}
+                <input type="submit" value="Click to confirm!" />
+            </form>
+
+        </div>
+    {% endblock %}

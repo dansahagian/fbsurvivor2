@@ -49,10 +49,14 @@ def pick(request, link, year, week):
 
         if form.is_valid():
             team_code = form.cleaned_data["team"]
-            user_pick.team = Team.objects.get(team_code=team_code, season=season)
+            choice = get_object_or_404(Team, team_code=team_code, season=season)
+            user_pick.team = choice
             user_pick.save()
             messages.success(
                 request,
                 f"{user_pick.team.team_code} submitted for week {week.week_num}",
             )
-            return redirect(reverse("picks", args=[link, year]))
+        else:
+            messages.warning(request, "Bad form submission")
+
+        return redirect(reverse("picks", args=[link, year]))

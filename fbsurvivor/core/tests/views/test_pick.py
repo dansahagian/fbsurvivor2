@@ -1,4 +1,5 @@
 from django.urls import reverse
+
 from fbsurvivor.core.views.pick import get_player_info_and_context
 
 
@@ -25,7 +26,7 @@ def test_view_pick_week_is_locked(db, client):
     assert response.url == "/picks/ABC123/2020/"
 
 
-def test_view_pick(db, client):
+def test_view_pick_get(db, client):
     url = reverse("pick", args=["ABC123", 2020, 5])
     response = client.get(url)
     assert response.status_code == 200

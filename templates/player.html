@@ -52,7 +52,7 @@
 
                             <td style="border-right: 10px solid #f9f9f9;"
                                 {% with picks|last as current %}
-                                    {% if current.team is None and current.result == "R" %}
+                                    {% if current.result == "R" %}
                                         class="black"
                                     {% elif current.result == "W" %}
                                         class="win"
@@ -65,7 +65,7 @@
                             </td>
                         {% for pick in picks %}
                             <td
-                                {% if pick.team is None and pick.result == "R" %}
+                                {% if pick.result == "R" %}
                                     class="black"
                                 {% elif pick.result == "W" %}
                                     class="win"

@@ -93,6 +93,9 @@ def retire(request, link, year):
     else:
         player_status.is_retired = True
         player_status.save()
+        Pick.objects.filter(
+            player=player, week__season=season, result__isnull=True
+        ).update(result="R")
         messages.success(request, f"You have retired. See you next year!")
 
     return redirect(reverse("player", args=[link, year]))

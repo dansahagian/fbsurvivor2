@@ -17,6 +17,9 @@ class PickQuerySet(models.QuerySet):
             player=player, week__season=season, week__lock_datetime__lte=right_now,
         ).order_by("week__week_num")
 
+    def for_results(self, week):
+        return self.filter(week=week, result__isnull=True)
+
 
 class Pick(DirtyFieldsMixin, models.Model):
     objects = PickQuerySet.as_manager()
@@ -28,12 +31,10 @@ class Pick(DirtyFieldsMixin, models.Model):
     ]
     player = models.ForeignKey(Player, on_delete=models.DO_NOTHING)
     week = models.ForeignKey(Week, on_delete=models.DO_NOTHING)
-    team = models.ForeignKey(Team, on_delete=models.DO_NOTHING, null=True)
+    team = models.ForeignKey(Team, on_delete=models.DO_NOTHING, null=True, blank=True)
     result = models.CharField(
         choices=result_choices, max_length=1, null=True, blank=True
     )
-
-    FIELDS_TO_CHECK = ["result"]
 
     def __str__(self):
         return f"{self.player} - {self.week} - {self.team}"

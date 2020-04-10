@@ -3,7 +3,8 @@ from django.db.models.functions import Lower
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
 
-from fbsurvivor.core.models import Player, Season, PlayerStatus
+from fbsurvivor.core.models import Player, Season, PlayerStatus, Week, Pick
+from fbsurvivor.core.tasks import update_player_records
 
 
 def get_admin_info(link, year):
@@ -38,8 +39,30 @@ def user_paid(request, link, year, user_link):
     return redirect(reverse("paid", args=[link, year]))
 
 
-def results():
-    return
+def results(request, link, year):
+    player, season, context = get_admin_info(link, year)
+    current_week = Week.objects.is_current(season)
+    teams = (
+        Pick.objects.filter(week=current_week, result__isnull=True)
+        .values_list("team__team_code", flat=True)
+        .distinct()
+    )
+
+    context["week"] = current_week
+    context["teams"] = teams
+
+    return render(request, "results.html", context=context)
+
+
+def mark_result(request, link, year, week, team, result):
+    player, season, context = get_admin_info(link, year)
+    week = get_object_or_404(Week, season=season, week_num=week)
+    Pick.objects.filter(week=week, team__team_code=team).update(result=result)
+
+    messages.success(request, f"Picks for week {week} of {team} updated!")
+    player_records_updated = update_player_records(year)
+    messages.success(request, f"{player_records_updated} player records updated!")
+    return redirect(reverse("results", args=[link, year]))
 
 
 def remind():

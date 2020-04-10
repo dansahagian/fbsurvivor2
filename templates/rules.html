@@ -17,7 +17,7 @@
             If there are ties, players will split the corresponding payout.
             <br><br>
 
-            <form action="{% url "play_view" player.link season.year %}" method="POST">
+            <form action="{% url "play" player.link season.year %}" method="POST">
                 {% csrf_token %}
                 <input type="submit" value="Click to confirm!" />
             </form>

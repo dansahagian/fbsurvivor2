@@ -14,6 +14,10 @@ class WeekQuerySet(models.QuerySet):
             "week_num"
         )
 
+    def is_current(self, season):
+        qs = self.for_display(season)
+        return qs.last() if qs else None
+
 
 class Week(models.Model):
     objects = WeekQuerySet.as_manager()

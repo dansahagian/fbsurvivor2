@@ -9,6 +9,12 @@ urlpatterns = [
     path("<str:link>", views.player_redirect, name="player_redirect"),
     path("board/<str:link>/<int:year>/", views.player, name="player"),
     path("manager/<str:link>/<int:year>/", views.manager, name="manager"),
+    path("results/<str:link>/<int:year>/", views.results, name="results"),
+    path(
+        "results/<str:link>/<int:year>/<int:week>/<str:team>/<str:result>/",
+        views.mark_result,
+        name="mark_result",
+    ),
     path("paid/<str:link>/<int:year>/", views.paid, name="paid"),
     path(
         "paid/<str:link>/<int:year>/<str:user_link>/", views.user_paid, name="user_paid"

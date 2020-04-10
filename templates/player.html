@@ -16,7 +16,7 @@
             <br><br><br><br>
             <strong>{{ player_count }}</strong> players have joined! Will you?<br><br>
             <span class="space">
-                <a href="{% url 'play_view' player.link season.year %}">Play</a>
+                <a href="{% url 'play' player.link season.year %}">Play</a>
             <br><br><br><br>
             </span>
         {% endif %}

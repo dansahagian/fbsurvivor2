@@ -22,17 +22,9 @@ def player(request, link, year):
     can_retire = player_status and (not player_status.is_retired) and season.is_current
     can_play = not player_status and season.is_current and not season.is_locked
     weeks = Week.objects.for_display(season).values_list("week_num", flat=True)
-    years = (
-        PlayerStatus.objects.filter(player=player)
-        .values_list("season__year", flat=True)
-        .order_by("season__year")
-    )
+    years = PlayerStatus.objects.player_years(player)
 
-    player_statuses = (
-        PlayerStatus.objects.filter(season=season)
-        .annotate(lower=Lower("player__username"))
-        .order_by("-is_survivor", "is_retired", "-win_count", "loss_count", "lower",)
-    )
+    player_statuses = PlayerStatus.objects.for_season_board(season)
 
     board = [
         (ps, list(Pick.objects.for_player_season_locked(ps.player, season)))

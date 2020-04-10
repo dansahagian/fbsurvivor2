@@ -6,13 +6,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0004_auto_20200409_1742'),
+        ("core", "0004_auto_20200409_1742"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='pick',
-            name='result',
-            field=models.CharField(blank=True, choices=[('W', 'WIN'), ('L', 'LOSS'), ('R', 'RETIRED')], max_length=1, null=True),
+            model_name="pick",
+            name="result",
+            field=models.CharField(
+                blank=True,
+                choices=[("W", "WIN"), ("L", "LOSS"), ("R", "RETIRED")],
+                max_length=1,
+                null=True,
+            ),
         ),
     ]

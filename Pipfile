@@ -14,6 +14,8 @@ python-decouple = "*"
 psycopg2-binary = "*"
 django-extensions = "*"
 django-dirtyfields = "*"
+factory-boy = "*"
+pytest-django = "*"
 
 [requires]
 python_version = "3.8"

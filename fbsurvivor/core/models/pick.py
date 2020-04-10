@@ -11,11 +11,16 @@ from .week import Week
 
 class PickQuerySet(models.QuerySet):
     def for_player_season(self, player, season):
+        return self.filter(player=player, week__season=season).order_by(
+            "week__week_num"
+        )
+
+    def for_player_season_locked(self, player, season):
         right_now = pytz.timezone("US/Pacific").localize(datetime.datetime.now())
 
-        return self.filter(
-            player=player, week__season=season, week__lock_datetime__lte=right_now,
-        ).order_by("week__week_num")
+        return self.for_player_season(player, season).filter(
+            week__lock_datetime__lte=right_now,
+        )
 
     def for_results(self, week):
         return self.filter(week=week, result__isnull=True)

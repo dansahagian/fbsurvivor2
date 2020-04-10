@@ -6,40 +6,38 @@ from fbsurvivor.core.forms import PickForm
 from fbsurvivor.core.models import Player, Season, PlayerStatus, Pick, Week, Team
 
 
-def picks(request, link, year):
+def get_player_info_and_context(link, year):
     player = get_object_or_404(Player, link=link)
     season = get_object_or_404(Season, year=year)
-    ps = get_object_or_404(PlayerStatus, player=player, season=season)
-
-    user_picks = Pick.objects.filter(player=player, week__season=season).order_by(
-        "week__week_num"
-    )
+    player_status = get_object_or_404(PlayerStatus, player=player, season=season)
     context = {
         "player": player,
         "season": season,
-        "player_status": ps,
-        "picks": user_picks,
+        "player_status": player_status,
     }
+
+    return player, season, player_status, context
+
+
+def picks(request, link, year):
+    player, season, player_status, context = get_player_info_and_context(link, year)
+    context["picks"] = Pick.objects.for_player_season(player, season)
+    if player_status.is_retired:
+        messages.info(request, "Reminder: You retired!")
+
     return render(request, "picks.html", context=context)
 
 
 def pick(request, link, year, week):
-    player = get_object_or_404(Player, link=link)
-    season = get_object_or_404(Season, year=year)
+    player, season, player_status, context = get_player_info_and_context(link, year)
     week = get_object_or_404(Week, season=season, week_num=week)
-    get_object_or_404(PlayerStatus, player=player, season=season)
-
-    user_pick = get_object_or_404(Pick, player=player, week=week)
 
     if week.is_locked:
         messages.warning(request, f"Week {week.week_num} is locked!")
         return redirect(reverse("picks", args=[link, year]))
 
-    context = {
-        "player": player,
-        "season": season,
-        "pick": user_pick,
-    }
+    user_pick = get_object_or_404(Pick, player=player, week=week)
+    context["pick"] = user_pick
 
     if request.method == "GET":
         form = PickForm(player, season, week)

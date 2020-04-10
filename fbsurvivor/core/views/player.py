@@ -35,7 +35,7 @@ def player(request, link, year):
     )
 
     board = [
-        (ps, list(Pick.objects.for_player_season(ps.player, season)))
+        (ps, list(Pick.objects.for_player_season_locked(ps.player, season)))
         for ps in player_statuses
     ]
 

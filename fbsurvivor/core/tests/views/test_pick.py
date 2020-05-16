@@ -4,17 +4,24 @@ from fbsurvivor.core.views.pick import get_player_info_and_context
 
 
 def test_get_player_info_and_context(players, seasons, player_statuses):
-    p, s, ps, c = get_player_info_and_context(players[0].link, 2020)
-    assert p == players[0]
-    assert s == seasons[1]
-    assert ps == player_statuses[0]
-    assert "player" in c
-    assert "season" in c
-    assert "player_status" in c
+    p1 = players[0]
+    this_season = seasons[1]
+
+    player, season, player_status, context = get_player_info_and_context(
+        p1.link, this_season.year
+    )
+    assert player == p1
+    assert season == this_season
+    assert player_status == player_statuses["p1"][1]
+    assert "player" in context
+    assert "season" in context
+    assert "player_status" in context
 
 
-def test_view_picks(db, client):
-    url = reverse("picks", args=["ABC123", 2020])
+def test_view_picks(db, client, players, seasons):
+    link = players[0].link
+    year = seasons[1].year
+    url = reverse("picks", args=[link, year])
     response = client.get(url)
     assert response.status_code == 200
 

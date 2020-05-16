@@ -9,6 +9,9 @@ from .team import Team
 from .week import Week
 
 
+from fbsurvivor.core.utils import get_localized_right_now
+
+
 class PickQuerySet(models.QuerySet):
     def for_player_season(self, player, season):
         return self.filter(player=player, week__season=season).order_by(
@@ -16,10 +19,8 @@ class PickQuerySet(models.QuerySet):
         )
 
     def for_player_season_locked(self, player, season):
-        right_now = pytz.timezone("US/Pacific").localize(datetime.datetime.now())
-
         return self.for_player_season(player, season).filter(
-            week__lock_datetime__lte=right_now,
+            week__lock_datetime__lte=get_localized_right_now(),
         )
 
     def for_results(self, week):

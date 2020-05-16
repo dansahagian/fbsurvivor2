@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 
 from fbsurvivor.core.models import Season, Player, PlayerStatus, Pick, Week
-from fbsurvivor.core.utils import get_player_info, send_to_latest_season_played
+from fbsurvivor.core.helpers import get_player_info, send_to_latest_season_played
 
 
 def player_redirect(request, link):

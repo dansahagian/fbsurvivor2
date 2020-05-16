@@ -6,11 +6,10 @@ from django.urls import reverse
 from fbsurvivor import settings
 from fbsurvivor.core.forms import PlayerForm, CodeForm, EmailForm
 from fbsurvivor.core.models import Season, Player
-from fbsurvivor.core.utils import (
+from fbsurvivor.core.helpers import (
     generate_link,
-    generate_code,
-    send_email,
 )
+from fbsurvivor.core.utils import generate_code, send_email
 
 
 def signup(request):

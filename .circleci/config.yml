@@ -5,12 +5,12 @@ jobs:
     working_directory: ~/fbsurvivor2
     docker:
       - image: circleci/python:3.8
-          environment:
+        environment:
             DATABASE: circle_test
             PG_HOST: 127.0.0.1
             PG_USER: root
       - image: circleci/postgres:9.6.2
-          environment:
+        environment:
             POSTGRES_DB: circle_test_test
             POSTGRES_USER: root
     steps:

@@ -4,7 +4,14 @@ jobs:
   build:
     docker:
       - image: 'circleci/python:3.8.3'
+        environment:
+          - DOMAIN=127.0.0.1:8000
+          - DATABASE=fbsurvivor2
+          - PG_USER=root
+          - PG_PASSWORD=pgpassword
       - image: 'circleci/postgres:12'
+        environment:
+          - POSTGRES_PASSWORD=pgpassword
     steps:
       - checkout
       - run: sudo pip install pipenv

@@ -3,14 +3,14 @@ version: 2.1
 jobs:
   build:
     docker:
-      - image: 'circleci/python:3.8.3'
+      - image: circleci/python:3.8.3
         environment:
           - DOMAIN=127.0.0.1:8000
           - DATABASE=fbsurvivor2
           - PG_USER=root
           - PG_PASSWORD=pgpassword
           - SECRET_KEY=some_secret_key_eh
-      - image: 'circleci/postgres:12'
+      - image: circleci/postgres:12
         environment:
           - POSTGRES_PASSWORD=pgpassword
     steps:
@@ -19,6 +19,8 @@ jobs:
       - run: pipenv install
 
   test:
+    machine:
+      enabled: true
     steps:
       - run: pipenv run pytest .
       - run: echo 'hello world'

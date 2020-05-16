@@ -9,6 +9,7 @@ jobs:
           - DATABASE=fbsurvivor2
           - PG_USER=root
           - PG_PASSWORD=pgpassword
+          - SECRET_KEY=some_secret_key_eh
       - image: 'circleci/postgres:12'
         environment:
           - POSTGRES_PASSWORD=pgpassword
@@ -16,5 +17,15 @@ jobs:
       - checkout
       - run: sudo pip install pipenv
       - run: pipenv install
-      - run: pipenv run pytest .
-      - run: echo 'hello world'
+
+  test:
+    - run: pipenv run pytest .
+    - run: echo 'hello world'
+
+workflows:
+  build-test-deploy:
+    jobs:
+      - build
+      - test:
+          requires:
+            - build

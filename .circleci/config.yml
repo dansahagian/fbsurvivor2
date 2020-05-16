@@ -16,19 +16,10 @@ jobs:
     steps:
       - checkout
       - run: sudo pip install pipenv
-      - run: pipenv install
-
-  test:
-    machine:
-      enabled: true
-    steps:
-      - run: pipenv run pytest .
+      - run:
+        name: Installing Dependencies
+        command: pipenv install
+      - run:
+        name: Running Tests
+        command: pipenv run pytest .
       - run: echo 'hello world'
-
-workflows:
-  build-test-deploy:
-    jobs:
-      - build
-      - test:
-          requires:
-            - build

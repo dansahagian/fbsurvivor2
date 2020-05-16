@@ -2,28 +2,10 @@ version: 2.1
 
 jobs:
   build:
-    working_directory: ~/fbsurvivor2
     docker:
       - image: 'circleci/python:3.8.3'
-      - image: 'circleci/postgres:12'
     steps:
       - checkout
       - run: sudo pip install pipenv
       - run: pipenv install
-  test:
-    steps:
-      - run: pytest .
-  deploy:
-    steps:
-      - run: echo 'Complete'
-
-workflows:
-  build-test-deploy:
-    jobs:
-      - build
-      - test:
-        requires:
-          - build
-      - deploy:
-        requires:
-          - test
+      - run: echo 'hello world'

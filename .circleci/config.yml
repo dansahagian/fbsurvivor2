@@ -19,8 +19,9 @@ jobs:
       - run: pipenv install
 
   test:
-    - run: pipenv run pytest .
-    - run: echo 'hello world'
+    steps:
+      - run: pipenv run pytest .
+      - run: echo 'hello world'
 
 workflows:
   build-test-deploy:

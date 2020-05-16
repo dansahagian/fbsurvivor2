@@ -21,12 +21,8 @@ def manager(request, link, year):
 
 def paid(request, link, year):
     player, season, context = get_admin_info(link, year)
-    ps = (
-        PlayerStatus.objects.filter(season=season)
-        .annotate(lower=Lower("player__username"))
-        .order_by("-is_paid", "lower")
-    )
-    context["player_statuses"] = ps
+    player_statuses = PlayerStatus.objects.paid_for_season(season)
+    context["player_statuses"] = player_statuses
     return render(request, "paid.html", context=context)
 
 
@@ -42,11 +38,7 @@ def user_paid(request, link, year, user_link):
 def results(request, link, year):
     player, season, context = get_admin_info(link, year)
     current_week = Week.objects.is_current(season)
-    teams = (
-        Pick.objects.for_results(current_week)
-        .values_list("team__team_code", flat=True)
-        .distinct()
-    )
+    teams = Pick.objects.for_results(current_week)
 
     context["week"] = current_week
     context["teams"] = teams
@@ -57,12 +49,9 @@ def results(request, link, year):
 def mark_result(request, link, year, week, team, result):
     player, season, context = get_admin_info(link, year)
     week = get_object_or_404(Week, season=season, week_num=week)
-    try:
-        team = Team.objects.get(team_code=team, season=season)
-    except Team.DoesNotExist:
-        team = None
+    team = get_object_or_404(Team, team_code=team, season=season)
 
-    Pick.objects.for_results(week).filter(team=team).update(result=result)
+    Pick.objects.for_result_updates(week, team).update(result=result)
     messages.success(request, f"Picks for week {week.week_num} of {team} updated!")
 
     player_records_updated = update_player_records(year)

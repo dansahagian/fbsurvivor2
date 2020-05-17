@@ -19,3 +19,14 @@ jobs:
       - run: pipenv install
       - run: pipenv run pytest .
       - run: echo 'hello world'
+
+  deploy:
+    - run: echo 'deploy it'
+
+workflows:
+  build-and-deploy:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build

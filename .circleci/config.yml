@@ -6,13 +6,15 @@ jobs:
       - image: circleci/python:3.8.3
         environment:
           - DOMAIN=127.0.0.1:8000
-          - DATABASE=fbsurvivor2
+          - DATABASE=circle_test
           - PG_USER=root
           - PG_PASSWORD=pgpassword
           - SECRET_KEY=some_secret_key_eh
       - image: circleci/postgres:12
         environment:
+          - POSTGRES_USER=root
           - POSTGRES_PASSWORD=pgpassword
+          - POSTGRES_DB=circle_test
     steps:
       - checkout
       - run:

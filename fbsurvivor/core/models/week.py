@@ -12,9 +12,16 @@ class WeekQuerySet(models.QuerySet):
             "week_num"
         )
 
-    def is_current(self, season):
+    def get_current(self, season):
         qs = self.for_display(season)
         return qs.last() if qs else None
+
+    def get_next(self, season):
+        right_now = get_localized_right_now()
+        qs = self.filter(season=season, lock_datetime__gt=right_now).order_by(
+            "week_num"
+        )
+        return qs.first() if qs else None
 
 
 class Week(models.Model):

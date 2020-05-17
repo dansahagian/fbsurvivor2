@@ -36,7 +36,7 @@ def user_paid(request, link, year, user_link):
 
 def results(request, link, year):
     player, season, context = get_admin_info(link, year)
-    current_week = Week.objects.is_current(season)
+    current_week = Week.objects.get_current(season)
     teams = Pick.objects.for_results(current_week)
 
     context["week"] = current_week

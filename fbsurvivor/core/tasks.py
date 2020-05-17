@@ -20,3 +20,7 @@ def update_record(player_status):
     player_status.loss_count = picks.filter(result="L").count()
     player_status.save()
     return True
+
+
+def send_email_reminders():
+    pass

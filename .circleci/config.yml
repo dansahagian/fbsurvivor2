@@ -16,12 +16,15 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Install Dependencies
           command: |
             sudo pip install pipenv
             pipenv install --dev --python 3.8
       - run:
+          name: Check Black Formatting
           command: |
-            black --check .
+            pipenv run black --check .
       - run:
+          name: Run Tests
           command: |
             pipenv run pytest . |

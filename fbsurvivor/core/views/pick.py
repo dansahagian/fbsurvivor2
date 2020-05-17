@@ -49,13 +49,19 @@ def pick(request, link, year, week):
 
         if form.is_valid():
             team_code = form.cleaned_data["team"]
-            choice = get_object_or_404(Team, team_code=team_code, season=season)
-            user_pick.team = choice
+
+            if team_code:
+                choice = get_object_or_404(Team, team_code=team_code, season=season)
+                user_pick.team = choice
+            else:
+                user_pick.team = None
+
             user_pick.save()
+            team_code = user_pick.team.team_code if user_pick.team else "No team "
             messages.success(
-                request,
-                f"{user_pick.team.team_code} submitted for week {week.week_num}",
+                request, f"{team_code} submitted for week {week.week_num}",
             )
+
         else:
             messages.warning(request, "Bad form submission")
 

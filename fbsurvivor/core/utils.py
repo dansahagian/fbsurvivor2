@@ -30,3 +30,22 @@ def send_email(subject, recipients, message):
         conn.sendmail(sender, recipients, msg.as_string())
     finally:
         conn.quit()
+
+
+def get_pretty_time(seconds):
+    days, remainder = divmod(seconds, 86400)
+    hours, remainder = divmod(remainder, 3600)
+    minutes, remainder = divmod(remainder, 60)
+
+    days = f"{int(days)} days" if days else ""
+    hours = f"{int(hours)} hours" if hours else ""
+    minutes = f"{int(minutes)} minutes" if minutes else ""
+
+    if days and hours and minutes:
+        return f"{days}, {hours}, & {minutes}"
+    elif days and (hours or minutes):
+        return f"{days} & {hours}{minutes}"
+    elif hours and minutes:
+        return f"{hours} & {minutes}"
+    else:
+        return f"{hours}{minutes}"

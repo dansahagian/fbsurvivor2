@@ -29,7 +29,7 @@ class Week(models.Model):
 
     season = models.ForeignKey(Season, on_delete=models.DO_NOTHING)
     week_num = models.PositiveSmallIntegerField()
-    lock_datetime = models.DateTimeField(default=get_localized_right_now())
+    lock_datetime = models.DateTimeField(null=True)
 
     @property
     def is_locked(self):

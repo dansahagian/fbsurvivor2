@@ -39,10 +39,8 @@ class Pick(DirtyFieldsMixin, models.Model):
     ]
     player = models.ForeignKey(Player, on_delete=models.DO_NOTHING)
     week = models.ForeignKey(Week, on_delete=models.DO_NOTHING)
-    team = models.ForeignKey(Team, on_delete=models.DO_NOTHING, null=True, blank=True)
-    result = models.CharField(
-        choices=result_choices, max_length=1, null=True, blank=True
-    )
+    team = models.ForeignKey(Team, on_delete=models.DO_NOTHING, null=True)
+    result = models.CharField(choices=result_choices, max_length=1, null=True)
 
     def __str__(self):
         return f"{self.player} - {self.week} - {self.team}"

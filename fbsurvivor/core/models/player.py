@@ -5,7 +5,28 @@ from django.db.models.functions import Lower
 from .season import Season
 
 
+class PlayerQuerySet(models.QuerySet):
+    def for_reminders(self, week):
+        return self.filter(pick__week=week, pick__team__isnull=True)
+
+    def for_email_reminders(self, week):
+        return (
+            self.for_reminders(week)
+            .filter(has_email_reminders=True)
+            .values_list("email", flat=True)
+        )
+
+    def for_phone_reminders(self, week):
+        return (
+            self.for_reminders(week)
+            .filter(has_phone_reminders=True, phone__isnull=False)
+            .values_list("phone", flat=True)
+        )
+
+
 class Player(models.Model):
+    objects = PlayerQuerySet.as_manager()
+
     username = models.CharField(max_length=20, unique=True)
     link = models.CharField(max_length=44, unique=True)
     email = models.CharField(max_length=100)
@@ -18,6 +39,8 @@ class Player(models.Model):
         default=None,
         validators=[MinValueValidator(111111), MaxValueValidator(999999)],
     )
+    has_email_reminders = models.BooleanField(default=False)
+    has_phone_reminders = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.username}"

@@ -15,6 +15,7 @@ django-extensions = "*"
 django-dirtyfields = "*"
 factory-boy = "*"
 pytest-django = "*"
+twilio = "*"
 
 [requires]
 python_version = "3.8"

@@ -19,9 +19,9 @@ jobs:
           command: |
             sudo pip install pipenv
             pipenv install --dev --python 3.8
-      - run
+      - run:
           command: |
             black --check .
-      - run
+      - run:
           command: |
             pipenv run pytest . |

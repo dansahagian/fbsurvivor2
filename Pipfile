@@ -16,6 +16,8 @@ django-dirtyfields = "*"
 factory-boy = "*"
 pytest-django = "*"
 twilio = "*"
+celery = "*"
+python-dotenv = "*"
 
 [requires]
 python_version = "3.8"

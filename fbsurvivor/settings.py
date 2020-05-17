@@ -117,3 +117,7 @@ SMTP_PORT = config("SMTP_PORT", default="")
 TWILIO_SID = config("TWILIO_SID", default="")
 TWILIO_KEY = config("TWILIO_KEY", default="")
 TWILIO_NUM = config("TWILIO_NUM", default="")
+
+
+# CELERY
+BROKER_URL = "amqp://localhost"

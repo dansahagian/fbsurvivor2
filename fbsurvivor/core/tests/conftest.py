@@ -23,7 +23,7 @@ def players(db):
     return PlayerFactory.create_batch(
         size=2,
         username=factory.Iterator(["Automator", "Roboto"]),
-        link=factory.Iterator(["ABC123", "DEF456"])
+        link=factory.Iterator(["ABC123", "DEF456"]),
     )
 
 
@@ -33,7 +33,7 @@ def seasons(db):
         size=2,
         year=factory.Iterator([2019, 2020]),
         is_locked=factory.Iterator([True, False]),
-        is_current=factory.Iterator([False, True])
+        is_current=factory.Iterator([False, True]),
     )
 
 
@@ -47,7 +47,7 @@ def weeks(db, seasons):
         size=5,
         season=seasons[1],
         week_num=factory.Iterator([1, 2, 3, 4, 5]),
-        lock_datetime=factory.Iterator([lw, lw, lw, lw, nw])
+        lock_datetime=factory.Iterator([lw, lw, lw, lw, nw]),
     )
 
 
@@ -57,7 +57,7 @@ def teams(db, seasons):
         size=5,
         season=seasons[1],
         team_code=factory.Iterator(["NE", "SF", "TB", "GB", "DAL"]),
-        bye_week=factory.Iterator([1, 2, 3, 4, 5])
+        bye_week=factory.Iterator([1, 2, 3, 4, 5]),
     )
 
 

@@ -1,7 +1,7 @@
-version: 2.1
-
+version: 2.0
 jobs:
   build:
+    working_directory: ~/fbsurvivor2
     docker:
       - image: circleci/python:3.8.3
         environment:
@@ -15,19 +15,13 @@ jobs:
           - POSTGRES_PASSWORD=pgpassword
     steps:
       - checkout
-      - run: sudo pip install pipenv
-      - run: pipenv install
-      - run: pipenv run pytest .
-      - run: echo 'hello world'
-
-  deploy:
-    - steps:
-      - run: echo 'deploy it'
-
-workflows:
-  build-and-deploy:
-    jobs:
-      - build
-      - deploy:
-          requires:
-            - build
+      - run:
+          command: |
+            sudo pip install pipenv
+            pipenv install --dev --python 3.8
+      - run
+          command: |
+            black --check .
+      - run
+          command: |
+            pipenv run pytest . |

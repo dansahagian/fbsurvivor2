@@ -21,7 +21,8 @@ jobs:
       - run: echo 'hello world'
 
   deploy:
-    - run: echo 'deploy it'
+    - steps:
+      - run: echo 'deploy it'
 
 workflows:
   build-and-deploy:

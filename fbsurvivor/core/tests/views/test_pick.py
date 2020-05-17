@@ -64,8 +64,6 @@ def test_view_pick_post(client, link, year, players):
 
 
 def test_view_pick_post_bad_team(client, link, year, players):
-    p1 = players[0]
-
     url = reverse("pick", args=[link, year, 5])
     response = client.post(url, {"team": "WAS"}, follow=True)
     messages = [str(x) for x in response.context["messages"]]

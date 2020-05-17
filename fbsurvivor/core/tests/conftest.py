@@ -60,9 +60,9 @@ def weeks(db, seasons):
 def teams(db, seasons):
     return {
         "this_season": TeamFactory.create_batch(
-            size=5,
+            size=6,
             season=seasons[1],
-            team_code=factory.Iterator(["NE", "SF", "TB", "GB", "DAL"]),
+            team_code=factory.Iterator(["NE", "SF", "TB", "GB", "DAL", "BUF"]),
             bye_week=factory.Iterator([1, 1, 2, 2, 3]),
         ),
         "last_season": TeamFactory.create_batch(

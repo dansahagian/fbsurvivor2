@@ -53,13 +53,11 @@ def weeks(db, seasons):
 
 @pytest.fixture(autouse=True)
 def teams(db, seasons):
-    return (
-        TeamFactory.create_batch(
-            size=5,
-            season=seasons[1],
-            team_code=factory.Iterator(["NE", "SF", "TB", "GB", "DAL"]),
-            bye_week=factory.Iterator([1, 2, 3, 4, 5]),
-        )
+    return TeamFactory.create_batch(
+        size=5,
+        season=seasons[1],
+        team_code=factory.Iterator(["NE", "SF", "TB", "GB", "DAL"]),
+        bye_week=factory.Iterator([1, 2, 3, 4, 5]),
     )
 
 

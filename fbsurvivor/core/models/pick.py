@@ -1,15 +1,10 @@
-import datetime
-
-import pytz
 from dirtyfields import DirtyFieldsMixin
 from django.db import models
 
+from fbsurvivor.core.utils import get_localized_right_now
 from .player import Player
 from .team import Team
 from .week import Week
-
-
-from fbsurvivor.core.utils import get_localized_right_now
 
 
 class PickQuerySet(models.QuerySet):

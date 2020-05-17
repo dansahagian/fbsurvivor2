@@ -18,6 +18,7 @@ pytest-django = "*"
 twilio = "*"
 celery = "*"
 python-dotenv = "*"
+gunicorn = "*"
 
 [requires]
 python_version = "3.8"

@@ -107,6 +107,7 @@ USE_TZ = True
 
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 STATIC_URL = "/static/"
+STATIC_ROOT = "/opt/www/"
 
 SMTP_SERVER = config("SMTP_SERVER", default="")
 SMTP_SENDER = config("SMTP_SENDER", default="")

@@ -91,7 +91,7 @@ def player_statuses(db, players, seasons):
         ),
         "p2": PlayerStatusFactory.create_batch(
             size=2, player=players[1], season=factory.Iterator(seasons)
-        )
+        ),
     }
 
 

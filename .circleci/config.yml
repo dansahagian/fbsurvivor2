@@ -1,0 +1,38 @@
+version: 2.0
+jobs:
+  build:
+    working_directory: ~/fbsurvivor2
+    docker:
+      - image: circleci/python:3.8.3
+        environment:
+          - DOMAIN=127.0.0.1:8000
+          - DATABASE=circle_test
+          - PG_USER=root
+          - PG_PASSWORD=pgpassword
+          - SECRET_KEY=some_secret_key_eh
+      - image: circleci/postgres:12
+        environment:
+          - POSTGRES_USER=root
+          - POSTGRES_PASSWORD=pgpassword
+          - POSTGRES_DB=circle_test
+    steps:
+      - checkout
+      - run:
+          name: Install Dependencies
+          command: |
+            sudo pip install pipenv
+            pipenv install --dev --python 3.8
+      - run:
+          name: Check Black Formatting
+          command: |
+            pipenv run black --check .
+      - run:
+          name: Run Tests
+          command: |
+            pipenv run pytest .
+
+workflows:
+  version: 2
+  build-and-deploy:
+    jobs:
+      - build

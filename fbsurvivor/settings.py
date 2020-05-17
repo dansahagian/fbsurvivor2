@@ -4,7 +4,7 @@ from decouple import config
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-DOMAIN = config("DOMAIN")
+DOMAIN = config("DOMAIN", default="127.0.0.1:8000")
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
@@ -70,7 +70,7 @@ DATABASES = {
         "NAME": config("DATABASE"),
         "USER": config("PG_USER"),
         "PASSWORD": config("PG_PASSWORD"),
-        "HOST": config("PG_HOST"),
+        "HOST": config("PG_HOST", default="127.0.0.1"),
     }
 }
 
@@ -108,12 +108,12 @@ USE_TZ = True
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 STATIC_URL = "/static/"
 
-SMTP_SERVER = config("SMTP_SERVER")
-SMTP_SENDER = config("SMTP_SENDER")
-SMTP_USER = config("SMTP_USER")
-SMTP_PASSWORD = config("SMTP_PASSWORD")
-SMTP_PORT = config("SMTP_PORT")
+SMTP_SERVER = config("SMTP_SERVER", default="")
+SMTP_SENDER = config("SMTP_SENDER", default="")
+SMTP_USER = config("SMTP_USER", default="")
+SMTP_PASSWORD = config("SMTP_PASSWORD", default="")
+SMTP_PORT = config("SMTP_PORT", default="")
 
-TWILIO_SID = config("TWILIO_SID")
-TWILIO_KEY = config("TWILIO_KEY")
-TWILIO_NUM = config("TWILIO_NUM")
+TWILIO_SID = config("TWILIO_SID", default="")
+TWILIO_KEY = config("TWILIO_KEY", default="")
+TWILIO_NUM = config("TWILIO_NUM", default="")

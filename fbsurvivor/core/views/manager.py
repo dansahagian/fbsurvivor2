@@ -60,6 +60,8 @@ def mark_result(request, link, year, week, team, result):
     return redirect(reverse("results", args=[link, year]))
 
 
-def remind(request, link):
+def remind(request, link, year):
     get_object_or_404(Player, link=link, is_admin=True)
     send_reminders_task.delay()
+    messages.success(request, f"Reminder task kicked off")
+    return redirect(reverse("manager", args=[link, year]))

@@ -30,6 +30,9 @@ def send_reminders():
     current_season: Season = Season.objects.get(is_current=True)
     next_week: Week = Week.objects.get_next(current_season)
 
+    if not next_week:
+        return
+
     time_diff = (next_week.lock_datetime - get_localized_right_now()).total_seconds()
     due_in = get_pretty_time(time_diff)
 

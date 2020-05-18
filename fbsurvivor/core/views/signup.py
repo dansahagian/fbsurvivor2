@@ -4,9 +4,10 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 
 from fbsurvivor import settings
+from fbsurvivor.celery import send_email_task
 from fbsurvivor.core.forms import PlayerForm, CodeForm, EmailForm
-from fbsurvivor.core.models import Season, Player
 from fbsurvivor.core.helpers import generate_link
+from fbsurvivor.core.models import Season, Player
 from fbsurvivor.core.utils import generate_code, send_email
 
 
@@ -38,7 +39,7 @@ def signup(request):
             if created:
                 subject = "Survivor - Email Confirmation Code"
                 message = f"Email Code: {code}"
-                send_email(subject, [player.email], message)
+                send_email_task.delay(subject, [player.email], message)
                 return redirect(reverse("confirm_contact", args=[link, "email"]))
 
             messages.warning(request, "That username is taken! Try again.")
@@ -91,7 +92,7 @@ def forgot(request):
                     "We found the following links associated with your email address:"
                 )
                 for player in players:
-                    message += f"\n\n{settings.DOMAIN}/{player.link}/"
+                    message += f"\n\n{settings.DOMAIN}/board/{player.link}/"
 
-                send_email(subject, [email], message)
+                send_email_task.delay(subject, [email], message)
                 return render(request, "forgot-sent.html")

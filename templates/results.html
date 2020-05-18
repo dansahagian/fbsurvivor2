@@ -1,8 +1,6 @@
 {% extends "./base.html" %}
 {% block content %}
-    {{ player.username }} - {{ season.year }} - Manage - Results
-    <br><br>
-    Week {{ week.week_num|stringformat:"02d" }}
+    <strong>Results - Week {{ week.week_num|stringformat:"02d" }}</strong>
     <br><br>
     <span class="space">
         <a href="{% url 'manager' player.link season.year %}">Back</a>

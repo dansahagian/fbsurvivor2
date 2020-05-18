@@ -19,13 +19,16 @@ class PickQuerySet(models.QuerySet):
 
     def for_results(self, week):
         return (
-            self.filter(week=week, result__isnull=True)
+            self.filter(week=week, result__isnull=True, team__isnull=False)
             .values_list("team__team_code", flat=True)
             .distinct()
         )
 
     def for_result_updates(self, week, team):
         return self.filter(week=week, team=team, result__isnull=True)
+
+    def for_no_picks(self, week):
+        return self.filter(week=week, team__isnull=True, result__isnull=True)
 
 
 class Pick(models.Model):

@@ -49,9 +49,11 @@ def results(request, link, year):
 def mark_result(request, link, year, week, team, result):
     player, season, context = get_admin_info(link, year)
     week = get_object_or_404(Week, season=season, week_num=week)
-    team = get_object_or_404(Team, team_code=team, season=season)
 
+    team = get_object_or_404(Team, team_code=team, season=season)
     Pick.objects.for_result_updates(week, team).update(result=result)
+    Pick.objects.for_no_picks(week).update(result="L")
+
     messages.success(request, f"Picks for week {week.week_num} of {team} updated!")
 
     player_records_updated = update_player_records(year)

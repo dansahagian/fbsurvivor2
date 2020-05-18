@@ -1,4 +1,3 @@
-from dirtyfields import DirtyFieldsMixin
 from django.db import models
 
 from fbsurvivor.core.utils import get_localized_right_now
@@ -29,7 +28,7 @@ class PickQuerySet(models.QuerySet):
         return self.filter(week=week, team=team, result__isnull=True)
 
 
-class Pick(DirtyFieldsMixin, models.Model):
+class Pick(models.Model):
     objects = PickQuerySet.as_manager()
 
     result_choices = [

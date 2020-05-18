@@ -4,17 +4,16 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
-pytest = "*"
 black = "*"
+pytest = "*"
+pytest-django = "*"
 
 [packages]
-django = "*"
+django = "==3.0.6"
 python-decouple = "*"
 psycopg2-binary = "*"
 django-extensions = "*"
-django-dirtyfields = "*"
 factory-boy = "*"
-pytest-django = "*"
 twilio = "*"
 celery = "*"
 python-dotenv = "*"

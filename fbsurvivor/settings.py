@@ -121,4 +121,4 @@ TWILIO_NUM = config("TWILIO_NUM", default="")
 
 
 # CELERY
-BROKER_URL = "amqp://localhost"
+BROKER_URL = config("BROKER_URL", default="amqp://localhost")

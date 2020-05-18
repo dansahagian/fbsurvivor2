@@ -13,6 +13,6 @@
         <a href="{% url 'results' player.link season.year %}">Results</a>
     </span>
     <span class="space">
-        <a href="#">Remind</a>
+        <a href="{% url 'remind' player.link %}">Remind</a>
     </span>
 {% endblock %}

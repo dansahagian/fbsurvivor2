@@ -8,8 +8,9 @@ urlpatterns = [
     path("board/<str:link>/", views.player_redirect, name="player_redirect"),
     path("board/<str:link>", views.player_redirect, name="player_redirect"),
     path("board/<str:link>/<int:year>/", views.player, name="player"),
-    path("seasons/<str:link>", views.seasons, name="seasons"),
+    path("seasons/<str:link>/", views.seasons, name="seasons"),
     path("manager/<str:link>/<int:year>/", views.manager, name="manager"),
+    path("remind/<str:link>/", views.remind, name="remind"),
     path("results/<str:link>/<int:year>/", views.results, name="results"),
     path(
         "results/<str:link>/<int:year>/<int:week>/<str:team>/<str:result>/",

@@ -4,6 +4,7 @@ from django.urls import reverse
 
 from fbsurvivor.core.models import Player, Season, PlayerStatus, Week, Pick, Team
 from fbsurvivor.core.tasks import update_player_records
+from fbsurvivor.celery import send_reminders_task
 
 
 def get_admin_info(link, year):
@@ -59,5 +60,6 @@ def mark_result(request, link, year, week, team, result):
     return redirect(reverse("results", args=[link, year]))
 
 
-def remind():
-    return
+def remind(request, link):
+    get_object_or_404(Player, link=link, is_admin=True)
+    send_reminders_task.delay()

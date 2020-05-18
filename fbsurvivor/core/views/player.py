@@ -37,12 +37,22 @@ def player(request, link, year):
         "can_play": can_play,
         "can_retire": can_retire,
         "weeks": weeks,
-        "years": years,
         "board": board,
         "player_count": player_statuses.count(),
     }
 
     return render(request, "player.html", context=context)
+
+
+def seasons(request, link):
+    player = get_object_or_404(Player, link=link)
+    years = PlayerStatus.objects.player_years(player)
+    context = {
+        "player": player,
+        "years": years,
+    }
+
+    return render(request, "seasons.html", context=context)
 
 
 def play(request, link, year):

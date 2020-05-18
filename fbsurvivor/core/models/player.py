@@ -51,7 +51,7 @@ class PlayerStatusQuerySet(models.QuerySet):
         return (
             self.filter(player=player)
             .values_list("season__year", flat=True)
-            .order_by("season__year")
+            .order_by("-season__year")
         )
 
     def for_season_board(self, season):

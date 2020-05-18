@@ -1,10 +1,9 @@
 {% extends "./base.html" %}
 {% block content %}
-    {{ player.username }} - {{ season.year }} - Picks
-    <br><br>
     <a href="{% url 'picks' player.link season.year %}">Back</a>
     <br><br>
-    Week {{ pick.week.week_num|stringformat:"02d" }}<br><br>
+    <strong>{{ season.year }} - Week {{ pick.week.week_num|stringformat:"02d" }}</strong>
+    <br><br>
     Current Pick: {% if pick.team.team_code %}{{ pick.team.team_code }}{% endif %}
     <br>
     <form action="{% url 'pick' player.link season.year pick.week.week_num %}" method="POST">

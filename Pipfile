@@ -18,6 +18,7 @@ twilio = "*"
 celery = "*"
 python-dotenv = "*"
 gunicorn = "*"
+django-htmlmin = "*"
 
 [requires]
 python_version = "3.8"

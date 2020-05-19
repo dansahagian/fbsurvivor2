@@ -2,9 +2,9 @@ from django.contrib import messages
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
 
+from fbsurvivor.celery import send_reminders_task
 from fbsurvivor.core.models import Player, Season, PlayerStatus, Week, Pick, Team
 from fbsurvivor.core.tasks import update_player_records
-from fbsurvivor.celery import send_reminders_task
 
 
 def get_admin_info(link, year):
@@ -21,7 +21,9 @@ def manager(request, link, year):
 
 def paid(request, link, year):
     player, season, context = get_admin_info(link, year)
-    player_statuses = PlayerStatus.objects.paid_for_season(season)
+    player_statuses = PlayerStatus.objects.paid_for_season(season).prefetch_related(
+        "player"
+    )
     context["player_statuses"] = player_statuses
     return render(request, "paid.html", context=context)
 

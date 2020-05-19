@@ -21,7 +21,11 @@ def get_player_info_and_context(link, year):
 
 def picks(request, link, year):
     player, season, player_status, context = get_player_info_and_context(link, year)
-    context["picks"] = Pick.objects.for_player_season(player, season)
+    context["picks"] = (
+        Pick.objects.for_player_season(player, season)
+        .prefetch_related("week")
+        .prefetch_related("team")
+    )
     if player_status.is_retired:
         messages.info(request, "Reminder: You retired!")
 

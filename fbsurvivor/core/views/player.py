@@ -21,12 +21,20 @@ def player(request, link, year):
     can_retire = player_status and (not player_status.is_retired) and season.is_current
     can_play = not player_status and season.is_current and not season.is_locked
     weeks = Week.objects.for_display(season).values_list("week_num", flat=True)
-    years = PlayerStatus.objects.player_years(player)
 
-    player_statuses = PlayerStatus.objects.for_season_board(season)
+    player_statuses = PlayerStatus.objects.for_season_board(season).prefetch_related(
+        "player"
+    )
 
     board = [
-        (ps, list(Pick.objects.for_player_season_locked(ps.player, season)))
+        (
+            ps,
+            list(
+                Pick.objects.for_player_season_locked(
+                    ps.player, season
+                ).prefetch_related("team")
+            ),
+        )
         for ps in player_statuses
     ]
 

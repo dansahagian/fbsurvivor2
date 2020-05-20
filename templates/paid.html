@@ -1,10 +1,10 @@
 {% extends "./base.html" %}
     {% block content %}
-        {{ player.username }} - {{ season.year }} - Manage - Paid
-        <br><br>
         <span class="space">
             <a href="{% url 'manager' player.link season.year %}">Back</a>
         </span>
+        <br><br>
+        <strong>{{ season.year }}</strong>
         <br><br>
         {% for player_status in player_statuses %}
             {% if player_status.is_paid %}

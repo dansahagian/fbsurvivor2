@@ -19,6 +19,7 @@ celery = "*"
 python-dotenv = "*"
 gunicorn = "*"
 django-htmlmin = "*"
+django-debug-toolbar = "*"
 
 [requires]
 python_version = "3.8"

@@ -14,7 +14,7 @@ def test_pick_for_player_season_locked(db, players, seasons, picks):
     p1 = players[0]
     this_season = seasons[1]
 
-    qs = Pick.objects.for_player_season_locked(p1, this_season)
+    qs = Pick.objects.for_board(p1, this_season)
 
     assert list(qs) == picks["p1"]["this_season"][:4]  # last pick isn't locked
 

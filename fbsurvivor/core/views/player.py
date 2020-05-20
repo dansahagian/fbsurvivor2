@@ -27,15 +27,8 @@ def player(request, link, year):
     )
 
     board = [
-        (
-            ps,
-            list(
-                Pick.objects.for_player_season_locked(
-                    ps.player, season
-                ).prefetch_related("team")
-            ),
-        )
-        for ps in player_statuses
+        (x, list(Pick.objects.for_board(x.player, season).select_related("team")))
+        for x in player_statuses
     ]
 
     context = {

@@ -86,3 +86,4 @@ class PlayerStatus(models.Model):
     class Meta:
         models.UniqueConstraint(fields=["player", "season"], name="unique_playerstatus")
         verbose_name_plural = "playerstatuses"
+        indexes = [models.Index(fields=["season"])]

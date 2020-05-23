@@ -1,4 +1,5 @@
 from django.urls import path
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 from fbsurvivor.core import views
 
@@ -26,4 +27,7 @@ urlpatterns = [
     path("picks/<str:link>/<int:year>/", views.picks, name="picks"),
     path("picks/<str:link>/<int:year>/<int:week>/", views.pick, name="pick"),
     path("confirm/<str:link>/<str:contact>/", views.confirm, name="confirm",),
+    path("api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
+    path("api/token/", TokenObtainPairView.as_view(), name="token_obtain"),
+    path("api/hello/", views.Hello.as_view(), name="hello"),
 ]

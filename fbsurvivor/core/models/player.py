@@ -45,6 +45,9 @@ class Player(models.Model):
     def __str__(self):
         return f"{self.username}"
 
+    class Meta:
+        indexes = [models.Index(fields=["link"])]
+
 
 class PlayerStatusQuerySet(models.QuerySet):
     def player_years(self, player):
@@ -86,4 +89,4 @@ class PlayerStatus(models.Model):
     class Meta:
         models.UniqueConstraint(fields=["player", "season"], name="unique_playerstatus")
         verbose_name_plural = "playerstatuses"
-        indexes = [models.Index(fields=["season"])]
+        indexes = [models.Index(fields=["player", "season"])]

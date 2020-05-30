@@ -2,8 +2,8 @@ from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 
-from fbsurvivor.core.models import Season, Player, PlayerStatus, Pick, Week
 from fbsurvivor.core.helpers import get_player_info, send_to_latest_season_played
+from fbsurvivor.core.models import Season, Player, PlayerStatus, Pick, Week, Payout
 
 
 def player_redirect(request, link):
@@ -101,3 +101,19 @@ def retire(request, link, year):
         messages.success(request, f"You have retired. See you next year!")
 
     return redirect(reverse("player", args=[link, year]))
+
+
+def payouts(request, link, year):
+    player = get_object_or_404(Player, link=link)
+    season = get_object_or_404(Season, year=year)
+
+    player_payouts = Payout.objects.for_payout_table()
+    print(player_payouts)
+
+    context = {
+        "player": player,
+        "season": season,
+        "payouts": player_payouts,
+    }
+
+    return render(request, "payouts.html", context=context)

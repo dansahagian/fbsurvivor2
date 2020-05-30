@@ -1,6 +1,14 @@
 from django.contrib import admin
 
-from fbsurvivor.core.models import Player, PlayerStatus, Season, Week, Team, Pick
+from fbsurvivor.core.models import (
+    Player,
+    PlayerStatus,
+    Season,
+    Week,
+    Team,
+    Pick,
+    Payout,
+)
 
 
 @admin.register(Player)
@@ -65,3 +73,13 @@ class PickAdmin(admin.ModelAdmin):
     def get_queryset(self, request):
         qs = super(PickAdmin, self).get_queryset(request)
         return qs.order_by("-week__season", "-week__week_num")
+
+
+@admin.register(Payout)
+class PayoutAdmin(admin.ModelAdmin):
+    list_display = ["player", "season", "amount"]
+    list_filter = ["season", "player"]
+
+    def get_queryset(self, request):
+        qs = super(PayoutAdmin, self).get_queryset(request)
+        return qs.order_by("-season", "player")

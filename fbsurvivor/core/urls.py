@@ -8,6 +8,7 @@ urlpatterns = [
     path("board/<str:link>/", views.player_redirect, name="player_redirect"),
     path("board/<str:link>", views.player_redirect),
     path("board/<str:link>/<int:year>/", views.player, name="player"),
+    path("payouts/<str:link>/<int:year>/", views.payouts, name="payouts"),
     path("seasons/<str:link>/", views.seasons, name="seasons"),
     path("manager/<str:link>/<int:year>/", views.manager, name="manager"),
     path("get-link/<str:link>/", views.get_link, name="get-link"),

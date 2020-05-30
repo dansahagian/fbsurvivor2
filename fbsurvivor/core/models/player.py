@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Sum
 from django.db.models.functions import Lower
 
 from .season import Season
@@ -83,3 +84,28 @@ class PlayerStatus(models.Model):
         models.UniqueConstraint(fields=["player", "season"], name="unique_playerstatus")
         verbose_name_plural = "playerstatuses"
         indexes = [models.Index(fields=["player", "season"])]
+
+
+class PayoutQuerySet(models.QuerySet):
+    def for_payout_table(self):
+        return (
+            self.values("player")
+            .annotate(total=Sum("amount"))
+            .order_by("-total")
+            .values("player__username", "total")
+        )
+
+
+class Payout(models.Model):
+    objects = PayoutQuerySet.as_manager()
+
+    player = models.ForeignKey(Player, on_delete=models.DO_NOTHING)
+    season = models.ForeignKey(Season, on_delete=models.DO_NOTHING)
+    amount = models.DecimalField(max_digits=6, decimal_places=2)
+
+    def __str__(self):
+        return f"{self.player} - {self.season} - {self.amount}"
+
+    class Meta:
+        models.UniqueConstraint(fields=["player", "season"], name="unique_payout")
+        verbose_name_plural = "payouts"

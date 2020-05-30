@@ -26,7 +26,7 @@ class Player(models.Model):
         pk = self.pk
         super().save(*args, **kwargs)
 
-        if not pk:
+        if not pk and not settings.DEBUG:
             ps = f"If you didn't sign up, please email {settings.CONTACT}"
             link = f"{settings.DOMAIN}/board/{self.link}/"
             subject = "Survivor User Account"

@@ -1,7 +1,7 @@
 from twilio.rest import Client
 
 from fbsurvivor import settings
-from fbsurvivor.core.models import PlayerStatus, Season, Pick, Week, Player
+from fbsurvivor.core.models import PlayerStatus, Season, Pick, Week
 from fbsurvivor.core.utils import get_localized_right_now, send_email, get_pretty_time
 
 
@@ -36,8 +36,8 @@ def send_reminders():
     time_diff = (next_week.lock_datetime - get_localized_right_now()).total_seconds()
     due_in = get_pretty_time(time_diff)
 
-    recipients = list(Player.objects.for_email_reminders(next_week))
-    phone_numbers = list(Player.objects.for_phone_reminders(next_week))
+    recipients = list(PlayerStatus.objects.for_email_reminders(next_week))
+    phone_numbers = list(PlayerStatus.objects.for_phone_reminders(next_week))
 
     subject = "Survivor Picks Reminder"
     message = f"Week {next_week.week_num} pick due in:\n\n{due_in}!"

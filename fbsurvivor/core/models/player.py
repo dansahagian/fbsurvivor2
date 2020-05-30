@@ -1,32 +1,10 @@
-from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from django.db.models.functions import Lower
 
 from .season import Season
 
 
-class PlayerQuerySet(models.QuerySet):
-    def for_reminders(self, week):
-        return self.filter(pick__week=week, pick__team__isnull=True)
-
-    def for_email_reminders(self, week):
-        return (
-            self.for_reminders(week)
-            .filter(has_email_reminders=True)
-            .values_list("email", flat=True)
-        )
-
-    def for_phone_reminders(self, week):
-        return (
-            self.for_reminders(week)
-            .filter(has_phone_reminders=True, phone__isnull=False)
-            .values_list("phone", flat=True)
-        )
-
-
 class Player(models.Model):
-    objects = PlayerQuerySet.as_manager()
-
     username = models.CharField(max_length=20, unique=True)
     link = models.CharField(max_length=44, unique=True)
     email = models.CharField(max_length=100)
@@ -62,6 +40,28 @@ class PlayerStatusQuerySet(models.QuerySet):
             self.filter(season=season)
             .annotate(lower=Lower("player__username"))
             .order_by("-is_paid", "lower")
+        )
+
+    def for_reminders(self, week):
+        return self.filter(
+            season=week.season,
+            is_retired=False,
+            player__pick__week=week,
+            player__pick__team__isnull=True,
+        )
+
+    def for_email_reminders(self, week):
+        return (
+            self.for_reminders(week)
+            .filter(player__has_email_reminders=True)
+            .values_list("player__email", flat=True)
+        )
+
+    def for_phone_reminders(self, week):
+        return (
+            self.for_reminders(week)
+            .filter(player__has_phone_reminders=True, player__phone__isnull=False)
+            .values_list("phone", flat=True)
         )
 
 

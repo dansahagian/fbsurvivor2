@@ -18,7 +18,7 @@ DEBUG = config("DEBUG", default=False, cast=bool)
 ALLOWED_HOSTS = ["127.0.0.1"]
 INTERNAL_IPS = ["127.0.0.1"]
 
-CONTACT = config("CONTACT")
+CONTACT = config("CONTACT", default="")
 
 # Application definition
 

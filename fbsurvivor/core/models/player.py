@@ -61,7 +61,7 @@ class PlayerStatusQuerySet(models.QuerySet):
         return (
             self.for_reminders(week)
             .filter(player__has_phone_reminders=True, player__phone__isnull=False)
-            .values_list("phone", flat=True)
+            .values_list("player__phone", flat=True)
         )
 
 

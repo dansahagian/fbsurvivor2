@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django_extensions",
     "debug_toolbar",
+    "django_celery_beat",
     "fbsurvivor.core",
 ]
 
@@ -129,3 +130,4 @@ TWILIO_NUM = config("TWILIO_NUM", default="")
 
 # CELERY
 BROKER_URL = config("BROKER_URL", default="amqp://localhost")
+CELERY_TIMEZONE = "America/Los_Angeles"

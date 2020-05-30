@@ -21,6 +21,7 @@ gunicorn = "*"
 django-htmlmin = "*"
 django-debug-toolbar = "*"
 requests = "*"
+django-celery-beat = "*"
 
 [requires]
 python_version = "3.8"

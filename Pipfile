@@ -20,8 +20,6 @@ python-dotenv = "*"
 gunicorn = "*"
 django-htmlmin = "*"
 django-debug-toolbar = "*"
-djangorestframework = "*"
-djangorestframework-simplejwt = "*"
 requests = "*"
 
 [requires]

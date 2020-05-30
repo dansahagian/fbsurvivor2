@@ -7,7 +7,7 @@ urlpatterns = [
     path("", views.home, name="home"),
     path("forgot/", views.forgot, name="forgot"),
     path("board/<str:link>/", views.player_redirect, name="player_redirect"),
-    path("board/<str:link>", views.player_redirect, name="player_redirect"),
+    path("board/<str:link>", views.player_redirect),
     path("board/<str:link>/<int:year>/", views.player, name="player"),
     path("seasons/<str:link>/", views.seasons, name="seasons"),
     path("manager/<str:link>/<int:year>/", views.manager, name="manager"),
@@ -27,7 +27,6 @@ urlpatterns = [
     path("retire/<str:link>/<int:year>/", views.retire, name="retire"),
     path("picks/<str:link>/<int:year>/", views.picks, name="picks"),
     path("picks/<str:link>/<int:year>/<int:week>/", views.pick, name="pick"),
-    path("api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
-    path("api/token/", TokenObtainPairView.as_view(), name="token_obtain"),
-    path("api/hello/", views.Hello.as_view(), name="hello"),
+    path("<str:link>/", views.player_redirect),
+    path("<str:link>", views.player_redirect),
 ]

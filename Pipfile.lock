@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "2a5991b1934a55a97ff6eb412e46a4583f8ec4ceee6b745cbb30f1f80e764fde"
+            "sha256": "8dbc6e5977c57b1cb61af5f2bdac4b67e993268f3fcf59badcf6f83d81c54f5e"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -97,22 +97,6 @@
             ],
             "index": "pypi",
             "version": "==0.11.0"
-        },
-        "djangorestframework": {
-            "hashes": [
-                "sha256:05809fc66e1c997fd9a32ea5730d9f4ba28b109b9da71fccfa5ff241201fd0a4",
-                "sha256:e782087823c47a26826ee5b6fa0c542968219263fb3976ec3c31edab23a4001f"
-            ],
-            "index": "pypi",
-            "version": "==3.11.0"
-        },
-        "djangorestframework-simplejwt": {
-            "hashes": [
-                "sha256:288ee78618d906f26abf6282b639b8f1806ce1d9a7578897a125cf79c609f259",
-                "sha256:c315be70aa12a5f5790c0ab9acd426c3a58eebea65a77d0893248c5144a5080c"
-            ],
-            "index": "pypi",
-            "version": "==4.4.0"
         },
         "factory-boy": {
             "hashes": [
@@ -268,10 +252,10 @@
         },
         "twilio": {
             "hashes": [
-                "sha256:41d220c7f36834cc10986e3364d40617b804cb01624542f90b5cf5dc79d89ee5"
+                "sha256:7c6329118583852bb06a2065dd2987a012310e5dfd834ef821d736b059bd1c74"
             ],
             "index": "pypi",
-            "version": "==6.40.0"
+            "version": "==6.41.0"
         },
         "urllib3": {
             "hashes": [

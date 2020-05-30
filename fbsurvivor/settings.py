@@ -5,7 +5,7 @@ from decouple import config
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-DOMAIN = config("DOMAIN", default="127.0.0.1:8000")
+DOMAIN = config("DOMAIN", default="http://127.0.0.1:8000")
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
@@ -18,6 +18,7 @@ DEBUG = config("DEBUG", default=False, cast=bool)
 ALLOWED_HOSTS = ["127.0.0.1"]
 INTERNAL_IPS = ["127.0.0.1"]
 
+CONTACT = config("CONTACT")
 
 # Application definition
 

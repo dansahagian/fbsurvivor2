@@ -7,8 +7,8 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
 
 from fbsurvivor.celery import send_reminders_task
+from fbsurvivor.core.helpers import update_player_records
 from fbsurvivor.core.models import Player, Season, PlayerStatus, Week, Pick, Team
-from fbsurvivor.core.tasks import update_player_records
 
 
 def get_admin_info(link, year):

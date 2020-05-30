@@ -1,6 +1,8 @@
+import datetime
+
+import pytz
 from django.db import models
 
-from fbsurvivor.core.utils import get_localized_right_now
 from .player import Player
 from .team import Team
 from .week import Week
@@ -13,8 +15,10 @@ class PickQuerySet(models.QuerySet):
         )
 
     def for_board(self, player, season):
+        right_now = pytz.timezone("US/Pacific").localize(datetime.datetime.now())
+
         return self.for_player_season(player, season).filter(
-            week__lock_datetime__lte=get_localized_right_now(),
+            week__lock_datetime__lte=right_now,
         )
 
     def for_results(self, week):

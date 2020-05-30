@@ -2,6 +2,7 @@ import datetime
 
 import factory
 import pytest
+import pytz
 
 from fbsurvivor.core.tests.factories import (
     PlayerFactory,
@@ -11,7 +12,6 @@ from fbsurvivor.core.tests.factories import (
     PickFactory,
     TeamFactory,
 )
-from fbsurvivor.core.utils import get_localized_right_now
 
 
 @pytest.fixture(autouse=True)
@@ -35,7 +35,7 @@ def seasons(db):
 
 @pytest.fixture(autouse=True)
 def weeks(db, seasons):
-    now = get_localized_right_now()
+    now = pytz.timezone("US/Pacific").localize(datetime.datetime.now())
     nw = now + datetime.timedelta(days=7)
     lw = now - datetime.timedelta(days=7)
     ly = now - datetime.timedelta(days=365)

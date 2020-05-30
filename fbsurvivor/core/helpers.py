@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse
 
-from fbsurvivor.core.models import Player, Season, PlayerStatus
+from fbsurvivor.core.models import Player, Season, PlayerStatus, Pick
 
 
 def get_player_info(link, year):
@@ -26,3 +26,43 @@ def send_to_latest_season_played(request, link, year):
     else:
         messages.warning(request, f"We don't have a record of you playing any season.")
         return redirect(reverse("home"))
+
+
+def get_pretty_time(seconds):
+    days, remainder = divmod(seconds, 86400)
+    hours, remainder = divmod(remainder, 3600)
+    minutes, remainder = divmod(remainder, 60)
+
+    days = f"{int(days)} days" if days else ""
+    hours = f"{int(hours)} hours" if hours else ""
+    minutes = f"{int(minutes)} minutes" if minutes else ""
+
+    if days and hours and minutes:
+        return f"{days}, {hours}, & {minutes}"
+    elif days and (hours or minutes):
+        return f"{days} & {hours}{minutes}"
+    elif hours and minutes:
+        return f"{hours} & {minutes}"
+    else:
+        return f"{hours}{minutes}"
+
+
+def update_player_records(year):
+    try:
+        season = Season.objects.get(year=year)
+        player_statuses = PlayerStatus.objects.filter(season=season)
+        updates = [update_record(ps) for ps in player_statuses]
+        return len(updates)
+    except Season.DoesNotExist:
+        return 0
+
+
+def update_record(player_status):
+    player = player_status.player
+    season = player_status.season
+
+    picks = Pick.objects.filter(player=player, week__season=season)
+    player_status.win_count = picks.filter(result="W").count()
+    player_status.loss_count = picks.filter(result="L").count()
+    player_status.save()
+    return True

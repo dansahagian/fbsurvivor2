@@ -1,7 +1,9 @@
+import datetime
+
 import factory
+import pytz
 
 from fbsurvivor.core import models
-from fbsurvivor.core.utils import get_localized_right_now
 
 
 class PlayerFactory(factory.django.DjangoModelFactory):
@@ -30,7 +32,7 @@ class WeekFactory(factory.django.DjangoModelFactory):
 
     season = factory.SubFactory(SeasonFactory)
     week_num = factory.Sequence(lambda n: n + 1)
-    lock_datetime = get_localized_right_now()
+    lock_datetime = pytz.timezone("US/Pacific").localize(datetime.datetime.now())
 
 
 class TeamFactory(factory.django.DjangoModelFactory):

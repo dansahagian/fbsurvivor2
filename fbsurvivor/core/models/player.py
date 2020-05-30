@@ -2,6 +2,8 @@ from django.db import models
 from django.db.models import Sum
 from django.db.models.functions import Lower
 
+from fbsurvivor import settings
+from fbsurvivor.celery import send_email_task
 from .season import Season
 
 
@@ -9,9 +11,9 @@ class Player(models.Model):
     username = models.CharField(max_length=20, unique=True)
     link = models.CharField(max_length=44, unique=True)
     email = models.CharField(max_length=100)
-    phone = models.CharField(max_length=12, null=True)
+    phone = models.CharField(max_length=12, null=True, blank=True)
     is_admin = models.BooleanField(default=False)
-    has_email_reminders = models.BooleanField(default=False)
+    has_email_reminders = models.BooleanField(default=True)
     has_phone_reminders = models.BooleanField(default=False)
 
     def __str__(self):
@@ -19,6 +21,19 @@ class Player(models.Model):
 
     class Meta:
         indexes = [models.Index(fields=["link"])]
+
+    def save(self, *args, **kwargs):
+        pk = self.pk
+        super().save(*args, **kwargs)
+
+        if not pk:
+            ps = f"If you didn't sign up, please email {settings.CONTACT}"
+            link = f"{settings.DOMAIN}/board/{self.link}/"
+            subject = "Survivor User Account"
+            recipients = [self.email]
+            message = f"You can use this link to manage your account:\n\n{link}\n\n{ps}"
+
+            send_email_task.delay(subject, recipients, message)
 
 
 class PlayerStatusQuerySet(models.QuerySet):

@@ -1,12 +1,14 @@
+import datetime
+
+import pytz
 from django.db import models
 
-from fbsurvivor.core.utils import get_localized_right_now
 from .season import Season
 
 
 class WeekQuerySet(models.QuerySet):
     def for_display(self, season):
-        right_now = get_localized_right_now()
+        right_now = pytz.timezone("US/Pacific").localize(datetime.datetime.now())
 
         return self.filter(season=season, lock_datetime__lte=right_now).order_by(
             "week_num"
@@ -17,7 +19,7 @@ class WeekQuerySet(models.QuerySet):
         return qs.last() if qs else None
 
     def get_next(self, season):
-        right_now = get_localized_right_now()
+        right_now = pytz.timezone("US/Pacific").localize(datetime.datetime.now())
         qs = self.filter(season=season, lock_datetime__gt=right_now).order_by(
             "week_num"
         )
@@ -33,7 +35,7 @@ class Week(models.Model):
 
     @property
     def is_locked(self):
-        right_now = get_localized_right_now()
+        right_now = pytz.timezone("US/Pacific").localize(datetime.datetime.now())
         return right_now > self.lock_datetime if self.lock_datetime else False
 
     def __str__(self):

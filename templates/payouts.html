@@ -2,7 +2,7 @@
 {% block content %}
     <a href="{% url 'player' player.link season.year %}">Back</a>
     <br><br>
-    <strong>All Time Payouts</strong>
+    <strong>All Time Payouts 2011 - current</strong>
     <br><br>
     <table>
         <tr>
@@ -12,7 +12,7 @@
         {% for payout in payouts %}
             <tr>
                 <td>{{ payout.player__username }}</td>
-                <td>$ {{ payout.total }}</td>
+                <td align="right">$ {{ payout.total }}</td>
             </tr>
         {% endfor %}
 {% endblock %}

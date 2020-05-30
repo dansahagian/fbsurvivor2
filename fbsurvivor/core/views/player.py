@@ -108,7 +108,6 @@ def payouts(request, link, year):
     season = get_object_or_404(Season, year=year)
 
     player_payouts = Payout.objects.for_payout_table()
-    print(player_payouts)
 
     context = {
         "player": player,

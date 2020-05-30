@@ -5,7 +5,7 @@ jobs:
     docker:
       - image: circleci/python:3.8.3
         environment:
-          - DOMAIN=127.0.0.1:8000
+          - DEBUG=True
           - DATABASE=circle_test
           - PG_USER=root
           - PG_PASSWORD=pgpassword

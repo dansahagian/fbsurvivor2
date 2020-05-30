@@ -1,6 +1,3 @@
-import secrets
-import string
-
 from django.contrib import messages
 from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse
@@ -29,15 +26,3 @@ def send_to_latest_season_played(request, link, year):
     else:
         messages.warning(request, f"We don't have a record of you playing any season.")
         return redirect(reverse("home"))
-
-
-def generate_link() -> str:
-    char_set = string.ascii_lowercase + string.digits
-    link = "".join(secrets.choice(char_set) for _ in range(44))
-
-    links = Player.objects.values_list("link", flat=True)
-
-    if link in links:
-        return generate_link()
-
-    return link

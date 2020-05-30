@@ -1,5 +1,4 @@
 import datetime
-import secrets
 import smtplib
 from email.mime.text import MIMEText
 
@@ -10,10 +9,6 @@ from fbsurvivor import settings
 
 def get_localized_right_now():
     return pytz.timezone("US/Pacific").localize(datetime.datetime.now())
-
-
-def generate_code() -> int:
-    return secrets.choice(range(111111, 1000000))
 
 
 def send_email(subject, recipients, message):

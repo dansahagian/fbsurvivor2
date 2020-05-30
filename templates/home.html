@@ -1,0 +1,13 @@
+{% extends "./base.html" %}
+    {% block content %}
+        <div class="rules">
+            This website is used to run a private NFL Survivor Pool for family and
+            friends. It's not intended for the public. If you're looking to sign up,
+            contact the organizer.
+        </div>
+        <br>
+        <br>
+        <div>
+            <a href="{% url 'forgot' %}">Forgot your link?</a>
+        </div>
+    {% endblock %}

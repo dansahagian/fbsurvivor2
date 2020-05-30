@@ -8,11 +8,14 @@
     <br><br>
     <span class="space">
         <a href="{% url 'paid' player.link season.year %}">Paid</a>
-    </span>
+    </span><br><br>
     <span class="space">
         <a href="{% url 'results' player.link season.year %}">Results</a>
-    </span>
+    </span><br><br>
     <span class="space">
+        <a href="{% url 'get-link' player.link %}">Get Link</a>
+    </span><br><br><br><br>
+        <span class="space">
         <a href="{% url 'remind' player.link season.year %}">Remind</a>
-    </span>
+    </span><br><br>
 {% endblock %}

@@ -32,13 +32,6 @@ class Player(models.Model):
     email = models.CharField(max_length=100)
     phone = models.CharField(max_length=12, null=True)
     is_admin = models.BooleanField(default=False)
-    is_email_confirmed = models.BooleanField(default=False)
-    is_phone_confirmed = models.BooleanField(default=False)
-    confirmation_code = models.IntegerField(
-        null=True,
-        default=None,
-        validators=[MinValueValidator(111111), MaxValueValidator(999999)],
-    )
     has_email_reminders = models.BooleanField(default=False)
     has_phone_reminders = models.BooleanField(default=False)
 

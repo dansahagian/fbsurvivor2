@@ -1,4 +1,8 @@
+import secrets
+import string
+
 from django.contrib import messages
+from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
 
@@ -69,3 +73,20 @@ def remind(request, link, year):
     send_reminders_task.delay()
     messages.success(request, f"Reminder task kicked off")
     return redirect(reverse("manager", args=[link, year]))
+
+
+def get_link(request, link):
+    get_object_or_404(Player, link=link, is_admin=True)
+    return HttpResponse(generate_link())
+
+
+def generate_link():
+    char_set = string.ascii_lowercase + string.digits
+    link = "".join(secrets.choice(char_set) for _ in range(44))
+
+    links = Player.objects.values_list("link", flat=True)
+
+    if link in links:
+        return generate_link()
+
+    return link

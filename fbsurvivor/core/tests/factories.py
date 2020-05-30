@@ -11,7 +11,6 @@ class PlayerFactory(factory.django.DjangoModelFactory):
     username = factory.Sequence(lambda n: f"Player{n + 1}")
     link = factory.Sequence(lambda n: f"secretlink{n + 1}")
     email = factory.LazyAttribute(lambda a: f"{a.username}@fbsurvivor.com")
-    is_email_confirmed = True
 
 
 class SeasonFactory(factory.django.DjangoModelFactory):

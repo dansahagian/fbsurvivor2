@@ -11,6 +11,11 @@
                 <a href="{% url 'payouts' player.link season.year %}">Payouts</a>
             </span>
         {% endif %}
+        {% if player.is_admin %}
+            <span class="space">
+                <a href="{% url 'manager' player.link season.year %}">Manage</a>
+            </span>
+        {% endif %}
         {% if can_play %}
             <br><br><br><br>
             <strong>{{ player_count }}</strong> players have joined! Will you?<br><br>
@@ -80,9 +85,4 @@
         {% if can_retire %}
             <a href="{% url 'retire' player.link season.year %}">Retire</a>
         {% endif %}<br><br>
-        {% if player.is_admin %}
-            <span class="space">
-                <a href="{% url 'manager' player.link season.year %}">Manage</a>
-            </span>
-        {% endif %}
     {% endblock %}

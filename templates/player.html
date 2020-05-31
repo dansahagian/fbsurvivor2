@@ -12,12 +12,13 @@
             </span>
         {% endif %}
         {% if player.is_admin %}
+            <br><br>
             <span class="space">
                 <a href="{% url 'manager' player.link season.year %}">Manage</a>
             </span>
         {% endif %}
         {% if can_play %}
-            <br><br><br><br>
+            <br><br>
             <strong>{{ player_count }}</strong> players have joined! Will you?<br><br>
             <span class="space">
                 <a href="{% url 'play' player.link season.year %}">Play</a>

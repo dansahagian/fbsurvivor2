@@ -3,19 +3,17 @@
     <span class="space">
         <a href="{% url 'player' player.link season.year %}">Back</a>
     </span>
-    <br><br>
-    <strong>{{ season.year }}</strong>
-    <br><br>
+    <br><br><br>
     <span class="space">
         <a href="{% url 'paid' player.link season.year %}">Paid</a>
-    </span><br><br>
+    </span>
     <span class="space">
         <a href="{% url 'results' player.link season.year %}">Results</a>
-    </span><br><br>
+    </span>
     <span class="space">
-        <a href="{% url 'get-link' player.link %}">Get Link</a>
+        <a href="{% url 'get-link' player.link %}">Link</a>
     </span><br><br><br><br>
         <span class="space">
         <a href="{% url 'remind' player.link season.year %}">Remind</a>
-    </span><br><br>
+    </span>
 {% endblock %}

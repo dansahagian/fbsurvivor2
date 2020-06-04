@@ -3,13 +3,19 @@
 <html lang="en">
     <head>
         <title>FB Survivor</title>
-        <link rel="stylesheet" href="{% static "css/main.min.css" %}" type="text/css">
+        <link rel="stylesheet" href="{% static "css/main.css" %}" type="text/css">
         <meta name="viewport" content="initial-scale=1.0">
         <meta name="robots" content="noindex,nofollow" />
     </head>
     <body>
         <div class="main">
-            <span class="title">Football Survivor League</span>
+            <span class="title">Survivor {{ season.year }}
+                {% if pick %}
+                     - Week {{ pick.week.week_num|stringformat:"02d" }}
+                {% elif week %}
+                     - Week {{ week.week_num|stringformat:"02d" }}
+                {% endif %}
+            </span>
             <br>
             {% if messages %}
                 <ul class="messages">

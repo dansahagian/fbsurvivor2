@@ -45,17 +45,6 @@ def player(request, link, year):
     return render(request, "player.html", context=context)
 
 
-def seasons(request, link):
-    player = get_object_or_404(Player, link=link)
-    years = PlayerStatus.objects.player_years(player)
-    context = {
-        "player": player,
-        "years": years,
-    }
-
-    return render(request, "seasons.html", context=context)
-
-
 def play(request, link, year):
     player, season, player_status = get_player_info(link, year)
 
@@ -103,16 +92,18 @@ def retire(request, link, year):
     return redirect(reverse("player", args=[link, year]))
 
 
-def payouts(request, link, year):
+def other(request, link, year):
     player = get_object_or_404(Player, link=link)
     season = get_object_or_404(Season, year=year)
+    years = PlayerStatus.objects.player_years(player)
 
     player_payouts = Payout.objects.for_payout_table()
 
     context = {
         "player": player,
         "season": season,
+        "years": years,
         "payouts": player_payouts,
     }
 
-    return render(request, "payouts.html", context=context)
+    return render(request, "other.html", context=context)

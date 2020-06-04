@@ -77,16 +77,12 @@ def remind(request, link, year):
 
 def get_link(request, link):
     get_object_or_404(Player, link=link, is_admin=True)
-    return HttpResponse(generate_link())
-
-
-def generate_link():
     char_set = string.ascii_lowercase + string.digits
-    link = "".join(secrets.choice(char_set) for _ in range(44))
-
     links = Player.objects.values_list("link", flat=True)
+    do = True
 
-    if link in links:
-        return generate_link()
+    while link in links or do:
+        do = False
+        link = "".join(secrets.choice(char_set) for _ in range(44))
 
-    return link
+    return HttpResponse(link)

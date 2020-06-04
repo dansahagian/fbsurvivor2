@@ -5,16 +5,10 @@
                 <a href="{% url 'picks' player.link season.year %}">Picks</a>
             </span>
             <span class="space">
-                <a href="{% url 'seasons' player.link %}">Seasons</a>
+                <a href="{% url 'other' player.link season.year %}">Other</a>
             </span>
             <span class="space">
-                <a href="{% url 'payouts' player.link season.year %}">Payouts</a>
-            </span>
-        {% endif %}
-        {% if player.is_admin %}
-            <br><br>
-            <span class="space">
-                <a href="{% url 'manager' player.link season.year %}">Manage</a>
+                <a href="{% url 'manager' player.link season.year %}">Manager</a>
             </span>
         {% endif %}
         {% if can_play %}
@@ -26,8 +20,6 @@
             </span>
         {% endif %}
         {% if player_status %}
-            <br><br>
-            <strong>{{ season.year }}</strong>
             <br><br>
             <table>
                 <tr>

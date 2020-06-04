@@ -3,9 +3,7 @@
         <span class="space">
             <a href="{% url 'manager' player.link season.year %}">Back</a>
         </span>
-        <br><br>
-        <strong>{{ season.year }}</strong>
-        <br><br>
+        <br><br><br>
         {% for player_status in player_statuses %}
             {% if player_status.is_paid %}
                 {{ player_status.player.username }}

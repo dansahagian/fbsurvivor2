@@ -1,6 +1,6 @@
 #!/bin/zsh
 
-git pull origin master
+git pull origin main
 pipenv install
 pipenv run python manage.py migrate
 pipenv run python manage.py collectstatic --no-input

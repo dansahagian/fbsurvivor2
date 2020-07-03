@@ -9,7 +9,7 @@ pytest = "*"
 pytest-django = "*"
 
 [packages]
-django = "==3.0.6"
+django = "*"
 python-decouple = "*"
 psycopg2-binary = "*"
 django-extensions = "*"

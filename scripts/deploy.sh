@@ -5,13 +5,10 @@ sudo systemctl stop celeryworker.service
 sudo systemctl stop celerybeat.service
 
 git pull origin main
-rm -rf venv
-python3.8 -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
+pipenv install
 
-python manage.py migrate
-python manage.py collectstatic --no-input
+pipenv run manage.py migrate
+pipenv run manage.py collectstatic --no-input
 
 sudo systemctl start fbsurvivor.service
 sudo systemctl start celeryworker.service

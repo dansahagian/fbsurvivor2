@@ -1,7 +1,16 @@
 #!/bin/zsh
 
+systemctl stop fbsurvivor.service
+systemctl stop celeryworker.service
+systemctl stop celerybeat.service
+
 git pull origin main
-pipenv install
-pipenv run python manage.py migrate
-pipenv run python manage.py collectstatic --no-input
-pipenv run gunicorn fbsurvivor.wsgi
+source venv/bin/activate
+pip install -r requirements.txt
+
+python manage.py migrate
+python manage.py collectstatic --no-input
+
+systemctl start fbsurvivor.service
+systemctl start celeryworker.service
+systemctl start celerybeat.service

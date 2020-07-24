@@ -1,3 +1,3 @@
 #!/bin/zsh
 
-pipenv run celery -A fbsurvivor worker -l INFO
+venv/bin/celery -A fbsurvivor worker -l INFO

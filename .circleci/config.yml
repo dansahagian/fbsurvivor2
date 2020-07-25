@@ -35,6 +35,8 @@ jobs:
       enabled: true
     steps:
       - run:
+          name: Deploy
+          command: |
           ssh $SSH_USER@$SSH_HOST "/opt/fbsurvivor2/scripts/deploy.sh"
 
 workflows:

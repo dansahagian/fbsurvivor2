@@ -4,6 +4,7 @@ sudo systemctl stop fbsurvivor.service
 sudo systemctl stop celeryworker.service
 sudo systemctl stop celerybeat.service
 
+cd /opt/fbsurvivor2
 git pull origin main
 pipenv install
 

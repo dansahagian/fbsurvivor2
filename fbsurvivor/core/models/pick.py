@@ -42,6 +42,7 @@ class Pick(models.Model):
         ("W", "WIN"),
         ("L", "LOSS"),
         ("R", "RETIRED"),
+        (None, "None"),
     ]
     player = models.ForeignKey(Player, on_delete=models.DO_NOTHING)
     week = models.ForeignKey(Week, on_delete=models.DO_NOTHING)

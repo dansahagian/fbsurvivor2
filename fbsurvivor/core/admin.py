@@ -16,6 +16,7 @@ class PlayerAdmin(admin.ModelAdmin):
     list_display = [
         "username",
         "email",
+        "phone",
         "is_admin",
         "has_email_reminders",
         "has_phone_reminders",

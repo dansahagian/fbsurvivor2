@@ -7,9 +7,11 @@
             <span class="space">
                 <a href="{% url 'other' player.link season.year %}">Other</a>
             </span>
-            <span class="space">
-                <a href="{% url 'manager' player.link season.year %}">Manager</a>
-            </span>
+            {% if player.is_admin %}
+                <span class="space">
+                    <a href="{% url 'manager' player.link season.year %}">Manager</a>
+            {% endif %}
+                </span>
         {% endif %}
         {% if can_play %}
             <br><br>

@@ -7,6 +7,8 @@ verify_ssl = true
 black = "*"
 pytest = "*"
 pytest-django = "*"
+pre-commit = "*"
+factory-boy = "*"
 
 [packages]
 django = "*"
@@ -20,8 +22,7 @@ django-htmlmin = "*"
 django-debug-toolbar = "*"
 requests = "*"
 django-celery-beat = "*"
-psycopg2-binary = "*"
-factory-boy = "*"
+psycopg2 = "*"
 
 [requires]
 python_version = "3.8"

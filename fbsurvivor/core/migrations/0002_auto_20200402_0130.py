@@ -12,7 +12,8 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.AlterModelOptions(
-            name="playerstatus", options={"verbose_name_plural": "playerstatuses"},
+            name="playerstatus",
+            options={"verbose_name_plural": "playerstatuses"},
         ),
         migrations.AddField(
             model_name="player",

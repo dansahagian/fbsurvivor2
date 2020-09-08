@@ -11,7 +11,8 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.RemoveIndex(
-            model_name="playerstatus", name="core_player_season__627e82_idx",
+            model_name="playerstatus",
+            name="core_player_season__627e82_idx",
         ),
         migrations.AddIndex(
             model_name="player",

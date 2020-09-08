@@ -10,7 +10,16 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RemoveField(model_name="player", name="confirmation_code",),
-        migrations.RemoveField(model_name="player", name="is_email_confirmed",),
-        migrations.RemoveField(model_name="player", name="is_phone_confirmed",),
+        migrations.RemoveField(
+            model_name="player",
+            name="confirmation_code",
+        ),
+        migrations.RemoveField(
+            model_name="player",
+            name="is_email_confirmed",
+        ),
+        migrations.RemoveField(
+            model_name="player",
+            name="is_phone_confirmed",
+        ),
     ]

@@ -10,8 +10,12 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AlterModelOptions(name="season", options={"ordering": ["-year"]},),
         migrations.AlterModelOptions(
-            name="team", options={"ordering": ["-season", "team_code"]},
+            name="season",
+            options={"ordering": ["-year"]},
+        ),
+        migrations.AlterModelOptions(
+            name="team",
+            options={"ordering": ["-season", "team_code"]},
         ),
     ]

@@ -63,7 +63,8 @@ def pick(request, link, year, week):
             user_pick.save()
             team_code = user_pick.team.team_code if user_pick.team else "No team "
             messages.success(
-                request, f"{team_code} submitted for week {week.week_num}",
+                request,
+                f"{team_code} submitted for week {week.week_num}",
             )
 
         else:

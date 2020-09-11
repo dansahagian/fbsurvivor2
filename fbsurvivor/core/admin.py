@@ -10,6 +10,8 @@ from fbsurvivor.core.models import (
     Payout,
 )
 
+admin.AdminSite.enable_nav_sidebar = False
+
 
 @admin.register(Player)
 class PlayerAdmin(admin.ModelAdmin):

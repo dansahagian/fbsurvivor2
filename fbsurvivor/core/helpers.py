@@ -33,9 +33,13 @@ def get_pretty_time(seconds):
     hours, remainder = divmod(remainder, 3600)
     minutes, remainder = divmod(remainder, 60)
 
-    days = f"{int(days)} days" if days else ""
-    hours = f"{int(hours)} hours" if hours else ""
-    minutes = f"{int(minutes)} minutes" if minutes else ""
+    d = "day" if days != 1 else "days"
+    h = "hour" if hours != 1 else "hours"
+    m = "minute" if minutes != 1 else "minute"
+
+    days = f"{int(days)} {d}" if days else ""
+    hours = f"{int(hours)} {h}" if hours else ""
+    minutes = f"{int(minutes)} {m}" if minutes else ""
 
     if days and hours and minutes:
         return f"{days}, {hours}, & {minutes}"

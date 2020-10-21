@@ -4,6 +4,9 @@ jobs:
     working_directory: ~/fbsurvivor2
     docker:
       - image: circleci/python:3.8.3
+        auth:
+          username: $DOCKERHUB_USER
+          password: $DOCKERHUB_PASSWORD
         environment:
           - DEBUG=True
           - DATABASE=circle_test
@@ -42,7 +45,9 @@ workflows:
   version: 2
   build-and-deploy:
     jobs:
-      - build
+      - build:
+          context:
+            - docker-hub-creds
       - deploy:
           requires:
             - build

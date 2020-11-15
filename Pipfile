@@ -23,6 +23,7 @@ requests = "*"
 django-celery-beat = "*"
 psycopg2 = "*"
 celery = "~=4.4"
+graphene-django = "*"
 
 [requires]
 python_version = "3.8"

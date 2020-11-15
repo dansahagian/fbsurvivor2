@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "graphene_django",
     "django_extensions",
     "debug_toolbar",
     "django_celery_beat",
@@ -148,3 +149,5 @@ TWILIO_NUM = config("TWILIO_NUM", default="")
 # CELERY
 BROKER_URL = config("BROKER_URL", default="amqp://localhost")
 CELERY_TIMEZONE = "America/Los_Angeles"
+
+GRAPHENE = {"SCHEMA": "fbsurvivor.schema.schema"}

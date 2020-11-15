@@ -9,6 +9,7 @@ jobs:
           password: $DOCKERHUB_PASSWORD
         environment:
           - DEBUG=True
+          - SECURE=False
           - DATABASE=circle_test
           - PG_USER=root
           - PG_PASSWORD=pgpassword

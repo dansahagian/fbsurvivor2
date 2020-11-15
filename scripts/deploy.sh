@@ -10,6 +10,7 @@ pipenv install
 
 pipenv run ./manage.py migrate
 pipenv run ./manage.py collectstatic --no-input
+pipenv run ./manage.py check --deploy
 
 sudo systemctl start fbsurvivor.service
 sudo systemctl start celeryworker.service

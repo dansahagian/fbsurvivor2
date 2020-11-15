@@ -20,6 +20,10 @@ INTERNAL_IPS = ["127.0.0.1"]
 
 CONTACT = config("CONTACT", default="")
 
+SECURE_SSL_REDIRECT = config("SECURE", default=True, cast=bool)
+SESSION_COOKIE_SECURE = config("SECURE", default=True, cast=bool)
+CSRF_COOKIE_SECURE = config("SECURE", default=True, cast=bool)
+
 # Application definition
 
 INSTALLED_APPS = [

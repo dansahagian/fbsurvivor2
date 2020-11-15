@@ -15,14 +15,20 @@ SECRET_KEY = config("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config("DEBUG", default=False, cast=bool)
 
-ALLOWED_HOSTS = ["127.0.0.1"]
+ALLOWED_HOSTS = ["fbsurvivor.com"]
+SECURE_SSL_REDIRECT = False
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+
+if DEBUG:
+    ALLOWED_HOSTS = ["127.0.0.1"]
+    SECURE_SSL_REDIRECT = False
+    SESSION_COOKIE_SECURE = False
+    CSRF_COOKIE_SECURE = False
+
 INTERNAL_IPS = ["127.0.0.1"]
 
 CONTACT = config("CONTACT", default="")
-
-SECURE_SSL_REDIRECT = config("SECURE", default=True, cast=bool)
-SESSION_COOKIE_SECURE = config("SECURE", default=True, cast=bool)
-CSRF_COOKIE_SECURE = config("SECURE", default=True, cast=bool)
 
 # Application definition
 

@@ -27,10 +27,7 @@ def player(request, link, year):
     )
 
     survivor = player_statuses.filter(is_survivor=True)
-    if len(survivor) == 1:
-        un = survivor[0].player.username
-        message = f"{un} is The Survivor and wins the {year} season!"
-        messages.info(request, message)
+    username = survivor[0].player.username if len(survivor) == 1 else False
 
     board = [
         (x, list(Pick.objects.for_board(x.player, season).select_related("team")))
@@ -46,6 +43,7 @@ def player(request, link, year):
         "weeks": weeks,
         "board": board,
         "player_count": player_statuses.count(),
+        "survivor": username,
     }
 
     return render(request, "player.html", context=context)

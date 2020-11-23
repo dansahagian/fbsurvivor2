@@ -30,7 +30,7 @@ def player(request, link, year):
     if len(survivor) == 1:
         un = survivor[0].player.username
         message = f"{un} is The Survivor and wins the {year} season!"
-        messages.success(request, message)
+        messages.info(request, message)
 
     board = [
         (x, list(Pick.objects.for_board(x.player, season).select_related("team")))

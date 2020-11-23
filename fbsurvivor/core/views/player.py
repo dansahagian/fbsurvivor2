@@ -26,6 +26,12 @@ def player(request, link, year):
         "player"
     )
 
+    survivor = player_statuses.filter(is_survivor=True)
+    if len(survivor) == 1:
+        un = survivor[0].username
+        message = f"Survivor Alert! Congrats to {un} for winning the {year} season!"
+        messages.success(request, message)
+
     board = [
         (x, list(Pick.objects.for_board(x.player, season).select_related("team")))
         for x in player_statuses

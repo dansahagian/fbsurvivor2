@@ -29,7 +29,7 @@ def player(request, link, year):
     survivor = player_statuses.filter(is_survivor=True)
     if len(survivor) == 1:
         un = survivor[0].player.username
-        message = f"Survivor Alert! Congrats to {un} for winning the {year} season!"
+        message = f"{un} is The Survivor and wins the {year} season!"
         messages.success(request, message)
 
     board = [

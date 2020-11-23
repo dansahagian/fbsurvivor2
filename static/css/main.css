@@ -123,3 +123,8 @@ li {
     font-size: 1.10em;
     color: black;
 }
+
+.info {
+    background: blue;
+    color: white;
+}

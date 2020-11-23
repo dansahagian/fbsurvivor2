@@ -21,11 +21,17 @@
         <tr>
             <th>Player</th>
             <th>Total</th>
+            <th>Notes</th>
         </tr>
         {% for payout in payouts %}
             <tr>
                 <td>{{ payout.player__username }}</td>
                 <td style="text-align: right;">{{ payout.total }}</td>
+                {% if payout.player__notes %}
+                    <td>{{ payout.player__notes }}</td>
+                {% else %}
+                    <td></td>
+                {% endif %}
             </tr>
         {% endfor %}
 {%  endblock %}

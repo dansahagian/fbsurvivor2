@@ -15,6 +15,7 @@ class Player(models.Model):
     is_admin = models.BooleanField(default=False)
     has_email_reminders = models.BooleanField(default=True)
     has_phone_reminders = models.BooleanField(default=False)
+    notes = models.TextField(null=True, blank=True)
 
     def __str__(self):
         return f"{self.username}"
@@ -107,7 +108,7 @@ class PayoutQuerySet(models.QuerySet):
             self.values("player")
             .annotate(total=Sum("amount"))
             .order_by("-total")
-            .values("player__username", "total")
+            .values("player__username", "total", "player__notes")
         )
 
 

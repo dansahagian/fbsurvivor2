@@ -49,7 +49,7 @@ class PlayerStatusQuerySet(models.QuerySet):
         return (
             self.filter(season=season)
             .annotate(lower=Lower("player__username"))
-            .order_by("-is_survivor", "is_retired", "-win_count", "loss_count", "lower")
+            .order_by("-is_survivor", "-win_count", "loss_count", "is_retired", "lower")
         )
 
     def paid_for_season(self, season):

@@ -1,6 +1,8 @@
+from django.conf import settings
 from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
+from django.views.decorators.cache import cache_page
 
 from fbsurvivor.core.helpers import get_player_info, send_to_latest_season_played
 from fbsurvivor.core.models import Season, Player, PlayerStatus, Pick, Week, Payout
@@ -12,6 +14,7 @@ def player_redirect(request, link):
     return redirect(reverse("player", args=[link, current_season.year]))
 
 
+@cache_page(settings.CACHE_TTL)
 def player(request, link, year):
     player, season, player_status = get_player_info(link, year)
 

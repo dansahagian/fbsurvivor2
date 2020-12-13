@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.core.cache import cache
 from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse
 
@@ -70,3 +71,17 @@ def update_record(player_status):
     player_status.loss_count = picks.filter(result="L").count()
     player_status.save()
     return True
+
+
+def cache_board(season):
+    player_statuses = PlayerStatus.objects.for_season_board(season).prefetch_related(
+        "player"
+    )
+
+    board = [
+        (x, list(Pick.objects.for_board(x.player, season).select_related("team")))
+        for x in player_statuses
+    ]
+
+    cache.set(f"player_statuses_{season.year}", player_statuses, timeout=None)
+    cache.set(f"board_{season.year}", board, timeout=None)

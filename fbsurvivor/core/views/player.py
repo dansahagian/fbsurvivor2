@@ -1,10 +1,13 @@
-from django.conf import settings
 from django.contrib import messages
+from django.core.cache import cache
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
-from django.views.decorators.cache import cache_page
 
-from fbsurvivor.core.helpers import get_player_info, send_to_latest_season_played
+from fbsurvivor.core.helpers import (
+    get_player_info,
+    send_to_latest_season_played,
+    cache_board,
+)
 from fbsurvivor.core.models import Season, Player, PlayerStatus, Pick, Week, Payout
 
 
@@ -14,7 +17,6 @@ def player_redirect(request, link):
     return redirect(reverse("player", args=[link, current_season.year]))
 
 
-@cache_page(settings.CACHE_TTL)
 def player(request, link, year):
     player, season, player_status = get_player_info(link, year)
 
@@ -25,20 +27,24 @@ def player(request, link, year):
     can_play = not player_status and season.is_current and not season.is_locked
     weeks = Week.objects.for_display(season).values_list("week_num", flat=True)
 
-    player_statuses = PlayerStatus.objects.for_season_board(season).prefetch_related(
-        "player"
-    )
+    player_statuses = cache.get(f"player_statuses_{year}")
+    board = cache.get(f"board_{year}")
+
+    if not (player_statuses and board):
+        player_statuses = PlayerStatus.objects.for_season_board(
+            season
+        ).prefetch_related("player")
+
+        board = [
+            (x, list(Pick.objects.for_board(x.player, season).select_related("team")))
+            for x in player_statuses
+        ]
 
     survivors = player_statuses.filter(is_survivor=True)
     if len(survivors) == 1:
         survivor = survivors[0].player.username
     else:
         survivor = ""
-
-    board = [
-        (x, list(Pick.objects.for_board(x.player, season).select_related("team")))
-        for x in player_statuses
-    ]
 
     context = {
         "player": player,
@@ -78,6 +84,7 @@ def play(request, link, year):
         weeks = Week.objects.filter(season=season)
         picks = [Pick(player=player, week=week) for week in weeks]
         Pick.objects.bulk_create(picks)
+        cache_board(season)
         messages.success(request, f"Congrats on joining the {year} league. Good luck!")
         return redirect(reverse("player", args=[link, year]))
 
@@ -97,6 +104,7 @@ def retire(request, link, year):
         Pick.objects.filter(
             player=player, week__season=season, result__isnull=True
         ).update(result="R")
+        cache_board(season)
         messages.success(request, f"You have retired. See you next year!")
 
     return redirect(reverse("player", args=[link, year]))

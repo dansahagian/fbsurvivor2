@@ -13,7 +13,10 @@
     <span class="space">
         <a href="{% url 'get-link' player.link %}">Link</a>
     </span><br><br><br><br>
-        <span class="space">
+    <span class="space">
+        <a href="{% url 'update-board-cache' player.link season.year %}">Update Board Cache</a>
+    </span><br><br><br><br>
+    <span class="space">
         <a href="{% url 'remind' player.link season.year %}">Remind</a>
     </span>
 {% endblock %}

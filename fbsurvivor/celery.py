@@ -62,3 +62,12 @@ def send_email_task(subject, recipients, message):
         conn.sendmail(sender, recipients, msg.as_string())
     finally:
         conn.quit()
+
+
+@app.task()
+def update_board_cache():
+    from fbsurvivor.core.helpers import cache_board
+    from fbsurvivor.core.models import Season
+
+    season = Season.objects.get(is_current=True)
+    cache_board(season)

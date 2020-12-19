@@ -12,6 +12,11 @@ urlpatterns = [
     path("other/<str:link>/<int:year>/", views.other, name="other"),
     path("get-link/<str:link>/", views.get_link, name="get-link"),
     path(
+        "player-links/<str:link>/<int:year>",
+        views.get_player_links,
+        name="get-player-links",
+    ),
+    path(
         "update-board-cache/<str:link>/<int:year>/",
         views.update_board_cache,
         name="update-board-cache",

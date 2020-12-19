@@ -90,6 +90,18 @@ def get_link(request, link):
     return HttpResponse(link)
 
 
+def get_player_links(request, link, year):
+    player, season, context = get_admin_info(link, year)
+    player_links = (
+        PlayerStatus.objects.filter(season=season)
+        .values_list("player__username", "player__link")
+        .order_by("player__username")
+    )
+
+    context["player_links"] = player_links
+    return render(request, "player_links.html", context=context)
+
+
 def update_board_cache(request, link, year):
     get_object_or_404(Player, link=link, is_admin=True)
     season = get_object_or_404(Season, year=year)

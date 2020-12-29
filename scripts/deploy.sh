@@ -1,17 +1,10 @@
 #!/bin/zsh
 
-sudo systemctl stop fbsurvivor.service
-sudo systemctl stop celeryworker.service
-sudo systemctl stop celerybeat.service
-
-cd /opt/fbsurvivor2
-git pull origin main
-pipenv install
-
-pipenv run ./manage.py migrate
-pipenv run ./manage.py collectstatic --no-input
-pipenv run ./manage.py check --deploy
-
-sudo systemctl start fbsurvivor.service
-sudo systemctl start celeryworker.service
-sudo systemctl start celerybeat.service
+if black --check . && pytest .
+then
+  echo "Deploying..."
+  ssh dan@fbsurvivor.com "/opt/fbsurvivor2/scripts/deploy_on_server.sh"
+else
+  echo
+  echo "Failed to deploy"
+fi

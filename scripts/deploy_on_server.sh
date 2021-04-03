@@ -6,6 +6,7 @@ sudo systemctl stop celerybeat.service
 
 cd /opt/fbsurvivor2
 git pull origin main
+pipenv --rm
 pipenv install
 
 pipenv run ./manage.py migrate

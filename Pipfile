@@ -11,6 +11,7 @@ pre-commit = "*"
 factory-boy = "*"
 
 [packages]
+django = "3.1.7"
 python-decouple = "*"
 django-extensions = "*"
 twilio = "*"

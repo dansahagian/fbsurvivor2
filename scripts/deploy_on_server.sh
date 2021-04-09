@@ -2,18 +2,20 @@
 
 echo "Running CI..."
 
-cd /opt/pre_deploy
-git clone git@github.com:dansahagian/fbsurvivor2.git
-cd fbsurvivor2
-pipenv --rm
+cd /opt/pre_deploy/fbsurvivor2
+git pull origin main
 pipenv install --dev
 
 if pipenv run black --check . && pipenv run pytest .
 then
+
+  sudo systemctl stop fbsurvivor.service
+  sudo systemctl stop celeryworker.service
+  sudo systemctl stop celerybeat.service
+
   echo "Deploying..."
   cd /opt/fbsurvivor2
   git pull origin main
-  pipenv --rm
   pipenv install
 
   pipenv run ./manage.py migrate

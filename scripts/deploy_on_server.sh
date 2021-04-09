@@ -28,3 +28,5 @@ else
   echo "Failed to deploy"
 fi
 
+echo "Cleaning Up..."
+rm -rf /opt/pre_deploy/fbsurvivor2

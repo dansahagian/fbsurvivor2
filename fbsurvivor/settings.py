@@ -92,6 +92,7 @@ DATABASES = {
         "USER": config("PG_USER"),
         "PASSWORD": config("PG_PASSWORD"),
         "HOST": config("PG_HOST", default="127.0.0.1"),
+        "PORT": config("PG_PORT", default=5423),
     }
 }
 

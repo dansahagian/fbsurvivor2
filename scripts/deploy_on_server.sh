@@ -28,7 +28,9 @@ then
 else
   echo
   echo "Failed to deploy"
+  echo
 fi
 
-echo "Cleaning Up..."
-rm -rf /opt/pre_deploy/fbsurvivor2
+echo
+echo "Deployment Complete!"
+echo

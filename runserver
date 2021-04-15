@@ -1,0 +1,2 @@
+#!/bin/zsh
+pipenv shell ./manage.py runserver 8001

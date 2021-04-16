@@ -1,5 +1,4 @@
 #!/bin/zsh
-
 echo "Running CI..."
 if pipenv run black --check . && pipenv run pytest .
 then

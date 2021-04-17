@@ -43,10 +43,12 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django_extensions",
-    "debug_toolbar",
     "django_celery_beat",
     "fbsurvivor.core",
 ]
+
+if DEBUG:
+    INSTALLED_APPS.extend("debug_toolbar")
 
 MIDDLEWARE = [
     "django.middleware.gzip.GZipMiddleware",

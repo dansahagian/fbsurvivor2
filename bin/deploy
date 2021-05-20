@@ -1,8 +1,9 @@
 #!/bin/zsh
+
 echo "Running CI..."
 if venv/bin/black --check . && venv/bin/pytest .
 then
-  ssh dan@fbsurvivor.com "/opt/fbsurvivor2/scripts/deploy_on_server.sh"
+  ssh dan@fbsurvivor.com "/opt/fbsurvivor2/scripts/deploy_on_server"
 else
   echo
   echo "Failed to deploy"

@@ -1,2 +1,0 @@
-#!/bin/zsh
-ssh -L 6379:127.0.0.1:6379 dan@fbsurvivor.com -N

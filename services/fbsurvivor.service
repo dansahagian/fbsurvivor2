@@ -3,7 +3,7 @@ Description=fbsurvivor wsgi
 
 [Service]
 User=dan
-ExecStart=/usr/bin/zsh /opt/fbsurvivor2/scripts/run_wsgi_server.sh
+ExecStart=/usr/bin/zsh /opt/fbsurvivor2/venv/bin/python -m gunicorn fbsurvivor.wsgi
 
 [Install]
 WantedBy=multi-user.target

@@ -39,7 +39,7 @@ jobs:
     steps:
       - run:
           name: Deploy
-          command: ssh $SSH_USER@$SSH_HOST "/opt/fbsurvivor2/scripts/deploy_on_server.sh"
+          command: ssh $SSH_USER@$SSH_HOST "/opt/fbsurvivor2/scripts/deploy_on_server"
 
 workflows:
   version: 2

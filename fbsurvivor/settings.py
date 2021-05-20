@@ -23,18 +23,11 @@ SECURE_SSL_REDIRECT = False
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 
-if DEBUG:
-    ALLOWED_HOSTS = ["127.0.0.1"]
-    SECURE_SSL_REDIRECT = False
-    SESSION_COOKIE_SECURE = False
-    CSRF_COOKIE_SECURE = False
-
 INTERNAL_IPS = ["127.0.0.1"]
 
 CONTACT = config("CONTACT", default="")
 
 # Application definition
-
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -47,8 +40,6 @@ INSTALLED_APPS = [
     "fbsurvivor.core",
 ]
 
-if DEBUG:
-    INSTALLED_APPS.append("debug_toolbar")
 
 MIDDLEWARE = [
     "django.middleware.gzip.GZipMiddleware",
@@ -62,9 +53,6 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
-
-if DEBUG:
-    MIDDLEWARE.append("debug_toolbar.middleware.DebugToolbarMiddleware")
 
 ROOT_URLCONF = "fbsurvivor.urls"
 
@@ -86,7 +74,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "fbsurvivor.wsgi.application"
 
-
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
@@ -99,7 +86,7 @@ DATABASES = {
         "USER": config("PG_USER"),
         "PASSWORD": config("PG_PASSWORD"),
         "HOST": config("PG_HOST", default="127.0.0.1"),
-        "PORT": config("PG_PORT", default=5423),
+        "PORT": config("PG_PORT", default=5432),
     }
 }
 
@@ -168,7 +155,14 @@ TWILIO_SID = config("TWILIO_SID", default="")
 TWILIO_KEY = config("TWILIO_KEY", default="")
 TWILIO_NUM = config("TWILIO_NUM", default="")
 
-
 # CELERY
-BROKER_URL = config("BROKER_URL", default="amqp://localhost")
+BROKER_URL = "redis://127.0.0.1:6379/0"
 CELERY_TIMEZONE = "America/Los_Angeles"
+
+if DEBUG:
+    ALLOWED_HOSTS = ["127.0.0.1"]
+    SECURE_SSL_REDIRECT = False
+    SESSION_COOKIE_SECURE = False
+    CSRF_COOKIE_SECURE = False
+    INSTALLED_APPS.append("debug_toolbar")
+    MIDDLEWARE.append("debug_toolbar.middleware.DebugToolbarMiddleware")

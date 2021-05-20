@@ -3,7 +3,7 @@ Description=fbsurvivor worker
 
 [Service]
 User=dan
-ExecStart=/usr/bin/zsh /opt/fbsurvivor2/scripts/run_celery_worker.sh
+ExecStart=/usr/bin/zsh /opt/fbsurvivor2/venv/bin/python -m celery -A fbsurvivor worker -l INFO
 
 [Install]
 WantedBy=multi-user.target

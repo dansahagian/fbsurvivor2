@@ -1,12 +1,11 @@
 from django.contrib import messages
-from django.core.cache import cache
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 
 from fbsurvivor.core.helpers import (
+    get_board,
     get_player_info,
     send_to_latest_season_played,
-    cache_board,
 )
 from fbsurvivor.core.models import Season, Player, PlayerStatus, Pick, Week, Payout
 
@@ -27,18 +26,7 @@ def player(request, link, year):
     can_play = not player_status and season.is_current and not season.is_locked
     weeks = Week.objects.for_display(season).values_list("week_num", flat=True)
 
-    player_statuses = cache.get(f"player_statuses_{year}")
-    board = cache.get(f"board_{year}")
-
-    if not (player_statuses and board):
-        player_statuses = PlayerStatus.objects.for_season_board(
-            season
-        ).prefetch_related("player")
-
-        board = [
-            (x, list(Pick.objects.for_board(x.player, season).select_related("team")))
-            for x in player_statuses
-        ]
+    player_statuses, board = get_board(season)
 
     survivors = player_statuses.filter(is_survivor=True)
     if len(survivors) == 1:
@@ -84,7 +72,7 @@ def play(request, link, year):
         weeks = Week.objects.filter(season=season)
         picks = [Pick(player=player, week=week) for week in weeks]
         Pick.objects.bulk_create(picks)
-        cache_board(season)
+        get_board(season, overwrite_cache=True)
         messages.success(request, f"Congrats on joining the {year} league. Good luck!")
         return redirect(reverse("player", args=[link, year]))
 
@@ -104,7 +92,7 @@ def retire(request, link, year):
         Pick.objects.filter(
             player=player, week__season=season, result__isnull=True
         ).update(result="R")
-        cache_board(season)
+        get_board(season, overwrite_cache=True)
         messages.success(request, f"You have retired. See you next year!")
 
     return redirect(reverse("player", args=[link, year]))

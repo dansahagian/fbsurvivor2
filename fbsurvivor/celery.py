@@ -1,6 +1,8 @@
 from celery import Celery
 
-app = Celery("fbsurvivor", broker="redis://127.0.0.1:6379/0")
+from fbsurvivor.settings import BROKER_URL
+
+app = Celery("fbsurvivor", broker=BROKER_URL)
 
 
 @app.task()
@@ -66,8 +68,8 @@ def send_email_task(subject, recipients, message):
 
 @app.task()
 def update_board_cache():
-    from fbsurvivor.core.helpers import cache_board
+    from fbsurvivor.core.helpers import get_board
     from fbsurvivor.core.models import Season
 
     season = Season.objects.get(is_current=True)
-    cache_board(season)
+    get_board(season, overwrite_cache=True)

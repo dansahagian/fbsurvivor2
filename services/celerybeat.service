@@ -3,7 +3,7 @@ Description=fbsurvivor beat
 
 [Service]
 User=dan
-ExecStart=/usr/bin/zsh /opt/fbsurvivor2/venv/bin/python -m celery -A fbsurvivor beat -l INFO --scheduler django_celery_beat.schedulers:DatabaseScheduler
+ExecStart=/usr/bin/zsh /opt/fbsurvivor2/bin/prod/run-celery-beat
 
 [Install]
 WantedBy=multi-user.target

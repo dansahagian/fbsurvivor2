@@ -5,6 +5,6 @@ This project is used to run a family and friends NFL survivor league. As of Sept
 
 This version includes:
 * ~~CI/CD with CircleCI~~ A simple deploy script
-* Async with Celery & RabbitMQ
+* Async with Celery & ~~RabbitMQ~~ Redis
 * Caching with Redis
 * A minimal test suite with Pytest

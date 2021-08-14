@@ -8,6 +8,7 @@ from fbsurvivor.core.models import (
     Team,
     Pick,
     Payout,
+    SignUpCode,
 )
 
 admin.AdminSite.enable_nav_sidebar = False
@@ -86,3 +87,8 @@ class PayoutAdmin(admin.ModelAdmin):
     def get_queryset(self, request):
         qs = super(PayoutAdmin, self).get_queryset(request)
         return qs.order_by("-season", "player")
+
+
+@admin.register(SignUpCode)
+class SignUpCodeAdmin(admin.ModelAdmin):
+    list_display = ["code"]

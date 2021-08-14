@@ -11,7 +11,6 @@ urlpatterns = [
     path("board/<str:link>/<int:year>/", views.player, name="player"),
     path("manager/<str:link>/<int:year>/", views.manager, name="manager"),
     path("other/<str:link>/<int:year>/", views.other, name="other"),
-    path("get-link/<str:link>/", views.get_link, name="get-link"),
     path(
         "player-links/<str:link>/<int:year>",
         views.get_player_links,

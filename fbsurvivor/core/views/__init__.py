@@ -6,7 +6,6 @@ from .manager import (
     remind,
     results,
     user_paid,
-    get_link,
     update_board_cache,
     get_player_links,
 )

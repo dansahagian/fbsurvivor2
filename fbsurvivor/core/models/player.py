@@ -1,3 +1,6 @@
+import secrets
+import string
+
 from django.db import models
 from django.db.models import Sum
 from django.db.models.functions import Lower
@@ -7,9 +10,19 @@ from fbsurvivor.celery import send_email_task
 from .season import Season
 
 
+def generate_link():
+    char_set = string.ascii_lowercase + string.digits
+    links = Player.objects.values_list("link", flat=True)
+
+    link = "".join(secrets.choice(char_set) for _ in range(44))
+    if link in links:
+        return generate_link()
+    return link
+
+
 class Player(models.Model):
     username = models.CharField(max_length=20, unique=True)
-    link = models.CharField(max_length=44, unique=True)
+    link = models.CharField(max_length=44, unique=True, default=generate_link)
     email = models.CharField(max_length=100)
     phone = models.CharField(max_length=12, null=True, blank=True)
     is_admin = models.BooleanField(default=False)
@@ -27,7 +40,7 @@ class Player(models.Model):
         pk = self.pk
         super().save(*args, **kwargs)
 
-        if not pk and not settings.DEBUG:
+        if (not pk and not settings.DEBUG) or settings.SEND:
             ps = f"If you didn't sign up, please email {settings.CONTACT}"
             link = f"{settings.DOMAIN}/board/{self.link}/"
             subject = "Survivor User Account"

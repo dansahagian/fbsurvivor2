@@ -1,9 +1,10 @@
 from django.contrib import messages
-from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponse
+from django.shortcuts import render, get_object_or_404, redirect, reverse
 
 from fbsurvivor import settings
 from fbsurvivor.celery import send_email_task
-from fbsurvivor.core.forms import EmailForm
+from fbsurvivor.core.forms import EmailForm, SignUpCodeForm
 from fbsurvivor.core.models import Season, Player
 
 
@@ -14,7 +15,21 @@ def home(request):
         messages.warning(request, "Sign Ups are currently locked!")
 
     if request.method == "GET":
-        return render(request, "home.html")
+        context = {
+            "form": SignUpCodeForm(),
+        }
+        return render(request, "home.html", context=context)
+
+    if request.method == "POST":
+        form = SignUpCodeForm(request.POST)
+
+        if form.is_valid():
+            code = form.cleaned_data["code"]
+            return redirect(reverse("signup"))
+
+
+def signup(request):
+    return HttpResponse("Not Implemented Yet!")
 
 
 def forgot(request):
@@ -39,4 +54,4 @@ def forgot(request):
                     message += f"\n\n{settings.DOMAIN}/board/{player.link}/"
 
                 send_email_task.delay(subject, [email], message)
-                return render(request, "forgot-sent.html")
+        return render(request, "forgot-sent.html")

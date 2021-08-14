@@ -1,4 +1,4 @@
-from .home import home, forgot
+from .home import home, forgot, signup
 from .manager import (
     manager,
     mark_result,

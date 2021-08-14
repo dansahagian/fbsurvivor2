@@ -2,9 +2,18 @@
     {% block content %}
         <div class="rules">
             This website is used to run a private NFL Survivor Pool for family and
-            friends. It's not intended for the public. If you're looking to sign up,
-            contact the organizer.
+            friends. It's not intended for the public. Don't have an account?
+            Enter your sign up code to get started.
         </div>
+        <br>
+        <form action="{% url 'signup' %}" method="POST">
+            {% csrf_token %}
+            <label for="{{ form.code.id_for_label }}">Sign Up Code:</label>
+            <br>
+            {{ form.code }}
+            <br><br>
+            <input type="submit" value="Next" />
+        </form>
         <br>
         <br>
         <div>

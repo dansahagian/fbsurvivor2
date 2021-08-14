@@ -7,6 +7,10 @@ class EmailForm(forms.Form):
     email = forms.EmailField(label="email")
 
 
+class SignUpCodeForm(forms.Form):
+    code = forms.CharField(max_length=12)
+
+
 class PickForm(forms.Form):
     def __init__(self, player, season, week, *args, **kwargs):
         super().__init__(*args, **kwargs)

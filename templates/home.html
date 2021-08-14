@@ -3,17 +3,24 @@
         <div class="rules">
             This website is used to run a private NFL Survivor Pool for family and
             friends. It's not intended for the public. Don't have an account?
-            Enter your sign up code to get started.
+            {% if locked %}
+                Sign ups are currently locked. Please check back later.
+            {% else %}
+                Enter your sign up code below to get started.
+            {% endif %}
         </div>
         <br>
-        <form action="{% url 'signup' %}" method="POST">
-            {% csrf_token %}
-            <label for="{{ form.code.id_for_label }}">Sign Up Code:</label>
-            <br>
-            {{ form.code }}
-            <br><br>
-            <input type="submit" value="Next" />
-        </form>
+        {% if not locked %}
+            <form action="{% url 'home' %}" method="POST">
+                {% csrf_token %}
+                <label for="{{ form.code.id_for_label }}">sign up code:</label>
+                <br>
+                {{ form.code }}
+                <br><br>
+                <input type="submit" value="Next" />
+            </form>
+        {% endif %}
+        <br>
         <br>
         <br>
         <div>

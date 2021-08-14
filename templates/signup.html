@@ -1,0 +1,15 @@
+{% extends "./base.html" %}
+    {% block content %}
+        <form action="{% url 'signup' %}" method="POST">
+            {% csrf_token %}
+            <label for="{{ form.username.id_for_label }}">Username:</label>
+            <br>
+            {{ form.username }}
+            <br><br>
+            <label for="{{ form.email.id_for_label }}">Email (not displayed):</label>
+            <br>
+            {{ form.email }}
+            <br><br>
+            <input type="submit" value="Create Player" />
+        </form>
+    {% endblock %}

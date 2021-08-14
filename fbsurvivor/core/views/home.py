@@ -1,23 +1,17 @@
 from django.contrib import messages
-from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect, reverse
 
 from fbsurvivor import settings
 from fbsurvivor.celery import send_email_task
-from fbsurvivor.core.forms import EmailForm, SignUpCodeForm
-from fbsurvivor.core.models import Season, Player
+from fbsurvivor.core.forms import EmailForm, SignUpCodeForm, PlayerForm
+from fbsurvivor.core.models import Season, Player, SignUpCode
 
 
 def home(request):
     current_season = get_object_or_404(Season, is_current=True)
 
-    if current_season.is_locked:
-        messages.warning(request, "Sign Ups are currently locked!")
-
     if request.method == "GET":
-        context = {
-            "form": SignUpCodeForm(),
-        }
+        context = {"form": SignUpCodeForm(), "locked": current_season.is_locked}
         return render(request, "home.html", context=context)
 
     if request.method == "POST":
@@ -25,11 +19,37 @@ def home(request):
 
         if form.is_valid():
             code = form.cleaned_data["code"]
+            try:
+                SignUpCode.objects.get(code=code)
+            except SignUpCode.DoesNotExist:
+                messages.error(
+                    request, f"'{code}' is not a valid sign up code. Try Again!"
+                )
+                return redirect(reverse("home"))
             return redirect(reverse("signup"))
 
 
 def signup(request):
-    return HttpResponse("Not Implemented Yet!")
+    if request.method == "GET":
+        context = {
+            "form": PlayerForm(),
+        }
+        return render(request, "signup.html", context=context)
+
+    if request.method == "POST":
+        form = PlayerForm(request.POST)
+
+        if form.is_valid():
+            username = form.cleaned_data["username"]
+            email = form.cleaned_data["email"]
+
+            usernames = list(Player.objects.values_list("username", flat=True))
+            if username in usernames:
+                messages.error(request, "Username already in use. Try again!")
+                return redirect(reverse("signup"))
+            else:
+                Player.objects.create(username=username, email=email)
+                return render(request, "created.html")
 
 
 def forgot(request):

@@ -1,13 +1,8 @@
 {% extends "./base.html" %}
 {% block content %}
-    <a href="{% url 'player' player.link season.year %}">Back</a>
-    <br><br>
     {% for username, player_link in player_links %}
         <span class="space">
             <a href="{% url 'player' player_link season.year %}">{{ username }}</a>
         </span>
-        {% if forloop.counter|divisibleby:2  %}
-            <br><br>
-        {% endif %}
     {% endfor %}
 {% endblock %}

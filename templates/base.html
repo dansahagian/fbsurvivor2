@@ -16,11 +16,11 @@
     </head>
     <body>
         <div class="main">
-            <span class="title">Survivor {{ season.year }}
-                {% if pick %}
-                     - Week {{ pick.week.week_num|stringformat:"02d" }}
-                {% elif week %}
-                     - Week {{ week.week_num|stringformat:"02d" }}
+            <span class="title">
+                {% if player %}
+                    <a href="{% url 'player_redirect' player.link %}">Survivor</a>
+                {% else %}
+                    Survivor
                 {% endif %}
             </span>
             <br>

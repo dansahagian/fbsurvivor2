@@ -21,13 +21,17 @@ def get_player_info_and_context(link, year):
 
 def picks(request, link, year):
     player, season, player_status, context = get_player_info_and_context(link, year)
+    can_retire = player_status and (not player_status.is_retired) and season.is_current
+
     context["picks"] = (
         Pick.objects.for_player_season(player, season)
         .prefetch_related("week")
         .prefetch_related("team")
     )
-    if player_status.is_retired:
-        messages.info(request, "Reminder: You retired!")
+    context["status"] = "Retired" if player_status.is_retired else "Playing"
+    context["can_retire"] = (
+        player_status and (not player_status.is_retired) and season.is_current
+    )
 
     return render(request, "picks.html", context=context)
 

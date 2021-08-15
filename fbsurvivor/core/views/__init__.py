@@ -10,4 +10,4 @@ from .manager import (
     get_player_links,
 )
 from .pick import pick, picks
-from .player import play, player, player_redirect, retire, other
+from .player import play, player, player_redirect, retire, payouts

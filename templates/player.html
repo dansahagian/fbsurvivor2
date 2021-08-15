@@ -1,20 +1,6 @@
 {% extends "./base.html" %}
     {% block content %}
-        {% if player_status %}
-            <span class="space">
-                <a href="{% url 'picks' player.link season.year %}">Picks</a>
-            </span>
-            <span class="space">
-                <a href="{% url 'other' player.link season.year %}">Other</a>
-            </span>
-            {% if player.is_admin %}
-                <span class="space">
-                    <a href="{% url 'manager' player.link season.year %}">Manager</a>
-            {% endif %}
-                </span>
-        {% endif %}
         {% if can_play %}
-            <br><br>
             <strong>{{ player_count }}</strong> players have joined! Will you?<br><br>
             <span class="space">
                 <a href="{% url 'play' player.link season.year %}">Play</a>
@@ -22,7 +8,6 @@
             </span>
         {% endif %}
         {% if player_status %}
-            <br><br>
             {% if survivor %}
                 <div class="info">{{ survivor }} is the {{ season.year }} Survivor!</div>
                 <br>
@@ -30,9 +15,10 @@
             <table>
                 <tr>
                     <th>Username</th>
+                    <th>$</th>
                     <th>Ws</th>
                     <th>Ls</th>
-                    <th style="border-right: 10px solid #f9f9f9;">Current</th>
+                    <th style="border-right: 10px solid #f9f9f9;">Pick</th>
                     {% if board %}
                     {% for week in weeks %}
                         <th>{{ week|stringformat:"02d" }}</th>
@@ -41,12 +27,21 @@
                 </tr>
                 {% for ps, picks in board %}
                     {% if ps.player == player %}
-                        <tr style="font-weight:bold; border: 3px solid black;">
+                        <tr style="font-weight:bold; border: 3px solid blue;">
                     {% else %}
                         <tr>
                     {% endif %}
-                        <td {% if ps.is_paid %} class="paid" {% endif %}>
-                            {{ ps.player.username }}
+                        <td>
+                            {% if ps.player == player %}
+                                <a href="{% url 'picks' player.link season.year %}">{{ ps.player.username }}</a>
+                            {% else %}
+                                {{ ps.player.username }}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if ps.is_paid %}
+                                $
+                            {% endif %}
                         </td>
                         <td>{{ ps.win_count }}</td>
                         <td>{{ ps.loss_count }}</td>
@@ -79,9 +74,23 @@
                         {% endfor %}
                         </tr>
                 {% endfor %}
-            </table><br><br>
+            </table>
+            <br>
         {% endif %}
-        {% if can_retire %}
-            <a href="{% url 'retire' player.link season.year %}">Retire</a>
-        {% endif %}<br><br>
+        {% if player.is_admin %}
+            <span class="space">
+                <a href="{% url 'manager' player.link season.year%}">Manage</a>
+            </span>
+            <br><br>
+        {% endif %}
+        <span class="space">
+            <a href="{% url 'payouts' player.link %}">Payouts</a>
+        </span>
+        <br><br>
+        {% for year in years %}
+            <span class="space">
+                <a href="{% url 'player' player.link year %}">{{ year }}</a>
+            </span>
+            <br><br>
+        {% endfor %}
     {% endblock %}

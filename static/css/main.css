@@ -6,7 +6,7 @@ html {
 }
 
 body { 
-    font-size: .95em;
+    font-size: .93em;
     color: black;
     text-align: center;
     line-height: 1.5em;
@@ -14,16 +14,9 @@ body {
 }
 
 a {
-    background: lightgray;
     color: black;
-	text-decoration: none;
-    padding: .25em;
-    border-radius: .25em;
-}
-
-a:hover {
-    background: black;
-    color: white;
+    padding-left: .50em;
+    padding-right: .50em;
 }
 
 table {
@@ -84,9 +77,8 @@ li {
 }
 
 .paid {
-    background: #9bc3f6;
+    background: #6ea096;
 }
-
 
 .small {
     font-size: .8em;

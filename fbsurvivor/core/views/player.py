@@ -22,13 +22,12 @@ def player(request, link, year):
     if season.is_locked and not player_status:
         return send_to_latest_season_played(request, link, year)
 
-    can_retire = player_status and (not player_status.is_retired) and season.is_current
     can_play = not player_status and season.is_current and not season.is_locked
     weeks = Week.objects.for_display(season).values_list("week_num", flat=True)
-
     player_statuses, board = get_board(season)
-
     survivors = player_statuses.filter(is_survivor=True)
+    years = PlayerStatus.objects.player_years(player)
+
     if len(survivors) == 1:
         survivor = survivors[0].player.username
     else:
@@ -39,11 +38,11 @@ def player(request, link, year):
         "season": season,
         "player_status": player_status,
         "can_play": can_play,
-        "can_retire": can_retire,
         "weeks": weeks,
         "board": board,
         "player_count": player_statuses.count(),
         "survivor": survivor,
+        "years": years,
     }
 
     return render(request, "player.html", context=context)
@@ -98,18 +97,14 @@ def retire(request, link, year):
     return redirect(reverse("player", args=[link, year]))
 
 
-def other(request, link, year):
+def payouts(request, link):
     player = get_object_or_404(Player, link=link)
-    season = get_object_or_404(Season, year=year)
-    years = PlayerStatus.objects.player_years(player)
 
     player_payouts = Payout.objects.for_payout_table()
 
     context = {
         "player": player,
-        "season": season,
-        "years": years,
         "payouts": player_payouts,
     }
 
-    return render(request, "other.html", context=context)
+    return render(request, "payouts.html", context=context)

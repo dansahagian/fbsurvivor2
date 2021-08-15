@@ -1,6 +1,6 @@
 {% extends "./base.html" %}
 {% block content %}
-    <a href="{% url 'picks' player.link season.year %}">Back</a>
+    <a href="{% url 'picks' player.link season.year %}">Picks</a>
     <br><br>
     Current Pick: {% if pick.team.team_code %}{{ pick.team.team_code }}{% endif %}
     <br>

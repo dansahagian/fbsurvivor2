@@ -1,12 +1,9 @@
 {% extends "./base.html" %}
 {% block content %}
     <span class="space">
-        <a href="{% url 'player' player.link season.year %}">Back</a>
-    </span>
-    <br><br><br>
-    <span class="space">
         <a href="{% url 'paid' player.link season.year %}">Paid</a>
     </span>
+    <br><br>
     <span class="space">
         <a href="{% url 'results' player.link season.year %}">Results</a>
     </span>
@@ -14,7 +11,7 @@
     <span class="space">
         <a href="{% url 'get-player-links' player.link season.year %}">Player Links</a>
     </span>
-    <br><br><br><br>
+    <br><br>
     <span class="space">
         <a href="{% url 'update-board-cache' player.link season.year %}">Update Board Cache</a>
     </span><br><br><br><br>

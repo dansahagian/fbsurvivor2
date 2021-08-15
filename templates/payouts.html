@@ -1,20 +1,5 @@
 {% extends "./base.html" %}
 {% block content %}
-    <span class="space">
-        <a href="{% url 'player' player.link season.year %}">Back</a>
-    </span>
-    <br><br>
-    <strong>Seasons</strong>
-    <br><br>
-    {% for year in years %}
-        <span class="space">
-            <a href="{% url 'player' player.link year %}">{{ year }}</a>
-        </span>
-        {% if forloop.counter|divisibleby:4 and not years|length|divisibleby:4 %}
-            <br><br>
-        {% endif %}
-    {% endfor %}
-    <br><br><br>
     <strong>All Time Payouts 2011 - current</strong>
     <br><br>
     <table>

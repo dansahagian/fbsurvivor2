@@ -8,9 +8,10 @@
             </span>
         {% endif %}
         {% if player_status %}
-            <h2>{{ season.year }}</h2>
+            {{ season.year }}
+            <br>
             {% if survivor %}
-                <div class="info">{{ survivor }} is the {{ season.year }} Survivor!</div>
+                <div class="info">{{ survivor }} is the Survivor!</div>
                 <br>
             {% endif %}
             <table>

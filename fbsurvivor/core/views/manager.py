@@ -14,6 +14,12 @@ def get_admin_info(link, year):
     return player, season, context
 
 
+def manager_redirect(request, link):
+    current_season = get_object_or_404(Season, is_current=True)
+    player, season, context = get_admin_info(link, current_season.year)
+    return redirect(reverse("manager", args=[link, current_season.year]))
+
+
 def manager(request, link, year):
     player, season, context = get_admin_info(link, year)
     return render(request, "manager.html", context=context)

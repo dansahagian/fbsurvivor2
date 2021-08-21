@@ -8,8 +8,6 @@
             </span>
         {% endif %}
         {% if player_status %}
-            {{ season.year }}
-            <br><br>
 {#            {% if survivor %}#}
 {#                <div class="info">{{ survivor }} is the Survivor!</div>#}
 {#                <br>#}
@@ -34,11 +32,7 @@
                         <tr>
                     {% endif %}
                         <td>
-                            {% if ps.player == player %}
-                                <a href="{% url 'picks' player.link season.year %}">{{ ps.player.username }}</a>
-                            {% else %}
-                                {{ ps.player.username }}
-                            {% endif %}
+                            {{ ps.player.username }}
                         </td>
                         <td>
                             {% if ps.is_paid %}
@@ -79,20 +73,12 @@
             </table>
             <br>
         {% endif %}
-        {% if player.is_admin %}
-            <span class="space">
-                <a href="{% url 'manager' player.link season.year%}">Manage</a>
-            </span>
-            <br><br>
-        {% endif %}
-        <span class="space">
-            <a href="{% url 'payouts' player.link %}">Payouts</a>
-        </span>
-        <br><br>
         {% for year in years %}
             <span class="space">
                 <a href="{% url 'player' player.link year %}">{{ year }}</a>
             </span>
-            <br><br>
+            {% if forloop.counter|divisibleby:4  %}
+                <br><br>
+            {% endif %}
         {% endfor %}
     {% endblock %}

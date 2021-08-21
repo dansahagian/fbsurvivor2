@@ -9,6 +9,7 @@ urlpatterns = [
     path("board/<str:link>/", views.player_redirect, name="player_redirect"),
     path("board/<str:link>", views.player_redirect),
     path("board/<str:link>/<int:year>/", views.player, name="player"),
+    path("manager/<str:link>/", views.manager_redirect, name="manager_redirect"),
     path("manager/<str:link>/<int:year>/", views.manager, name="manager"),
     path("payouts/<str:link>/", views.payouts, name="payouts"),
     path(
@@ -34,6 +35,7 @@ urlpatterns = [
     ),
     path("play/<str:link>/<int:year>/", views.play, name="play"),
     path("retire/<str:link>/<int:year>/", views.retire, name="retire"),
+    path("picks/<str:link>/", views.picks_redirect, name="picks_redirect"),
     path("picks/<str:link>/<int:year>/", views.picks, name="picks"),
     path("picks/<str:link>/<int:year>/<int:week>/", views.pick, name="pick"),
     path("<str:link>/", views.player_redirect),

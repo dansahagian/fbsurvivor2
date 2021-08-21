@@ -1,5 +1,6 @@
 {% extends "./base.html" %}
     {% block content %}
+        <br>
         {% for player_status in player_statuses %}
             {% if player_status.is_paid %}
                 {{ player_status.player.username }}

@@ -1,9 +1,6 @@
 {% extends "./base.html" %}
 {% block content %}
-    <span class="space">
-        <a href="{% url 'manager' player.link season.year %}">Back</a>
-    </span>
-    <br><br><br>
+    <br>
     {% for team in teams %}
         {{ team }}
         <a href="{% url 'mark_result' player.link season.year week.week_num team 'W' %}">Won</a>

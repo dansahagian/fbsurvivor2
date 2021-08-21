@@ -1,8 +1,10 @@
 {% extends "./base.html" %}
 {% block content %}
+    <br>
     {% for username, player_link in player_links %}
         <span class="space">
             <a href="{% url 'player' player_link season.year %}">{{ username }}</a>
         </span>
+        <br><br>
     {% endfor %}
 {% endblock %}

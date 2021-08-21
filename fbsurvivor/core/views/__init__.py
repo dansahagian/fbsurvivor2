@@ -1,6 +1,7 @@
 from .home import home, forgot, signup
 from .manager import (
     manager,
+    manager_redirect,
     mark_result,
     paid,
     remind,
@@ -9,5 +10,5 @@ from .manager import (
     update_board_cache,
     get_player_links,
 )
-from .pick import pick, picks
+from .pick import pick, picks, picks_redirect
 from .player import play, player, player_redirect, retire, payouts

@@ -19,6 +19,12 @@ def get_player_info_and_context(link, year):
     return player, season, player_status, context
 
 
+def picks_redirect(request, link):
+    get_object_or_404(Player, link=link)
+    current_season = get_object_or_404(Season, is_current=True)
+    return redirect(reverse("picks", args=[link, current_season.year]))
+
+
 def picks(request, link, year):
     player, season, player_status, context = get_player_info_and_context(link, year)
     can_retire = player_status and (not player_status.is_retired) and season.is_current
@@ -29,10 +35,8 @@ def picks(request, link, year):
         .prefetch_related("team")
     )
     context["status"] = "Retired" if player_status.is_retired else "Playing"
-    context["can_retire"] = (
-        player_status and (not player_status.is_retired) and season.is_current
-    )
-
+    context["can_retire"] = can_retire
+    context["years"] = PlayerStatus.objects.player_years(player)
     return render(request, "picks.html", context=context)
 
 

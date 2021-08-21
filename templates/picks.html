@@ -1,11 +1,13 @@
 {% extends "./base.html" %}
 {% block content %}
-    {{ season.year }}
-    <br>
     {% if picks %}
-        Status: {% if player_status.is_retired %}Retired{% else %}Playing{% endif %}
+        Status:
+        {% if player_status.is_retired %}Retired{% else %}Playing{% endif %}
+        ({{ player_status.win_count }} - {{ player_status.loss_count }})
         <br>
-        Record: {{ player_status.win_count }} - {{ player_status.loss_count }}
+        {% if can_retire %}
+            <a href="{% url 'retire' player.link season.year %}">Retire</a>
+        {% endif %}
         <br><br>
         <table>
             <tr>
@@ -41,8 +43,13 @@
     {% else %}
         No pick data available for {{ season.year }}!
     {% endif %}
-    <br><br>
-    {% if can_retire %}
-        <a href="{% url 'retire' player.link season.year %}">Retire</a>
-    {% endif %}
+    <br>
+        {% for year in years %}
+            <span class="space">
+                <a href="{% url 'picks' player.link year %}">{{ year }}</a>
+            </span>
+            {% if forloop.counter|divisibleby:4  %}
+                <br><br>
+            {% endif %}
+        {% endfor %}
 {% endblock %}

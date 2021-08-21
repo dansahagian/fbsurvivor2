@@ -39,7 +39,7 @@ class Week(models.Model):
         return right_now > self.lock_datetime if self.lock_datetime else False
 
     def __str__(self):
-        return f"{self.week_num}"
+        return f"{self.season} | {self.week_num}"
 
     class Meta:
         models.UniqueConstraint(fields=["season", "week_num"], name="unique_week")

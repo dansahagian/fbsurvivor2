@@ -3,6 +3,7 @@ import datetime
 import pytz
 from django.db import models
 
+from .lock import Lock
 from .player import Player
 from .team import Team
 from .week import Week
@@ -50,6 +51,15 @@ class Pick(models.Model):
     result = models.CharField(
         choices=result_choices, max_length=1, null=True, blank=True
     )
+
+    @property
+    def is_locked(self):
+        try:
+            lock = Lock.objects.get(week=self.week, team=self.team)
+            right_now = pytz.timezone("US/Pacific").localize(datetime.datetime.now())
+            return right_now > lock.lock_datetime if lock.lock_datetime else False
+        except Lock.DoesNotExist:
+            return self.week.is_locked
 
     def __str__(self):
         return f"{self.player} - {self.week} - {self.team}"

@@ -10,6 +10,7 @@ from fbsurvivor.core.models import (
     Payout,
     SignUpCode,
 )
+from fbsurvivor.core.models.lock import Lock
 
 admin.AdminSite.enable_nav_sidebar = False
 
@@ -70,9 +71,9 @@ class TeamAdmin(admin.ModelAdmin):
 
 @admin.register(Pick)
 class PickAdmin(admin.ModelAdmin):
-    list_display = ["week", "team", "result"]
+    list_display = ["week", "team", "player", "result"]
     list_editable = ["result"]
-    list_filter = ["week__season"]
+    list_filter = ["week__season", "player"]
 
     def get_queryset(self, request):
         qs = super(PickAdmin, self).get_queryset(request)
@@ -92,3 +93,8 @@ class PayoutAdmin(admin.ModelAdmin):
 @admin.register(SignUpCode)
 class SignUpCodeAdmin(admin.ModelAdmin):
     list_display = ["code"]
+
+
+@admin.register(Lock)
+class LockAdmin(admin.ModelAdmin):
+    list_display = ["week", "team", "lock_datetime"]

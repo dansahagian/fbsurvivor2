@@ -9,7 +9,7 @@ class Team(models.Model):
     bye_week = models.PositiveSmallIntegerField()
 
     def __str__(self):
-        return f"{self.team_code}"
+        return f"{self.season} | {self.team_code}"
 
     class Meta:
         models.UniqueConstraint(fields=["season", "team_code"], name="unique_team")

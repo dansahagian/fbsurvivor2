@@ -14,7 +14,6 @@
                 <th>Wk</th>
                 <th>W/L</th>
                 <th>Status</th>
-                <th>Deadline</th>
             </tr>
         {% for pick in picks %}
             <tr>
@@ -26,9 +25,8 @@
                         class="loss"
                     {% endif %}
                 >{% if pick.team.team_code %}{{ pick.team.team_code }}{% endif %}</td>
-
                 <td>
-                    {% if pick.week.is_locked %}
+                    {% if pick.is_locked %}
                         locked
                     {% else %}
                         <a href="{% url 'pick' player.link season.year pick.week.week_num %}">
@@ -36,7 +34,6 @@
                         </a>
                     {% endif %}
                 </td>
-                <td>{{ pick.week.lock_datetime|date:"m-d-Y h:i A T" }}</td>
             </tr>
         {% endfor %}
         </table>

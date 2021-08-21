@@ -52,7 +52,7 @@
                                         class="loss"
                                     {% endif %}
                                     >
-                                    {% if current.team %}{{ current.team }}{% endif %}
+                                    {% if current.team %}{{ current.team.team_code }}{% endif %}
                                 {% endwith %}
                             </td>
                         {% for pick in picks %}
@@ -65,7 +65,7 @@
                                     class="loss"
                                 {% endif %}
                             >
-                            {% if pick.team %}{{ pick.team }}{% endif %}
+                            {% if pick.team %}{{ pick.team.team_code }}{% endif %}
                             </td>
                         {% endfor %}
                         </tr>

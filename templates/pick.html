@@ -1,7 +1,5 @@
 {% extends "./base.html" %}
 {% block content %}
-    {{ season.year }}
-    <br>
     Week {{ pick.week.week_num|stringformat:"02d" }}
     <br>
     Current Pick: {% if pick.team.team_code %}{{ pick.team.team_code }}{% endif %}
@@ -11,6 +9,6 @@
         Choose Pick:
         {{ form.team }}
         <br><br>
-        <input type="submit" value="Submit" />
+        <input class="blue-button" type="submit" value="Submit" />
     </form>
 {% endblock %}

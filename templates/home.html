@@ -1,15 +1,13 @@
 {% extends "./base.html" %}
     {% block content %}
-        <div class="rules">
-            This website is used to run a private NFL Survivor Pool for family and
-            friends. It's not intended for the public. Don't have an account?
-            {% if locked %}
-                Sign ups are currently locked. Please check back later.
-            {% else %}
-                Enter your sign up code below to get started.
-            {% endif %}
-        </div>
-        <br>
+        This website is used to run a private NFL Survivor Pool for family and
+        friends. It's not intended for the public. Don't have an account?
+        {% if locked %}
+            Sign ups are currently locked. Please check back later.
+        {% else %}
+            Enter your sign up code below to get started.
+        {% endif %}
+        <br><br>
         {% if not locked %}
             <form action="{% url 'home' %}" method="POST">
                 {% csrf_token %}
@@ -17,7 +15,7 @@
                 <br>
                 {{ form.code }}
                 <br><br>
-                <input type="submit" value="Next" />
+                <input class=blue-button type="submit" value="Next" />
             </form>
         {% endif %}
         <br>

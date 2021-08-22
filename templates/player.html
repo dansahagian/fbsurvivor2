@@ -3,20 +3,15 @@
         {% if can_play %}
             <strong>{{ player_count }}</strong> players have joined! Will you?<br><br>
             <span class="space">
-                <a href="{% url 'play' player.link season.year %}">Play</a>
+                <a class="blue-button" href="{% url 'play' player.link season.year %}">Play</a>
             <br><br><br><br>
             </span>
         {% endif %}
         {% if player_status %}
-{#            {% if survivor %}#}
-{#                <div class="info">{{ survivor }} is the Survivor!</div>#}
-{#                <br>#}
-{#            {% endif %}#}
             <strong>
-                {% if early %}Early: {{ early|date:'D m/d P' }} <br> {% endif %}
-                {% if weekly %}Weekly: {{ weekly|date:'D m/d P' }}{% endif %}
+                {% if early %}{{ early }}<br>{% endif %}
+                {% if weekly %}{{ weekly }}<br><br>{% endif %}
             </strong>
-            <br><br>
             <table>
                 <tr>
                     <th>Username</th>

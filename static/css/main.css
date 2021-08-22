@@ -8,22 +8,18 @@ html {
 body { 
     font-size: .93em;
     color: black;
-    text-align: center;
     line-height: 1.5em;
     padding-top: .50em;
+    padding-left: 1.0em;
+    padding-right: 1.0em;
 }
 
 a {
-    color: black;
-    background-color: lightgray;
     padding-left: .50em;
     padding-right: .50em;
-    border-radius: .25em;
-    text-decoration: none;
 }
 
 table {
-    margin: 0 auto;
     border-collapse: collapse;
 }
 
@@ -31,11 +27,6 @@ table, th, td {
     border: 1px solid lightgray;
     border-radius: .25em;
     border-collapse: collapse;
-}
-
-table a {
-    padding-left: .20em;
-    padding-right: .20em;
 }
 
 th, td {
@@ -49,20 +40,33 @@ th {
 }
 
 ul {
-    list-style: none;
-    padding-left: 0;
+    list-style-type: none;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    padding: 0;
+    color: white;
 }
 
 li {
-    color: red;
+    float: left;
 }
 
-.main {
+li a {
+    color: white;
     text-align: center;
-    margin-left: auto;
-    margin-right: auto;
-    padding-left: 1.5em;
-    padding-right: 1.5em;
+    padding: .5em;
+    text-decoration: none;
+    background-color: black;
+    border-radius: 0;
+}
+
+li a:hover {
+    background-color: darkgreen;
+}
+
+.messages {
+    color: red;
 }
 
 .win {
@@ -92,13 +96,6 @@ li {
     height: 1.5em;
 }
 
-.rules {
-    margin-left: auto;
-    margin-right: auto;
-    max-width: 30em;
-    text-align: center;
-}
-
 .notfound {
     font-size: 1.50em;
     font-weight: 800;
@@ -108,18 +105,18 @@ li {
     padding: .4em;
 }
 
-.title {
-    font-size: 1.10em;
-    color: black;
+.red-button {
+    padding: .25em .50em;
+    text-decoration: none;
+    border-radius: .25em;
+    background-color: red;
+    color: white;
 }
 
-.info {
-    margin-left: auto;
-    margin-right: auto;
-    padding: .25em;
-    border: .25em;
-    background: blue;
+.blue-button {
+    padding: .25em .50em;
+    text-decoration: none;
+    border-radius: .25em;
+    background-color: #2a71f5;
     color: white;
-    max-width: 30em;
-    font-weight: bold;
 }

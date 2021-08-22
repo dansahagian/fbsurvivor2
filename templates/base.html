@@ -15,23 +15,20 @@
         <meta name="theme-color" content="#ffffff">
     </head>
     <body>
-        <div class="main">
-            <span class="title">
-                Survivor {% if season %}{{ season.year }}{% endif %}
-                <br><br>
-                {% if player %}
-                    <span class="space">
-                        <a href="{% url 'player_redirect' player.link %}">Board</a>
-                    </span>
-                    <span class="space">
-                        <a href="{% url 'picks_redirect' player.link %}">Picks</a>
-                    </span>
-                    <span class="space">
-                        <a href="{% url 'payouts' player.link %}">Payouts</a>
-                    </span>
+        <h2>Survivor {% if season %}{{ season.year }}{% endif %}</h2>
+        {% if player %}
+            <ul>
+                <li><a href="{% url 'player_redirect' player.link %}">Board</a></li>
+                <li><a href="{% url 'picks_redirect' player.link %}">Picks</a></li>
+                <li><a href="{% url 'payouts' player.link %}">Payouts</a></li>
+                <li><a href="{% url 'rules' player.link %}">Rules</a></li>
+                {% if player.is_admin %}
+                    <li><a href="{% url 'manager_redirect' player.link %}">Admin</a></li>
                 {% endif %}
-            </span>
+            </ul>
             <br><br>
+        {% endif %}
+        <div>
             {% if messages %}
                 <ul class="messages">
                     {% for message in messages %}
@@ -51,12 +48,6 @@
             <div id="content">
                 {% block content %}{% endblock %}
             </div>
-            <br><br>
-            {% if player and player.is_admin %}
-                <span class="space">
-                    <a href="{% url 'manager_redirect' player.link %}">Manage</a>
-                </span>
-            {% endif %}
         </div>
     </body>
 </html>

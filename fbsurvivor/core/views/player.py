@@ -7,7 +7,31 @@ from fbsurvivor.core.helpers import (
     get_player_info,
     send_to_latest_season_played,
 )
-from fbsurvivor.core.models import Season, Player, PlayerStatus, Pick, Week, Payout
+from fbsurvivor.core.models import (
+    Season,
+    Player,
+    PlayerStatus,
+    Pick,
+    Week,
+    Payout,
+    Lock,
+)
+
+
+def get_deadlines(season):
+    next_week_num = Week.objects.get_current(season).week_num + 1
+    try:
+        weekly = Week.objects.get(season=season, week_num=next_week_num).lock_datetime
+        early = (
+            Lock.objects.filter(week__season=season, week__week_num=next_week_num)
+            .order_by("lock_datetime")
+            .first()
+        )
+    except Week.DoesNotExist:
+        weekly = None
+        early = None
+
+    return early, weekly
 
 
 def player_redirect(request, link):
@@ -28,6 +52,8 @@ def player(request, link, year):
     survivors = player_statuses.filter(is_survivor=True)
     years = PlayerStatus.objects.player_years(player)
 
+    early, weekly = get_deadlines(season)
+
     if len(survivors) == 1:
         survivor = survivors[0].player.username
     else:
@@ -43,6 +69,8 @@ def player(request, link, year):
         "player_count": player_statuses.count(),
         "survivor": survivor,
         "years": years,
+        "early": early,
+        "weekly": weekly,
     }
 
     return render(request, "player.html", context=context)

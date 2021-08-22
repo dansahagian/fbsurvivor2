@@ -61,6 +61,14 @@ class Pick(models.Model):
         except Lock.DoesNotExist:
             return self.week.is_locked
 
+    @property
+    def deadline(self):
+        try:
+            lock = Lock.objects.get(week=self.week, team=self.team)
+            return lock.lock_datetime
+        except Lock.DoesNotExist:
+            return self.week.lock_datetime
+
     def __str__(self):
         return f"{self.player} - {self.week} - {self.team}"
 

@@ -27,7 +27,7 @@ def get_deadlines(season):
             Lock.objects.filter(week__season=season, week__week_num=next_week_num)
             .order_by("lock_datetime")
             .first()
-        )
+        ).lock_datetime
     except Week.DoesNotExist:
         weekly = None
         early = None

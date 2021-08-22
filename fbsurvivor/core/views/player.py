@@ -1,3 +1,4 @@
+import arrow
 from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
@@ -18,23 +19,35 @@ from fbsurvivor.core.models import (
 )
 
 
+def _format_deadline(deadline):
+    if not deadline:
+        return deadline
+
+    return (
+        arrow.get(deadline.lock_datetime)
+        .to("US/Eastern")
+        .format("ddd MM/DD hh:mm A ZZZ")
+    )
+
+
 def get_deadlines(season):
     current_week = Week.objects.get_current(season)
     next_week_num = current_week.week_num + 1 if current_week else 1
     try:
         weekly = Week.objects.get(season=season, week_num=next_week_num)
+    except Week.DoesNotExist:
+        weekly = None
+
+    try:
         early = (
             Lock.objects.filter(week__season=season, week__week_num=next_week_num)
             .order_by("lock_datetime")
             .first()
         )
-        weekly = weekly.lock_datetime if weekly else None
-        early = early.lock_datetime if early else None
-    except Week.DoesNotExist or Lock.DoesNotExist:
-        weekly = None
+    except Lock.DoesNotExist:
         early = None
 
-    return early, weekly
+    return _format_deadline(early), _format_deadline(weekly)
 
 
 def player_redirect(request, link):
@@ -95,7 +108,7 @@ def play(request, link, year):
     }
 
     if request.method == "GET":
-        return render(request, "rules.html", context=context)
+        return render(request, "confirm.html", context=context)
 
     if request.method == "POST":
         PlayerStatus.objects.create(player=player, season=season)
@@ -139,3 +152,12 @@ def payouts(request, link):
     }
 
     return render(request, "payouts.html", context=context)
+
+
+def rules(request, link):
+    player = get_object_or_404(Player, link=link)
+
+    context = {
+        "player": player,
+    }
+    return render(request, "rules.html", context=context)

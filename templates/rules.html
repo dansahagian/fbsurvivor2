@@ -1,32 +1,24 @@
 {% extends "./base.html" %}
     {% block content %}
-        <div class="rules">
-            Rules and Confirmation<br><br>
+        <h3>Rules</h3>
+        <strong>Each Week</strong>:<br>
+        Pick one team to win. Ties are losses.<br>
+        Submit your pick by the deadlines shown.<br>
+        Picks will lock at the deadlines shown.<br>
+        Note the earlier deadline for Thursday games.<br>
+        Each team can only be used once.<br>
+        <br>
 
-            Each Week:<br>
-            <ul>
-                <li>Pick one team to win. Ties are losses.</li>
-                <li>Submit your pick by the deadline shown.</li>
-                <li>Picks will lock at the deadline shown.</li>
-                <li>Each team can only be used once.</li>
-            </ul>
-            <br>
-            If technical issues, email your pick to picks@fbsurvivor.com.
-            <br>
-
-            Payouts:<br>
-            <ul>
-                <li>Payouts are dependent on participation!</li>
-                <li>Survivor: at least 7x the buy in.</li>
-                <li>Best Record: 2-4x the buy in.</li>
-                <li>2nd Best Record: 1-2x the buy in.</li>
-                <li>If there are ties, players will split the corresponding payouts.</li>
-            </ul>
-            <br><br>
-            <form action="{% url "play" player.link season.year %}" method="POST">
-                {% csrf_token %}
-                <input type="submit" value="Click to confirm!" />
-            </form>
-
+        <strong>Payouts:</strong><br>
+        Payouts are dependent on participation!<br>
+        Survivor: at least 7x the buy in.<br>
+        Best Record: 2-4x the buy in.<br>
+        2nd Best Record: 1-2x the buy in.<br>
+        Players will split the corresponding payouts for ties.<br>
+        <br>
+        Having issues? Email your pick to picks@fbsurvivor.com.
+        <br><br>
+        <div id="confirm">
+            {% block confirm %}{% endblock %}
         </div>
     {% endblock %}

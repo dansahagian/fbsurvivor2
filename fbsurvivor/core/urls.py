@@ -12,6 +12,7 @@ urlpatterns = [
     path("manager/<str:link>/", views.manager_redirect, name="manager_redirect"),
     path("manager/<str:link>/<int:year>/", views.manager, name="manager"),
     path("payouts/<str:link>/", views.payouts, name="payouts"),
+    path("rules/<str:link>/", views.rules, name="rules"),
     path(
         "player-links/<str:link>/<int:year>",
         views.get_player_links,

@@ -19,8 +19,8 @@ from fbsurvivor.core.models import (
 
 
 def get_deadlines(season):
-    current_week = Week.objects.get_current(season) or 0
-    next_week_num = current_week.week_num + 1
+    current_week = Week.objects.get_current(season)
+    next_week_num = current_week.week_num if current_week else 1
     try:
         weekly = Week.objects.get(season=season, week_num=next_week_num).lock_datetime
         early = (

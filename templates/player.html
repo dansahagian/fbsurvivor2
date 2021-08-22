@@ -12,8 +12,10 @@
 {#                <div class="info">{{ survivor }} is the Survivor!</div>#}
 {#                <br>#}
 {#            {% endif %}#}
-            {% if early and weekly %}
-                Deadlines: Early - {{ early }} | Weekly - {{ weekly }}
+            {% if early or weekly %}
+                Deadlines:
+                {% if early %}Early - {{ early }} | {% endif %}
+                {% if weekly %}Weekly - {{ weekly }}{% endif %}
             {% endif %}
             <br><br>
             <table>

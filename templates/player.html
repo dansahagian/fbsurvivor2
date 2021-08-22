@@ -15,8 +15,8 @@
             <strong>
             {% if early or weekly %}
                 Deadlines:
-                {% if early %}{{ early|date:'D P' }} or {% endif %}
-                {% if weekly %}{{ weekly|date:'D P' }}{% endif %}
+                {% if early %}{{ early|date:'D m/d P' }} or {% endif %}
+                {% if weekly %}{{ weekly|date:'D m/d P' }}{% endif %}
             {% endif %}
             </strong>
             <br><br>

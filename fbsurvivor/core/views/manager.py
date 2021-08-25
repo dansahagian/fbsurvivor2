@@ -3,7 +3,7 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
 
 from fbsurvivor.celery import send_reminders_task
-from fbsurvivor.core.helpers import update_player_records, get_board
+from fbsurvivor.core.helpers import update_player_records, update_league_caches
 from fbsurvivor.core.models import Player, Season, PlayerStatus, Week, Pick, Team
 
 
@@ -39,7 +39,7 @@ def user_paid(request, link, year, user_link):
     ps = get_object_or_404(PlayerStatus, player__link=user_link, season=season)
     ps.is_paid = True
     ps.save()
-    get_board(season, overwrite_cache=True)
+    update_league_caches(season)
     messages.success(request, f"{ps.player.username} marked as paid!")
     return redirect(reverse("paid", args=[link, year]))
 
@@ -66,7 +66,7 @@ def mark_result(request, link, year, week, team, result):
     messages.success(request, f"Picks for week {week.week_num} of {team} updated!")
 
     player_records_updated = update_player_records(year)
-    get_board(season, overwrite_cache=True)
+    update_league_caches(season)
     messages.success(request, f"{player_records_updated} player records updated!")
 
     return redirect(reverse("results", args=[link, year]))
@@ -94,6 +94,6 @@ def get_player_links(request, link, year):
 def update_board_cache(request, link, year):
     get_object_or_404(Player, link=link, is_admin=True)
     season = get_object_or_404(Season, year=year)
-    get_board(season, overwrite_cache=True)
+    update_league_caches(season)
 
     return redirect(reverse("player", args=[link, year]))

@@ -15,7 +15,11 @@
         <meta name="theme-color" content="#ffffff">
     </head>
     <body>
-        <h2>Survivor {% if season %}{{ season.year }}{% endif %}</h2>
+        <h2>
+            Survivor
+            {% if season %}{{ season.year }}{% endif %}
+            {% if player %} - {{ player.league }} League{% endif %}
+        </h2>
         {% if player %}
             <ul>
                 <li><a href="{% url 'player_redirect' player.link %}">Board</a></li>

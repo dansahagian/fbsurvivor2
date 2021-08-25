@@ -74,8 +74,10 @@ def update_record(player_status):
     return True
 
 
-def _get_board(season):
-    ps = PlayerStatus.objects.for_season_board(season).prefetch_related("player")
+def _get_board(season, league):
+    ps = PlayerStatus.objects.for_season_board(season, league).prefetch_related(
+        "player"
+    )
     board = [
         (x, list(Pick.objects.for_board(x.player, season).select_related("team")))
         for x in ps
@@ -84,24 +86,32 @@ def _get_board(season):
     return ps, board
 
 
-def get_board(season, overwrite_cache=False):
+def get_board(season, league, overwrite_cache=False):
     if overwrite_cache:
-        player_statuses, board = _get_board(season)
+        player_statuses, board = _get_board(season, league)
         try:
-            cache.set(f"player_statuses_{season.year}", player_statuses, timeout=None)
-            cache.set(f"board_{season.year}", board, timeout=None)
+            cache.set(
+                f"player_statuses_{season.year}_{league}", player_statuses, timeout=None
+            )
+            cache.set(f"board_{season.year}_{league}", board, timeout=None)
             print("Caching board")
         except redis.ConnectionError:
             print("Redis is unavailable. Could not cache board.")
         return player_statuses, board
 
     try:
-        player_statuses = cache.get(f"player_statuses_{season.year}")
-        board = cache.get(f"board_{season.year}")
+        player_statuses = cache.get(f"player_statuses_{season.year}_{league}")
+        board = cache.get(f"board_{season.year}_{league}")
         if not (player_statuses and board):
-            return get_board(season, overwrite_cache=True)
+            return get_board(season, league, overwrite_cache=True)
         print("Using cached board.")
         return player_statuses, board
     except redis.ConnectionError:
         print("Redis is unavailable. Could not cache board.")
-        return _get_board(season)
+        return _get_board(season, league)
+
+
+def update_league_caches(season):
+    leagues = list(Player.objects.values_list("league", flat=True).distinct())
+    for league in leagues:
+        get_board(season, league, overwrite_cache=True)

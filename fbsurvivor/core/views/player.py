@@ -64,7 +64,7 @@ def player(request, link, year):
 
     can_play = not player_status and season.is_current and not season.is_locked
     weeks = Week.objects.for_display(season).values_list("week_num", flat=True)
-    player_statuses, board = get_board(season)
+    player_statuses, board = get_board(season, player.league)
     survivors = player_statuses.filter(is_survivor=True)
     years = PlayerStatus.objects.player_years(player)
 
@@ -115,7 +115,7 @@ def play(request, link, year):
         weeks = Week.objects.filter(season=season)
         picks = [Pick(player=player, week=week) for week in weeks]
         Pick.objects.bulk_create(picks)
-        get_board(season, overwrite_cache=True)
+        get_board(season, player.league, overwrite_cache=True)
         messages.success(request, f"Congrats on joining the {year} league. Good luck!")
         return redirect(reverse("player", args=[link, year]))
 
@@ -135,7 +135,7 @@ def retire(request, link, year):
         Pick.objects.filter(
             player=player, week__season=season, result__isnull=True
         ).update(result="R")
-        get_board(season, overwrite_cache=True)
+        get_board(season, player.league, overwrite_cache=True)
         messages.success(request, f"You have retired. See you next year!")
 
     return redirect(reverse("player", args=[link, year]))

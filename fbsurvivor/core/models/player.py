@@ -29,6 +29,7 @@ class Player(models.Model):
     has_email_reminders = models.BooleanField(default=True)
     has_phone_reminders = models.BooleanField(default=False)
     notes = models.TextField(null=True, blank=True)
+    league = models.CharField(max_length=12, default="Original")
 
     def __str__(self):
         return f"{self.username}"
@@ -58,9 +59,9 @@ class PlayerStatusQuerySet(models.QuerySet):
             .order_by("-season__year")
         )
 
-    def for_season_board(self, season):
+    def for_season_board(self, season, league):
         return (
-            self.filter(season=season)
+            self.filter(season=season, player__league=league)
             .annotate(lower=Lower("player__username"))
             .order_by("-is_survivor", "-win_count", "loss_count", "is_retired", "lower")
         )

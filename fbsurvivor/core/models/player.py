@@ -117,9 +117,10 @@ class PlayerStatus(models.Model):
 
 
 class PayoutQuerySet(models.QuerySet):
-    def for_payout_table(self):
+    def for_payout_table(self, league):
         return (
-            self.values("player")
+            self.filter(player__league=league)
+            .values("player")
             .annotate(total=Sum("amount"))
             .order_by("-total")
             .values("player__username", "total", "player__notes")

@@ -144,7 +144,7 @@ def retire(request, link, year):
 def payouts(request, link):
     player = get_object_or_404(Player, link=link)
 
-    player_payouts = Payout.objects.for_payout_table()
+    player_payouts = Payout.objects.for_payout_table(player.league)
 
     context = {
         "player": player,

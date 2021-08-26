@@ -18,7 +18,7 @@
         <h2>
             Survivor
             {% if season %}{{ season.year }}{% endif %}
-            {% if player %} - {{ player.league }} League{% endif %}
+            {% if player %} - {{ player.league.name }}{% endif %}
         </h2>
         {% if player %}
             <ul>

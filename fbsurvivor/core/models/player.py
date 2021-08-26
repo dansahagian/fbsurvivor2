@@ -20,6 +20,11 @@ def generate_link():
     return link
 
 
+class League(models.Model):
+    code = models.CharField(max_length=12)
+    name = models.CharField(max_length=12)
+
+
 class Player(models.Model):
     username = models.CharField(max_length=20, unique=True)
     link = models.CharField(max_length=44, unique=True, default=generate_link)
@@ -29,7 +34,7 @@ class Player(models.Model):
     has_email_reminders = models.BooleanField(default=True)
     has_phone_reminders = models.BooleanField(default=False)
     notes = models.TextField(null=True, blank=True)
-    league = models.CharField(max_length=12, default="Original")
+    league = models.ForeignKey(League, null=True, on_delete=models.DO_NOTHING)
 
     def __str__(self):
         return f"{self.username}"

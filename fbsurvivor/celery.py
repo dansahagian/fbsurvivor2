@@ -68,10 +68,6 @@ def send_email_task(subject, recipients, message):
 
 @app.task()
 def update_board_cache():
-    from fbsurvivor.core.helpers import get_board
-    from fbsurvivor.core.models import Season, Player
+    from core.helpers import update_league_caches
 
-    season = Season.objects.get(is_current=True)
-    leagues = list(Player.objects.values_list("league", flat=True).distinct())
-    for league in leagues:
-        get_board(season, league, overwrite_cache=True)
+    update_league_caches()

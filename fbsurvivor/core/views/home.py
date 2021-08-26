@@ -4,17 +4,17 @@ from django.shortcuts import render, get_object_or_404, redirect, reverse
 from fbsurvivor import settings
 from fbsurvivor.celery import send_email_task
 from fbsurvivor.core.forms import EmailForm, PlayerForm
-from fbsurvivor.core.models import Season, Player, SignUpCode
+from fbsurvivor.core.models import Season, Player, League
 
 
-def signup(request):
+def home(request):
     current_season = get_object_or_404(Season, is_current=True)
 
     if request.method == "GET":
         context = {
             "form": PlayerForm(),
         }
-        return render(request, "signup.html", context=context)
+        return render(request, "home.html", context=context)
 
     if request.method == "POST":
         form = PlayerForm(request.POST)
@@ -25,15 +25,15 @@ def signup(request):
             league = form.cleaned_data["league"]
 
             try:
-                SignUpCode.objects.get(code=league)
-            except SignUpCode.DoesNotExist:
+                league = League.objects.get(code=league)
+            except League.DoesNotExist:
                 messages.error(request, "Invalid league. Try again!")
-                return redirect(reverse("signup"))
+                return redirect(reverse("home"))
 
             usernames = list(Player.objects.values_list("username", flat=True))
             if username in usernames:
                 messages.error(request, "Username already in use. Try again!")
-                return redirect(reverse("signup"))
+                return redirect(reverse("home"))
             else:
                 Player.objects.create(username=username, email=email, league=league)
                 return render(request, "created.html")

@@ -8,7 +8,7 @@ from fbsurvivor.core.models import (
     Team,
     Pick,
     Payout,
-    SignUpCode,
+    League,
 )
 from fbsurvivor.core.models.lock import Lock
 
@@ -90,9 +90,9 @@ class PayoutAdmin(admin.ModelAdmin):
         return qs.order_by("-season", "player")
 
 
-@admin.register(SignUpCode)
-class SignUpCodeAdmin(admin.ModelAdmin):
-    list_display = ["code"]
+@admin.register(League)
+class LeagueAdmin(admin.ModelAdmin):
+    list_display = ["code", "name"]
 
 
 @admin.register(Lock)

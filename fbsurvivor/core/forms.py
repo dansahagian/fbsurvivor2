@@ -7,10 +7,6 @@ class EmailForm(forms.Form):
     email = forms.EmailField(label="email")
 
 
-class SignUpCodeForm(forms.Form):
-    code = forms.CharField(max_length=12)
-
-
 class PlayerForm(forms.Form):
     username = forms.CharField(label="username", max_length=20)
     email = forms.EmailField(label="email (won't be displayed)")

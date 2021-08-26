@@ -3,8 +3,7 @@ from django.urls import path
 from fbsurvivor.core import views
 
 urlpatterns = [
-    path("", views.signup, name="home"),
-    path("signup/", views.signup, name="signup"),
+    path("", views.home, name="home"),
     path("forgot/", views.forgot, name="forgot"),
     path("board/<str:link>/", views.player_redirect, name="player_redirect"),
     path("board/<str:link>", views.player_redirect),

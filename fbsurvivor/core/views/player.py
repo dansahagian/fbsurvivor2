@@ -17,6 +17,7 @@ from fbsurvivor.core.models import (
     Payout,
     Lock,
 )
+from fbsurvivor.settings import VENMO
 
 
 def _format_deadline(deadline):
@@ -74,6 +75,9 @@ def player(request, link, year):
         survivor = survivors[0].player.username
     else:
         survivor = ""
+
+    if not player_status.is_paid:
+        messages.info(request, f"Unpaid - Venmo $30 to {VENMO}")
 
     context = {
         "player": player,

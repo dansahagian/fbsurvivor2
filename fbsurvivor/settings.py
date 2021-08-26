@@ -27,6 +27,7 @@ CSRF_COOKIE_SECURE = True
 INTERNAL_IPS = ["127.0.0.1"]
 
 CONTACT = config("CONTACT", default="")
+VENMO = config("VENMO", default="")
 
 # Application definition
 INSTALLED_APPS = [

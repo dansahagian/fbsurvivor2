@@ -22,12 +22,12 @@
         </h2>
         {% if player %}
             <ul>
-                <li><a href="{% url 'player_redirect' player.link %}">Board</a></li>
-                <li><a href="{% url 'picks_redirect' player.link %}">Picks</a></li>
-                <li><a href="{% url 'payouts' player.link %}">Payouts</a></li>
-                <li><a href="{% url 'rules' player.link %}">Rules</a></li>
+                <li><a href="{% url 'player_redirect' player.link %}">Board/</a></li>
+                <li><a href="{% url 'picks_redirect' player.link %}">Picks/</a></li>
+                <li><a href="{% url 'payouts' player.link %}">Payouts/</a></li>
+                <li><a href="{% url 'rules' player.link %}">Rules/</a></li>
                 {% if player.is_admin %}
-                    <li><a href="{% url 'manager_redirect' player.link %}">Admin</a></li>
+                    <li><a href="{% url 'manager_redirect' player.link %}">Admin/</a></li>
                 {% endif %}
             </ul>
             <br><br>
@@ -47,7 +47,7 @@
                         </li>
                     {% endfor %}
                 </ul>
-                <br>
+                <br><br>
             {% endif %}
             <div id="content">
                 {% block content %}{% endblock %}

@@ -1,8 +1,6 @@
-import datetime
-
+import arrow
 import factory
 import pytest
-import pytz
 
 from fbsurvivor.core.tests.factories import (
     PlayerFactory,
@@ -35,10 +33,11 @@ def seasons(db):
 
 @pytest.fixture(autouse=True)
 def weeks(db, seasons):
-    now = pytz.timezone("US/Pacific").localize(datetime.datetime.now())
-    nw = now + datetime.timedelta(days=7)
-    lw = now - datetime.timedelta(days=7)
-    ly = now - datetime.timedelta(days=365)
+    right_now = arrow.now()
+    now = right_now.datetime
+    nw = right_now.shift(days=7).datetime
+    lw = right_now.shift(days=-7).datetime
+    ly = right_now.shift(days=-365).datetime
 
     return {
         "this_season": WeekFactory.create_batch(

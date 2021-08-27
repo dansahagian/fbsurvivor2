@@ -1,6 +1,4 @@
-import datetime
-
-import pytz
+import arrow
 from django.db import models
 
 from .lock import Lock
@@ -16,10 +14,8 @@ class PickQuerySet(models.QuerySet):
         )
 
     def for_board(self, player, season):
-        right_now = pytz.timezone("US/Pacific").localize(datetime.datetime.now())
-
         return self.for_player_season(player, season).filter(
-            week__lock_datetime__lte=right_now,
+            week__lock_datetime__lte=arrow.now().datetime,
         )
 
     def for_results(self, week):
@@ -56,8 +52,7 @@ class Pick(models.Model):
     def is_locked(self):
         try:
             lock = Lock.objects.get(week=self.week, team=self.team)
-            right_now = pytz.timezone("US/Pacific").localize(datetime.datetime.now())
-            return right_now > lock.lock_datetime if lock.lock_datetime else False
+            return arrow.now() > lock.lock_datetime if lock.lock_datetime else False
         except Lock.DoesNotExist:
             return self.week.is_locked
 

@@ -24,6 +24,9 @@ class League(models.Model):
     code = models.CharField(max_length=12)
     name = models.CharField(max_length=12)
 
+    def __str__(self):
+        return f"{self.code} - {self.name}"
+
 
 class Player(models.Model):
     username = models.CharField(max_length=20, unique=True)

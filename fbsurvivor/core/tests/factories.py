@@ -1,7 +1,5 @@
-import datetime
-
+import arrow as arrow
 import factory
-import pytz
 
 from fbsurvivor.core import models
 
@@ -32,7 +30,7 @@ class WeekFactory(factory.django.DjangoModelFactory):
 
     season = factory.SubFactory(SeasonFactory)
     week_num = factory.Sequence(lambda n: n + 1)
-    lock_datetime = pytz.timezone("US/Pacific").localize(datetime.datetime.now())
+    lock_datetime = arrow.now().datetime
 
 
 class TeamFactory(factory.django.DjangoModelFactory):

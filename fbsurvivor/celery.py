@@ -7,13 +7,12 @@ app = Celery("fbsurvivor", broker=BROKER_URL)
 
 @app.task()
 def send_reminders_task():
-    import pytz
-    import datetime
+    import arrow
 
     from twilio.rest import Client
 
     from fbsurvivor import settings
-    from fbsurvivor.core.models import PlayerStatus, Season, Week
+    from fbsurvivor.core.models import PlayerStatus, Season, Week, Lock
     from fbsurvivor.core.helpers import get_pretty_time
 
     current_season: Season = Season.objects.get(is_current=True)
@@ -21,15 +20,26 @@ def send_reminders_task():
 
     if not next_week:
         return
-    right_now = pytz.timezone("US/Pacific").localize(datetime.datetime.now())
-    time_diff = (next_week.lock_datetime - right_now).total_seconds()
-    due_in = get_pretty_time(time_diff)
+    right_now = arrow.now()
+    early_lock = Lock.objects.filter(week=next_week).order_by("lock_datetime").first()
+
+    subject = "Survivor Picks Reminder"
+    message = f"Week {next_week.week_num} reminders\n\n"
+
+    if early_lock:
+        early_diff = (early_lock.lock_datetime - right_now).total_seconds()
+        if early_diff > 0:
+            early_due_in = get_pretty_time(early_diff)
+            message += f"Early picks lock in: {early_due_in}\n\n"
+
+    weekly_diff = (next_week.lock_datetime - right_now).total_seconds()
+    weekly_due_in = get_pretty_time(weekly_diff)
+
+    message += f"Weekly picks lock in: {weekly_due_in}"
 
     recipients = list(PlayerStatus.objects.for_email_reminders(next_week))
     phone_numbers = list(PlayerStatus.objects.for_phone_reminders(next_week))
 
-    subject = "Survivor Picks Reminder"
-    message = f"Week {next_week.week_num} pick due in:\n\n{due_in}!"
     if recipients:
         send_email_task.delay(subject, recipients, message)
 

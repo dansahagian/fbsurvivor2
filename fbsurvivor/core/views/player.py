@@ -76,7 +76,7 @@ def player(request, link, year):
     else:
         survivor = ""
 
-    if not player_status.is_paid:
+    if player_status and not player_status.is_paid:
         messages.info(request, f"Unpaid - Venmo $30 to {VENMO}")
 
     context = {

@@ -6,6 +6,11 @@
                 <a class="blue-button" href="{% url 'play' player.link season.year %}">Play</a>
             <br><br><br><br>
             </span>
+        {% else %}
+            {% if playable and playable not in years %}
+                <a href="{% url 'player' player.link playable %}">Join the {{ playable }} season!</a>
+                <br><br>
+            {% endif %}
         {% endif %}
         {% if player_status %}
             <strong>

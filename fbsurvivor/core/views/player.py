@@ -67,7 +67,12 @@ def player(request, link, year):
     weeks = Week.objects.for_display(season).values_list("week_num", flat=True)
     player_statuses, board = get_board(season, player.league)
     survivors = player_statuses.filter(is_survivor=True)
-    years = PlayerStatus.objects.player_years(player)
+    years = list(PlayerStatus.objects.player_years(player))
+
+    try:
+        playable = Season.objects.get(is_current=True, is_locked=False).year
+    except Season.DoesNotExist:
+        playable = None
 
     early, weekly = get_deadlines(season)
 
@@ -91,6 +96,7 @@ def player(request, link, year):
         "years": years,
         "early": early,
         "weekly": weekly,
+        "playable": playable,
     }
 
     return render(request, "player.html", context=context)

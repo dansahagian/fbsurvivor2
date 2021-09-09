@@ -3,7 +3,12 @@
 <html lang="en">
     <head>
         <title>FB Survivor</title>
-        <link rel="stylesheet" href="{% static "css/main.css" %}" type="text/css">
+        {% if player and player.is_dark_mode %}
+            <link rel="stylesheet" href="{% static "css/dark.css" %}" type="text/css">
+        {% else %}
+            <link rel="stylesheet" href="{% static "css/main.css" %}" type="text/css">
+        {% endif %}
+
         <meta name="viewport" content="initial-scale=1.0">
         <meta name="robots" content="noindex,nofollow" />
 
@@ -30,7 +35,8 @@
                     <li><a href="{% url 'manager_redirect' player.link %}">Admin/</a></li>
                 {% endif %}
             </ul>
-            <br><br>
+            <br>
+            <br>
         {% endif %}
         <div>
             {% if messages %}

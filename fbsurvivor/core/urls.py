@@ -5,6 +5,7 @@ from fbsurvivor.core import views
 urlpatterns = [
     path("", views.home, name="home"),
     path("forgot/", views.forgot, name="forgot"),
+    path("darkmode/<str:link>", views.dark_mode, name="dark_mode"),
     path("board/<str:link>/", views.player_redirect, name="player_redirect"),
     path("board/<str:link>", views.player_redirect),
     path("board/<str:link>/<int:year>/", views.player, name="player"),

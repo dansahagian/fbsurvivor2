@@ -38,6 +38,7 @@ class Player(models.Model):
     has_phone_reminders = models.BooleanField(default=False)
     notes = models.TextField(null=True, blank=True)
     league = models.ForeignKey(League, null=True, on_delete=models.DO_NOTHING)
+    is_dark_mode = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.username}"

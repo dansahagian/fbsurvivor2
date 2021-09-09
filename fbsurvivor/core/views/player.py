@@ -51,6 +51,13 @@ def get_deadlines(season):
     return _format_deadline(early), _format_deadline(weekly)
 
 
+def dark_mode(request, link):
+    player = get_object_or_404(Player, link=link)
+    player.is_dark_mode = not player.is_dark_mode
+    player.save()
+    return redirect(reverse("player_redirect", args=[link]))
+
+
 def player_redirect(request, link):
     get_object_or_404(Player, link=link)
     current_season = get_object_or_404(Season, is_current=True)

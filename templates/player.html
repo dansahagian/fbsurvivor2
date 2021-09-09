@@ -32,7 +32,11 @@
                 </tr>
                 {% for ps, picks in board %}
                     {% if ps.player == player %}
-                        <tr style="font-weight:bold; border: 3px solid blue;">
+                        {% if player.is_dark_mode %}
+                            <tr style="font-weight:bold; border: 3px solid white;">
+                        {% else %}
+                            <tr style="font-weight:bold; border: 3px solid black;">
+                        {% endif %}
                     {% else %}
                         <tr>
                     {% endif %}
@@ -76,13 +80,16 @@
                         </tr>
                 {% endfor %}
             </table>
-            <br>
         {% endif %}
+        <a class="toggle" href="{% url 'dark_mode' player.link %}">
+            Toggle Dark/Light Mode
+        </a>
+        <br><br>
         {% for year in years %}
             <span class="space">
                 <a href="{% url 'player' player.link year %}">{{ year }}</a>
             </span>
-            {% if forloop.counter|divisibleby:4  %}
+            {% if forloop.counter|divisibleby:5  %}
                 <br><br>
             {% endif %}
         {% endfor %}

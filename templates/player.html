@@ -41,6 +41,7 @@
                         <tr>
                     {% endif %}
                         <td>
+                            {% if ps.player.emoji %}{{ ps.player.emoji }} {% endif %}
                             {{ ps.player.username }}
                         </td>
                         <td>

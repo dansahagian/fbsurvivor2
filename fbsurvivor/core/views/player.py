@@ -45,7 +45,7 @@ def get_deadline(season):
             .order_by("lock_datetime")
             .first()
         )
-        early = early if early.lock_datetime > arrow.now() else None
+        early = early if early and early.lock_datetime > arrow.now() else None
     except Lock.DoesNotExist:
         early = None
 

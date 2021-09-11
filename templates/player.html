@@ -14,8 +14,7 @@
         {% endif %}
         {% if player_status %}
             <strong>
-                {% if early %}{{ early }}<br>{% endif %}
-                {% if weekly %}{{ weekly }}<br><br>{% endif %}
+                {% if deadline %}Next lock: {{ deadline }}<br><br>{% endif %}
             </strong>
             <table>
                 <tr>

@@ -31,7 +31,7 @@ def _format_deadline(deadline):
     )
 
 
-def get_deadlines(season):
+def get_deadline(season):
     current_week = Week.objects.get_current(season)
     next_week_num = current_week.week_num + 1 if current_week else 1
     try:
@@ -45,10 +45,11 @@ def get_deadlines(season):
             .order_by("lock_datetime")
             .first()
         )
+        early = early if early.lock_datetime > arrow.now() else None
     except Lock.DoesNotExist:
         early = None
 
-    return _format_deadline(early), _format_deadline(weekly)
+    return _format_deadline(early or weekly)
 
 
 def dark_mode(request, link):
@@ -81,7 +82,7 @@ def player(request, link, year):
     except Season.DoesNotExist:
         playable = None
 
-    early, weekly = get_deadlines(season)
+    deadline = get_deadline(season)
 
     if len(survivors) == 1:
         survivor = survivors[0].player.username
@@ -101,8 +102,7 @@ def player(request, link, year):
         "player_count": player_statuses.count(),
         "survivor": survivor,
         "years": years,
-        "early": early,
-        "weekly": weekly,
+        "deadline": deadline,
         "playable": playable,
     }
 

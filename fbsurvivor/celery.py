@@ -6,39 +6,40 @@ app = Celery("fbsurvivor", broker=BROKER_URL)
 
 
 @app.task()
-def send_reminders_task():
-    import arrow
-
+def send_reminders_task(recipients=None, phone_numbers=None):
     from twilio.rest import Client
 
     from fbsurvivor import settings
-    from fbsurvivor.core.models import PlayerStatus, Season, Week, Lock
-    from fbsurvivor.core.helpers import get_pretty_time
+    from fbsurvivor.core.models import PlayerStatus, Season, Week
+    from fbsurvivor.core.deadlines import (
+        get_early_deadline,
+        get_weekly_deadline,
+        get_countdown,
+    )
 
     current_season: Season = Season.objects.get(is_current=True)
     next_week: Week = Week.objects.get_next(current_season)
 
     if not next_week:
         return
-    right_now = arrow.now()
-    early_lock = Lock.objects.filter(week=next_week).order_by("lock_datetime").first()
 
     subject = "Survivor Picks Reminder"
-    message = f"Week {next_week.week_num} reminders\n\n"
+    message = f"Survivor Picks Reminder - Week {next_week.week_num}\n\n"
 
-    if early_lock:
-        early_diff = (early_lock.lock_datetime - right_now).total_seconds()
-        if early_diff > 0:
-            early_due_in = get_pretty_time(early_diff)
-            message += f"Early picks lock in: {early_due_in}\n\n"
+    early_deadline = get_early_deadline(current_season, next_week)
+    if early_deadline:
+        countdown = get_countdown(early_deadline)
+        message += f"Early picks lock in: {countdown}\n\n"
 
-    weekly_diff = (next_week.lock_datetime - right_now).total_seconds()
-    weekly_due_in = get_pretty_time(weekly_diff)
+    weekly_deadline = get_weekly_deadline(current_season, next_week)
+    if weekly_deadline:
+        countdown = get_countdown(weekly_deadline)
+        message += f"Weekly picks lock in: {countdown}"
 
-    message += f"Weekly picks lock in: {weekly_due_in}"
-
-    recipients = list(PlayerStatus.objects.for_email_reminders(next_week))
-    phone_numbers = list(PlayerStatus.objects.for_phone_reminders(next_week))
+    if not recipients:
+        recipients = list(PlayerStatus.objects.for_email_reminders(next_week))
+    if not phone_numbers:
+        phone_numbers = list(PlayerStatus.objects.for_phone_reminders(next_week))
 
     if recipients:
         send_email_task.delay(subject, recipients, message)
@@ -49,7 +50,7 @@ def send_reminders_task():
         client.messages.create(
             to=phone_number,
             from_=settings.TWILIO_NUM,
-            body=f"Survivor Picks Reminder!\n{message}",
+            body=message,
         )
 
 

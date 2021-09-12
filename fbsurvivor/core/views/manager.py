@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
 
+from fbsurvivor import settings
 from fbsurvivor.celery import send_reminders_task
 from fbsurvivor.core.helpers import update_player_records, update_league_caches
 from fbsurvivor.core.models import Player, Season, PlayerStatus, Week, Pick, Team
@@ -74,7 +75,13 @@ def mark_result(request, link, year, week, team, result):
 
 def remind(request, link, year):
     get_object_or_404(Player, link=link, is_admin=True)
-    send_reminders_task.delay()
+    recipients = None
+    phone_numbers = None
+    if settings.DEBUG:
+        player = Player.objects.get(username="DanTheAutomator")
+        recipients = [player.email]
+        phone_numbers = [player.phone]
+    send_reminders_task.delay(recipients, phone_numbers)
     messages.success(request, f"Reminder task kicked off")
     return redirect(reverse("manager", args=[link, year]))
 

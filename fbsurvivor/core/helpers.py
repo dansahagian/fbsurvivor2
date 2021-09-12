@@ -30,29 +30,6 @@ def send_to_latest_season_played(request, link, year):
         return redirect(reverse("home"))
 
 
-def get_pretty_time(seconds):
-    days, remainder = divmod(seconds, 86400)
-    hours, remainder = divmod(remainder, 3600)
-    minutes, remainder = divmod(remainder, 60)
-
-    d = "day" if days == 1 else "days"
-    h = "hour" if hours == 1 else "hours"
-    m = "minute" if minutes == 1 else "minutes"
-
-    days = f"{int(days)} {d}" if days else ""
-    hours = f"{int(hours)} {h}" if hours else ""
-    minutes = f"{int(minutes)} {m}" if minutes else ""
-
-    if days and hours and minutes:
-        return f"{days}, {hours}, & {minutes}"
-    elif days and (hours or minutes):
-        return f"{days} & {hours}{minutes}"
-    elif hours and minutes:
-        return f"{hours} & {minutes}"
-    else:
-        return f"{hours}{minutes}"
-
-
 def update_player_records(year):
     try:
         season = Season.objects.get(year=year)

@@ -52,26 +52,26 @@ def get_early_deadline(season, next_week):
             Lock.objects.filter(week__season=season, week=next_week)
             .order_by("lock_datetime")
             .first()
-        ).lock_datetime
+        )
     except Lock.DoesNotExist:
         deadline = None
 
-    return deadline
+    return deadline.lock_datetime if deadline else None
 
 
 def get_weekly_deadline(season, next_week):
     try:
-        deadline = Week.objects.get(
-            season=season, week_num=next_week.week_num
-        ).lock_datetime
+        deadline = Week.objects.get(season=season, week_num=next_week.week_num)
     except Week.DoesNotExist:
         deadline = None
 
-    return deadline
+    return deadline.lock_datetime if deadline else None
 
 
 def get_next_deadline(season):
     next_week: Week = Week.objects.get_next(season)
+    if not next_week:
+        return None
 
     early = get_early_deadline(season, next_week)
     weekly = get_weekly_deadline(season, next_week)

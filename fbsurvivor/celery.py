@@ -27,13 +27,11 @@ def send_reminders_task(recipients=None, phone_numbers=None):
     message = f"Survivor Picks Reminder - Week {next_week.week_num}\n\n"
 
     early_deadline = get_early_deadline(current_season, next_week)
-    if early_deadline:
-        countdown = get_countdown(early_deadline)
+    if early_deadline and (countdown := get_countdown(early_deadline)):
         message += f"Early picks lock in: {countdown}\n\n"
 
     weekly_deadline = get_weekly_deadline(current_season, next_week)
-    if weekly_deadline:
-        countdown = get_countdown(weekly_deadline)
+    if weekly_deadline and (countdown := get_countdown(weekly_deadline)):
         message += f"Weekly picks lock in: {countdown}"
 
     if not recipients:

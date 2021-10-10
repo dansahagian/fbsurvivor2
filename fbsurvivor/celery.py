@@ -77,6 +77,6 @@ def send_email_task(subject, recipients, message):
 
 @app.task()
 def update_board_cache():
-    from core.helpers import update_league_caches
+    from fbsurvivor.core.helpers import update_league_caches
 
     update_league_caches()

@@ -31,6 +31,7 @@ class PickForm(forms.Form):
                     .exclude(team_code__in=picks)
                     .order_by("team_code")
                 )
+                if not team.is_locked(week)
             ]
         )
 

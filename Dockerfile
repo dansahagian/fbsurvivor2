@@ -11,14 +11,13 @@ USER survivor
 
 WORKDIR /home/survivor
 
-COPY requirements/base.txt .
-COPY requirements/production.txt .
+COPY ./requirements requirements
 RUN pip install --upgrade pip
-RUN pip install -r production.txt
+RUN pip install -r ./requirements/production.txt
 RUN pip install django-debug-toolbar==3.2.1
 
-COPY . .
+COPY ./fbsurvivor fbsurvivor
+COPY ./static static
+COPY ./templates templates
 
-EXPOSE 8000
-
-ENTRYPOINT ["python", "manage.py", "runserver"]
+COPY ./manage.py manage.py

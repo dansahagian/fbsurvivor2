@@ -2,6 +2,7 @@
 .env
 .idea/
 data
+.data/
 __pycache__
 venv
 *.pid

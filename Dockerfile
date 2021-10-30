@@ -16,6 +16,5 @@ RUN pip install --upgrade pip
 RUN pip install -r ./requirements/development.txt
 
 COPY ./manage.py /code/manage.py
-COPY ./static /code/static
 COPY ./fbsurvivor /code/fbsurvivor
-COPY ./templates /code/templates
+

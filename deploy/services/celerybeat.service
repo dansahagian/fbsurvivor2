@@ -3,7 +3,7 @@ Description=fbsurvivor beat
 
 [Service]
 User=dan
-ExecStart=/usr/bin/zsh /opt/fbsurvivor2/bin/prod/run-celery-beat
+ExecStart=/usr/bin/zsh /opt/fbsurvivor2/deploy/prod/run-celery-beat
 
 [Install]
 WantedBy=multi-user.target

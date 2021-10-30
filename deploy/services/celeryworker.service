@@ -3,7 +3,7 @@ Description=fbsurvivor worker
 
 [Service]
 User=dan
-ExecStart=/usr/bin/zsh /opt/fbsurvivor2/bin/prod/run-celery-worker
+ExecStart=/usr/bin/zsh /opt/fbsurvivor2/deploy/prod/run-celery-worker
 
 [Install]
 WantedBy=multi-user.target

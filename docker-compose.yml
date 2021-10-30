@@ -18,8 +18,9 @@ services:
     volumes:
       - ./.data/postgres/pgdata:/var/lib/postgresql/data/pgdata
   web:
+    restart: always
     build: .
-    command: python manage.py runserver 0.0.0.0:8000
+    command: python /code/manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/code
     ports:
@@ -31,7 +32,7 @@ services:
       CONTACT: ${CONTACT}
       VENMO: ${VENMO}
       DEBUG: ${DEBUG}
-      SEND: ${DEBUG}
+      SEND: ${SEND}
       DJANGO_SETTINGS_MODULE: ${DJANGO_SETTINGS_MODULE}
       DATABASE: ${DATABASE}
       PG_USER: ${PG_USER}
@@ -47,3 +48,63 @@ services:
       TWILIO_SID: ${TWILIO_SID}
       TWILIO_KEY: ${TWILIO_KEY}
       TWILIO_NUM: ${TWILIO_NUM}
+  celery-worker:
+    working_dir: /code
+    restart: always
+    build: .
+    command: python -m celery -A fbsurvivor worker -l INFO
+    volumes:
+      - .:/code
+    depends_on:
+      - db
+      - redis
+    environment:
+      CONTACT: ${CONTACT}
+      VENMO: ${VENMO}
+      DEBUG: ${DEBUG}
+      SEND: ${SEND}
+      DJANGO_SETTINGS_MODULE: ${DJANGO_SETTINGS_MODULE}
+      DATABASE: ${DATABASE}
+      PG_USER: ${PG_USER}
+      PG_PASSWORD: ${PG_PASSWORD}
+      PG_HOST: "db"
+      PG_PORT: ${PG_PORT}
+      REDIS_SERVER: "redis"
+      SMTP_SERVER: ${SMTP_SERVER}
+      SMTP_SENDER: ${SMTP_SENDER}
+      SMTP_USER: ${SMTP_USER}
+      SMTP_PASSWORD: ${SMTP_PASSWORD}
+      SMTP_PORT: ${SMTP_PORT}
+      TWILIO_SID: ${TWILIO_SID}
+      TWILIO_KEY: ${TWILIO_KEY}
+      TWILIO_NUM: ${TWILIO_NUM}
+#  celery-beat:
+#    working_dir: /code
+#    restart: always
+#    build: .
+#    command: python -m celery -A fbsurvivor beat -l INFO --scheduler django_celery_beat.schedulers:DatabaseScheduler
+#    volumes:
+#      - .:/code
+#    depends_on:
+#      - db
+#      - redis
+#    environment:
+#      CONTACT: ${CONTACT}
+#      VENMO: ${VENMO}
+#      DEBUG: ${DEBUG}
+#      SEND: ${DEBUG}
+#      DJANGO_SETTINGS_MODULE: ${DJANGO_SETTINGS_MODULE}
+#      DATABASE: ${DATABASE}
+#      PG_USER: ${PG_USER}
+#      PG_PASSWORD: ${PG_PASSWORD}
+#      PG_HOST: "db"
+#      PG_PORT: ${PG_PORT}
+#      REDIS_SERVER: "redis"
+#      SMTP_SERVER: ${SMTP_SERVER}
+#      SMTP_SENDER: ${SMTP_SENDER}
+#      SMTP_USER: ${SMTP_USER}
+#      SMTP_PASSWORD: ${SMTP_PASSWORD}
+#      SMTP_PORT: ${SMTP_PORT}
+#      TWILIO_SID: ${TWILIO_SID}
+#      TWILIO_KEY: ${TWILIO_KEY}
+#      TWILIO_NUM: ${TWILIO_NUM}

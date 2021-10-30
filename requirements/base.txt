@@ -6,6 +6,8 @@ django-htmlmin==0.11.0
 django-celery-beat==2.2.0
 django-redis==4.12.1
 
+psycopg2==2.9.1
+
 python-decouple==3.4
 python-dotenv==0.17.0
 

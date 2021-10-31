@@ -1,9 +1,7 @@
 -r base.txt
-
 ipython
 pytest
 pytest-django
 factory-boy
 django-debug-toolbar
-
 black

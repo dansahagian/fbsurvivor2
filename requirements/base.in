@@ -1,0 +1,13 @@
+arrow
+django
+django-extensions
+django-htmlmin
+django-celery-beat
+django-redis
+psycopg2
+python-decouple
+python-dotenv
+requests
+twilio
+celery
+gunicorn

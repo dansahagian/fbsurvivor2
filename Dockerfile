@@ -5,16 +5,14 @@ ENV PYTHONUNBUFFERED 1
 
 RUN apt-get update
 RUN apt-get install -y postgresql libpq-dev gcc nano
+RUN pip install --upgrade pip
+RUN pip install pip-tools
 
 RUN useradd -ms /bin/bash survivor
 USER survivor
 
-WORKDIR /code
+COPY ./requirements /code/requirements
+RUN pip install -r /code/requirements/dev.txt
 
-COPY ./requirements requirements
-RUN pip install --upgrade pip
-RUN pip install -r ./requirements/development.txt
-
-COPY ./manage.py manage.py
-COPY ./fbsurvivor fbsurvivor
-
+COPY ./manage.py /code/manage.py
+COPY ./fbsurvivor /code/fbsurvivor

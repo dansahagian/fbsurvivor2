@@ -1,16 +1,18 @@
-arrow==1.1.1
+arrow
 
-django==3.2.7
-django-extensions==3.1.3
-django-htmlmin==0.11.0
-django-celery-beat==2.2.0
-django-redis==4.12.1
+django
+django-extensions
+django-htmlmin
+django-celery-beat
+django-redis
 
-psycopg2==2.9.1
+psycopg2
 
-python-decouple==3.4
-python-dotenv==0.17.0
+python-decouple
+python-dotenv
 
-requests==2.25.1
-twilio==6.56.0
-celery==4.4.7
+requests
+twilio
+celery
+
+gunicorn

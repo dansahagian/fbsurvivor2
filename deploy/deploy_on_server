@@ -9,7 +9,7 @@ echo "Deploying..."
 cd /opt/fbsurvivor2
 git pull origin main
 venv/bin/pip install --upgrade pip
-venv/bin/pip install -r ./requirements/production.txt
+venv/bin/pip install -r ./requirements/base.txt
 
 venv/bin/python manage.py migrate
 venv/bin/python manage.py collectstatic --no-input

@@ -8,16 +8,15 @@ load_dotenv()
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-DOMAIN = config("DOMAIN", default="http://127.0.0.1:8000")
+DOMAIN = config("DOMAIN")
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config("SECRET_KEY", default="abcdefghijklmnop")
+SECRET_KEY = config("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config("DEBUG", default=False, cast=bool)
-SEND = config("SEND", default=False, cast=bool)
+ENV = config("ENV")
 
 ALLOWED_HOSTS = ["fbsurvivor.com"]
 SECURE_SSL_REDIRECT = False
@@ -26,8 +25,8 @@ CSRF_COOKIE_SECURE = True
 
 INTERNAL_IPS = ["127.0.0.1"]
 
-CONTACT = config("CONTACT", default="")
-VENMO = config("VENMO", default="")
+CONTACT = config("CONTACT")
+VENMO = config("VENMO")
 
 # Application definition
 INSTALLED_APPS = [
@@ -149,21 +148,21 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, "fbsurvivor/static")]
 STATIC_URL = "/static/"
 STATIC_ROOT = "/srv/www/static/"
 
-SMTP_SERVER = config("SMTP_SERVER", default="")
-SMTP_SENDER = config("SMTP_SENDER", default="")
-SMTP_USER = config("SMTP_USER", default="")
-SMTP_PASSWORD = config("SMTP_PASSWORD", default="")
-SMTP_PORT = config("SMTP_PORT", default="")
+SMTP_SERVER = config("SMTP_SERVER")
+SMTP_SENDER = config("SMTP_SENDER")
+SMTP_USER = config("SMTP_USER")
+SMTP_PASSWORD = config("SMTP_PASSWORD")
+SMTP_PORT = config("SMTP_PORT")
 
-TWILIO_SID = config("TWILIO_SID", default="")
-TWILIO_KEY = config("TWILIO_KEY", default="")
-TWILIO_NUM = config("TWILIO_NUM", default="")
+TWILIO_SID = config("TWILIO_SID")
+TWILIO_KEY = config("TWILIO_KEY")
+TWILIO_NUM = config("TWILIO_NUM")
 
 # CELERY
 BROKER_URL = f"redis://{REDIS_SERVER}:6379/0"
 CELERY_TIMEZONE = "America/Los_Angeles"
 
-if DEBUG:
+if ENV == "dev":
     ALLOWED_HOSTS = ["*"]
     SECURE_SSL_REDIRECT = False
     SESSION_COOKIE_SECURE = False

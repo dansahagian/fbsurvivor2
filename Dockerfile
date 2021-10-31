@@ -9,12 +9,12 @@ RUN apt-get install -y postgresql libpq-dev gcc nano
 RUN useradd -ms /bin/bash survivor
 USER survivor
 
-WORKDIR /home/survivor
+WORKDIR /code
 
 COPY ./requirements requirements
 RUN pip install --upgrade pip
 RUN pip install -r ./requirements/development.txt
 
-COPY ./manage.py /code/manage.py
-COPY ./fbsurvivor /code/fbsurvivor
+COPY ./manage.py manage.py
+COPY ./fbsurvivor fbsurvivor
 

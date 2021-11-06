@@ -1,0 +1,7 @@
+#!/bin/zsh
+ssh dan@fbsurvivor.com "pg_dump -U fbsurvivor2 fbsurvivor2 > fbsurvivor2_dump"
+scp dan@linode:~/fbsurvivor2_dump ~/d/code/fbsurvivor2/data/fbsurvivor2_dump
+psql -U dan -d postgres -c "DROP DATABASE fbsurvivor2;"
+psql -U dan -d postgres -c "CREATE DATABASE fbsurvivor2;"
+psql -U dan -d postgres -c "GRANT ALL ON DATABASE fbsurvivor2 TO fbsurvivor2"
+psql fbsurvivor2 < ~/d/code/fbsurvivor2/data/fbsurvivor2_dump

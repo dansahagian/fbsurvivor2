@@ -39,7 +39,7 @@ class Player(models.Model):
     notes = models.TextField(null=True, blank=True)
     league = models.ForeignKey(League, null=True, on_delete=models.DO_NOTHING)
     is_dark_mode = models.BooleanField(default=False)
-    emoji = models.CharField(max_length=8, null=True)
+    emoji = models.CharField(max_length=8, null=True, blank=True)
 
     def __str__(self):
         return f"{self.username}"

@@ -39,15 +39,8 @@ def get_countdown(deadline):
         return f"{hours}{minutes}"
 
 
-def _format_deadline(deadline):
-    if not deadline:
-        return deadline
-
-    return arrow.get(deadline).to("US/Eastern").format("ddd MM/DD hh:mm A ZZZ")
-
-
 def get_early_deadline(season, next_week):
-    now = arrow.now("US/Pacific").datetime
+    now = arrow.now().datetime
     try:
         deadline = (
             Lock.objects.filter(

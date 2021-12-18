@@ -47,7 +47,7 @@ def _format_deadline(deadline):
 
 
 def get_early_deadline(season, next_week):
-    now = arrow.now().datetime
+    now = arrow.now("US/Pacific").datetime
     try:
         deadline = (
             Lock.objects.filter(

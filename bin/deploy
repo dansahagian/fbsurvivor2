@@ -3,7 +3,7 @@
 echo "Running CI..."
 if venv/bin/black --check .
 then
-  ssh -t dan@fbsurvivor.com "/opt/fbsurvivor2/bin/deploy_on_server"
+  ssh -t linode "/opt/fbsurvivor2/bin/deploy_on_server"
 else
   echo
   echo "Failed to deploy"

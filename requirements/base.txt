@@ -4,7 +4,7 @@
 #
 #    pip-compile base.in
 #
-amqp==5.0.6
+amqp==5.0.9
     # via kombu
 arrow==1.2.1
     # via -r base.in
@@ -14,7 +14,7 @@ beautifulsoup4==4.10.0
     # via django-htmlmin
 billiard==3.6.4.0
     # via celery
-celery==5.1.2
+celery==5.2.2
     # via
     #   -r base.in
     #   django-celery-beat
@@ -22,7 +22,7 @@ certifi==2021.10.8
     # via requests
 charset-normalizer==2.0.7
     # via requests
-click==7.1.2
+click==8.0.3
     # via
     #   celery
     #   click-didyoumean
@@ -57,7 +57,7 @@ html5lib==1.1
     # via django-htmlmin
 idna==3.3
     # via requests
-kombu==5.1.0
+kombu==5.2.3
     # via celery
 prompt-toolkit==3.0.21
     # via click-repl

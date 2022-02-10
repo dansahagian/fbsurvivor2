@@ -8,8 +8,6 @@ amqp==5.0.9
     # via
     #   -r base.txt
     #   kombu
-appnope==0.1.2
-    # via ipython
 arrow==1.2.1
     # via -r base.txt
 asgiref==3.4.1
@@ -72,7 +70,7 @@ deprecated==1.2.13
     # via
     #   -r base.txt
     #   redis
-django==3.2.11
+django==3.2.12
     # via
     #   -r base.txt
     #   django-celery-beat

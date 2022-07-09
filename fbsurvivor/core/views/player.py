@@ -51,10 +51,7 @@ def player(request, link, year):
 
     deadline = get_next_deadline(season)
 
-    if len(survivors) == 1:
-        survivor = survivors[0].player.username
-    else:
-        survivor = ""
+    survivor = survivors[0].player.username if len(survivors) == 1 else ""
 
     if player_status and not player_status.is_paid:
         messages.info(request, f"Unpaid - Venmo $30 to {VENMO}")

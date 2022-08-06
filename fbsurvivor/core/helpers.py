@@ -23,10 +23,10 @@ def send_to_latest_season_played(request, link, year):
     ps = PlayerStatus.objects.filter(player__link=link).order_by("-season__year")
     if ps:
         latest = ps[0].season.year
-        messages.warning(request, f"You did NOT play in {year}. Here is {latest}")
+        messages.info(request, f"You did NOT play in {year}. Here is {latest}")
         return redirect(reverse("player", args=[link, latest]))
     else:
-        messages.warning(request, f"We don't have a record of you playing any season.")
+        messages.info(request, "We don't have a record of you playing any season.")
         return redirect(reverse("home"))
 
 

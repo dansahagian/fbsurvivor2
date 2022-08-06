@@ -52,9 +52,6 @@ def player(request, link, year):
 
     survivor = survivors[0].player.username if len(survivors) == 1 else ""
 
-    if player_status and not player_status.is_paid:
-        messages.info(request, f"Unpaid - Venmo $30 to {VENMO}")
-
     context = {
         "player": player,
         "season": season,
@@ -66,6 +63,7 @@ def player(request, link, year):
         "survivor": survivor,
         "deadline": deadline,
         "playable": playable,
+        "venmo": VENMO,
     }
 
     return render(request, "player.html", context=context)
@@ -95,7 +93,7 @@ def play(request, link, year):
         picks = [Pick(player=player, week=week) for week in weeks]
         Pick.objects.bulk_create(picks)
         get_board(season, player.league, overwrite_cache=True)
-        messages.success(request, f"Congrats on joining the {year} league. Good luck!")
+        messages.info(request, f"Good luck in the {year} season!")
         return redirect(reverse("player", args=[link, year]))
 
 
@@ -107,7 +105,7 @@ def retire(request, link, year):
     elif player_status.is_retired:
         messages.info(request, f"You already retired in {year}!")
     elif not season.is_current:
-        messages.info(request, f"You can NOT retire from a past season!")
+        messages.info(request, "You can NOT retire from a past season!")
     else:
         player_status.is_retired = True
         player_status.save()
@@ -115,7 +113,7 @@ def retire(request, link, year):
             player=player, week__season=season, result__isnull=True
         ).update(result="R")
         get_board(season, player.league, overwrite_cache=True)
-        messages.success(request, f"You have retired. See you next year!")
+        messages.info(request, "You have retired. See you next year!")
 
     return redirect(reverse("player", args=[link, year]))
 

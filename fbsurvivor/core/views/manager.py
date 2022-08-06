@@ -40,7 +40,7 @@ def user_paid(request, link, year, user_link):
     ps.is_paid = True
     ps.save()
     update_league_caches(season)
-    messages.success(request, f"{ps.player.username} marked as paid!")
+    messages.info(request, f"{ps.player.username} marked as paid!")
     return redirect(reverse("paid", args=[link, year]))
 
 
@@ -63,11 +63,11 @@ def mark_result(request, link, year, week, team, result):
     Pick.objects.for_result_updates(week, team).update(result=result)
     Pick.objects.for_no_picks(week).update(result="L")
 
-    messages.success(request, f"Picks for week {week.week_num} of {team} updated!")
+    messages.info(request, f"Picks for week {week.week_num} of {team} updated!")
 
     player_records_updated = update_player_records(year)
     update_league_caches(season)
-    messages.success(request, f"{player_records_updated} player records updated!")
+    messages.info(request, f"{player_records_updated} player records updated!")
 
     return redirect(reverse("results", args=[link, year]))
 
@@ -75,7 +75,7 @@ def mark_result(request, link, year, week, team, result):
 def remind(request, link, year):
     get_object_or_404(Player, link=link, is_admin=True)
     send_reminders_task.delay()
-    messages.success(request, f"Reminder task kicked off")
+    messages.info(request, "Reminder task kicked off")
     return redirect(reverse("manager", args=[link, year]))
 
 

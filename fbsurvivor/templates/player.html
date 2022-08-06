@@ -13,6 +13,12 @@
             {% endif %}
         {% endif %}
         {% if player_status %}
+            {% if not player_status.is_paid %}
+                <div class="messages">
+                    <strong>Unpaid - Venmo $30 to {{ venmo }}</strong>
+                </div>
+                <br>
+            {% endif %}
             <strong>
                 {% if deadline %}Next lock in {{ deadline }}<br><br>{% endif %}
             </strong>

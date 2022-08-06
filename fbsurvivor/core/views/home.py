@@ -27,12 +27,12 @@ def home(request):
             try:
                 league = League.objects.get(code=league)
             except League.DoesNotExist:
-                messages.error(request, "Invalid league. Try again!")
+                messages.info(request, "Invalid league. Try again!")
                 return redirect(reverse("home"))
 
             usernames = list(Player.objects.values_list("username", flat=True))
             if username in usernames:
-                messages.error(request, "Username already in use. Try again!")
+                messages.info(request, "Username already in use. Try again!")
                 return redirect(reverse("home"))
             else:
                 Player.objects.create(username=username, email=email, league=league)

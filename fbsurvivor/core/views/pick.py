@@ -47,7 +47,7 @@ def pick(request, link, year, week):
     context["pick"] = user_pick
 
     if user_pick.is_locked:
-        messages.warning(request, f"Week {week.week_num} is locked!")
+        messages.info(request, f"Week {week.week_num} is locked!")
         return redirect(reverse("picks", args=[link, year]))
 
     if request.method == "GET":
@@ -65,19 +65,19 @@ def pick(request, link, year, week):
                 choice = get_object_or_404(Team, team_code=team_code, season=season)
                 user_pick.team = choice
                 if user_pick.is_locked:
-                    messages.warning(request, f"Week {week.week_num} is locked!")
+                    messages.info(request, f"Week {week.week_num} is locked!")
                     return redirect(reverse("picks", args=[link, year]))
             else:
                 user_pick.team = None
 
             user_pick.save()
             team_code = user_pick.team.team_code if user_pick.team else "No team "
-            messages.success(
+            messages.info(
                 request,
                 f"{team_code} submitted for week {week.week_num}",
             )
 
         else:
-            messages.warning(request, "Bad form submission")
+            messages.info(request, "Bad form submission")
 
         return redirect(reverse("picks", args=[link, year]))

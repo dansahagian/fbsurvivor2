@@ -36,26 +36,16 @@
             <br>
             <br>
         {% endif %}
-        <div>
-            {% if messages %}
-                <ul class="messages">
-                    {% for message in messages %}
-                        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
-                            {% if message.level == DEFAULT_MESSAGE_LEVELS.INFO %}
-                                <div class="info">
-                            {% else %}
-                                <div>
-                            {% endif %}
-                                {{ message }}
-                            </div>
-                        </li>
-                    {% endfor %}
-                </ul>
-                <br><br>
-            {% endif %}
-            <div id="content">
-                {% block content %}{% endblock %}
-            </div>
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+            <br><br>
+        {% endif %}
+        <div id="content">
+            {% block content %}{% endblock %}
         </div>
     </body>
 </html>

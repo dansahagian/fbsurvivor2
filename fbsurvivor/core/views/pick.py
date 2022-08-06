@@ -36,7 +36,6 @@ def picks(request, link, year):
     )
     context["status"] = "Retired" if player_status.is_retired else "Playing"
     context["can_retire"] = can_retire
-    context["years"] = PlayerStatus.objects.player_years(player)
     return render(request, "picks.html", context=context)
 
 

@@ -54,7 +54,7 @@ li {
 li a {
     color: white;
     text-align: center;
-    padding: .5em;
+    padding: .5em .75em;
     text-decoration: none;
     background-color: black;
     border-radius: 0;

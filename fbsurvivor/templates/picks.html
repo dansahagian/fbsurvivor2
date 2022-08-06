@@ -39,13 +39,4 @@
     {% else %}
         No pick data available for {{ season.year }}!
     {% endif %}
-    <br>
-        {% for year in years %}
-            <span class="space">
-                <a href="{% url 'picks' player.link year %}">{{ year }}</a>
-            </span>
-            {% if forloop.counter|divisibleby:2  %}
-                <br><br>
-            {% endif %}
-        {% endfor %}
 {% endblock %}

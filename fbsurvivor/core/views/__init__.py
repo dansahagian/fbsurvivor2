@@ -11,4 +11,13 @@ from .manager import (
     get_player_links,
 )
 from .pick import pick, picks, picks_redirect
-from .player import play, player, player_redirect, retire, payouts, rules, dark_mode
+from .player import (
+    play,
+    player,
+    player_redirect,
+    retire,
+    more,
+    payouts,
+    rules,
+    dark_mode,
+)

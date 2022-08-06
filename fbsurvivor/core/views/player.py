@@ -23,7 +23,7 @@ def dark_mode(request, link):
     player = get_object_or_404(Player, link=link)
     player.is_dark_mode = not player.is_dark_mode
     player.save()
-    return redirect(reverse("player_redirect", args=[link]))
+    return redirect(reverse("more", args=[link]))
 
 
 def player_redirect(request, link):
@@ -42,7 +42,6 @@ def player(request, link, year):
     weeks = Week.objects.for_display(season).values_list("week_num", flat=True)
     player_statuses, board = get_board(season, player.league)
     survivors = player_statuses.filter(is_survivor=True)
-    years = list(PlayerStatus.objects.player_years(player))
 
     try:
         playable = Season.objects.get(is_current=True, is_locked=False).year
@@ -65,7 +64,6 @@ def player(request, link, year):
         "board": board,
         "player_count": player_statuses.count(),
         "survivor": survivor,
-        "years": years,
         "deadline": deadline,
         "playable": playable,
     }
@@ -120,6 +118,16 @@ def retire(request, link, year):
         messages.success(request, f"You have retired. See you next year!")
 
     return redirect(reverse("player", args=[link, year]))
+
+
+def more(request, link):
+    player = get_object_or_404(Player, link=link)
+
+    years = list(PlayerStatus.objects.player_years(player))
+
+    context = {"player": player, "years": years}
+
+    return render(request, "more.html", context=context)
 
 
 def payouts(request, link):

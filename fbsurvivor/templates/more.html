@@ -1,0 +1,30 @@
+{% extends "./base.html" %}
+{% block content %}
+    <h3>Settings</h3>
+    <span class="space">
+        <a href="{% url 'dark_mode' player.link %}">
+            {% if player.is_dark_mode %}
+                Light Mode
+            {% else %}
+                Dark Mode
+            {% endif %}
+        </a>
+    </span>
+    <h3>Other</h3>
+    <span class="space">
+        <a href="{% url 'rules' player.link %}">Rules</a>
+    </span>
+    <br><br>
+    <span class="space">
+        <a href="{% url 'payouts' player.link %}">Payouts</a>
+    </span>
+    <h3>Seasons</h3>
+        {% for year in years %}
+            <span class="space">
+                <a href="{% url 'player' player.link year %}">{{ year }}</a>
+            </span>
+            {% if forloop.counter|divisibleby:2  %}
+                <br><br>
+            {% endif %}
+        {% endfor %}
+{% endblock %}

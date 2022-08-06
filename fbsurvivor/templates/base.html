@@ -23,16 +23,14 @@
         <h2>
             Survivor
             {% if season %}{{ season.year }}{% endif %}
-            {% if player %} - {{ player.league.name }}{% endif %}
         </h2>
         {% if player %}
             <ul>
-                <li><a href="{% url 'player_redirect' player.link %}">Board/</a></li>
-                <li><a href="{% url 'picks_redirect' player.link %}">Picks/</a></li>
-                <li><a href="{% url 'payouts' player.link %}">Payouts/</a></li>
-                <li><a href="{% url 'rules' player.link %}">Rules/</a></li>
+                <li><a href="{% url 'player_redirect' player.link %}">/Board</a></li>
+                <li><a href="{% url 'picks_redirect' player.link %}">/Picks</a></li>
+                <li><a href="{% url 'more' player.link %}">/More</a></li>
                 {% if player.is_admin %}
-                    <li><a href="{% url 'manager_redirect' player.link %}">Admin/</a></li>
+                    <li><a href="{% url 'manager_redirect' player.link %}">/Manage</a></li>
                 {% endif %}
             </ul>
             <br>

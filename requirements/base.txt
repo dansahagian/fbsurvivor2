@@ -82,7 +82,7 @@ python-decouple==3.6
     # via -r base.in
 python-dotenv==0.20.0
     # via -r base.in
-pytz==2022.2
+pytz==2022.1
     # via
     #   celery
     #   django-timezone-field

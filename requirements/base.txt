@@ -38,7 +38,7 @@ click-repl==0.2.0
     # via celery
 deprecated==1.2.13
     # via redis
-django==4.0.6
+django==4.0.7
     # via
     #   -r base.in
     #   django-celery-beat
@@ -46,7 +46,7 @@ django==4.0.6
     #   django-redis
 django-celery-beat==2.3.0
     # via -r base.in
-django-extensions==3.1.5
+django-extensions==3.2.0
     # via -r base.in
 django-htmlmin==0.11.0
     # via -r base.in
@@ -82,7 +82,7 @@ python-decouple==3.6
     # via -r base.in
 python-dotenv==0.20.0
     # via -r base.in
-pytz==2022.1
+pytz==2022.2
     # via
     #   celery
     #   django-timezone-field
@@ -102,11 +102,11 @@ soupsieve==2.3.2.post1
     # via beautifulsoup4
 sqlparse==0.4.2
     # via django
-twilio==7.10.0
+twilio==7.12.1
     # via -r base.in
-tzdata==2022.1
+tzdata==2022.2
     # via django-celery-beat
-urllib3==1.26.10
+urllib3==1.26.11
     # via requests
 vine==5.0.0
     # via

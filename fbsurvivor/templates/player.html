@@ -25,6 +25,7 @@
             <table>
                 <tr>
                     <th>Username</th>
+                    <th>😀</th>
                     <th>$</th>
                     <th>Ws</th>
                     <th>Ls</th>
@@ -45,14 +46,9 @@
                     {% else %}
                         <tr>
                     {% endif %}
-                        <td>
-                            {% if ps.player.emoji %}{{ ps.player.emoji }}{% endif %}{{ ps.player.username }}
-                        </td>
-                        <td>
-                            {% if ps.is_paid %}
-                                $
-                            {% endif %}
-                        </td>
+                        <td>{{ ps.player.username }}</td>
+                        <td>{% if ps.player.emoji %}{{ ps.player.emoji }}{% endif %}</td>
+                        <td>{% if ps.is_paid %}💸{% endif %}</td>
                         <td>{{ ps.win_count }}</td>
                         <td>{{ ps.loss_count }}</td>
 

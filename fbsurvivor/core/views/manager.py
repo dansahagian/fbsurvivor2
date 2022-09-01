@@ -82,8 +82,8 @@ def remind(request, link, year):
 def get_player_links(request, link, year):
     player, season, context = get_admin_info(link, year)
     player_links = (
-        PlayerStatus.objects.filter(season=season)
-        .values_list("player__username", "player__link")
+        PlayerStatus.objects.values_list("player__username", "player__link")
+        .distinct()
         .order_by("player__username")
     )
 

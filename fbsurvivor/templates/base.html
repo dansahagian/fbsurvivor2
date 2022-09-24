@@ -23,11 +23,11 @@
         {% if player %}
             <ul>
                 <li class="logo">Survivor {% if season %}{{ season.year }}{% endif %}</li>
-                <li><a href="{% url 'player_redirect' player.link %}">/board</a>
-                <li><a href="{% url 'picks_redirect' player.link %}">/picks</a></li>
-                <li><a href="{% url 'more' player.link %}">/more</a></li>
+                <li><a href="{% url 'player_redirect' player.link %}">board</a>
+                <li><a href="{% url 'picks_redirect' player.link %}">picks</a></li>
+                <li><a href="{% url 'more' player.link %}">more</a></li>
                 {% if player.is_admin %}
-                    <li><a href="{% url 'manager_redirect' player.link %}">/m</a></li>
+                    <li><a href="{% url 'manager_redirect' player.link %}">a</a></li>
                 {% endif %}
             </ul>
             <br>

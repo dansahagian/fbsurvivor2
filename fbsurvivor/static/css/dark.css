@@ -55,7 +55,7 @@ li {
 li a {
     color: white;
     text-align: center;
-    padding: .5em .75em;
+    padding: .5em .6em;
     text-decoration: none;
     background-color: black;
     border-radius: 0;
@@ -126,4 +126,10 @@ li a:hover {
 .toggle {
     padding: 0;
     font-size: .80em;
+}
+
+.logo {
+    font-size: 1.2em;
+    font-weight: bold;
+    padding-right: .4em;
 }

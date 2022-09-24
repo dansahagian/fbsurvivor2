@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 
-from fbsurvivor.core.deadlines import get_next_deadline
+from fbsurvivor.core.deadlines import get_next_deadline, get_picks_count_display
 from fbsurvivor.core.helpers import (
     get_board,
     get_player_info,
@@ -49,6 +49,7 @@ def player(request, link, year):
         playable = None
 
     deadline = get_next_deadline(season)
+    picks_display = get_picks_count_display(season)
 
     survivor = survivors[0].player.username if len(survivors) == 1 else ""
 
@@ -62,6 +63,7 @@ def player(request, link, year):
         "player_count": player_statuses.count(),
         "survivor": survivor,
         "deadline": deadline,
+        "picks_display": picks_display,
         "playable": playable,
         "venmo": VENMO,
     }

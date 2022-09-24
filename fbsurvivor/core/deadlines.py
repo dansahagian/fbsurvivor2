@@ -1,6 +1,6 @@
 import arrow
 
-from fbsurvivor.core.models import Week, Lock
+from fbsurvivor.core.models import Week, Lock, PlayerStatus, Season, Pick
 
 
 def _zero_pad_number(number):
@@ -73,3 +73,14 @@ def get_next_deadline(season):
     weekly = get_weekly_deadline(season, next_week)
 
     return get_countdown(early) or get_countdown(weekly)
+
+
+def get_picks_count_display(season: Season) -> str | None:
+    next_week: Week = Week.objects.get_next(season)
+    if not next_week:
+        return None
+
+    player_count = PlayerStatus.objects.filter(season=season, is_retired=False).count()
+    pick_count = Pick.objects.filter(week=next_week, team__isnull=False).count()
+
+    return f"{pick_count} / {player_count} active players have picked this week."

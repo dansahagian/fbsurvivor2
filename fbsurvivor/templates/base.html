@@ -20,17 +20,14 @@
         <meta name="theme-color" content="#ffffff">
     </head>
     <body>
-        <h2>
-            Survivor
-            {% if season %}{{ season.year }}{% endif %}
-        </h2>
         {% if player %}
             <ul>
-                <li><a href="{% url 'player_redirect' player.link %}">/Board</a></li>
-                <li><a href="{% url 'picks_redirect' player.link %}">/Picks</a></li>
-                <li><a href="{% url 'more' player.link %}">/More</a></li>
+                <li class="logo">Survivor {% if season %}{{ season.year }}{% endif %}</li>
+                <li><a href="{% url 'player_redirect' player.link %}">/board</a>
+                <li><a href="{% url 'picks_redirect' player.link %}">/picks</a></li>
+                <li><a href="{% url 'more' player.link %}">/more</a></li>
                 {% if player.is_admin %}
-                    <li><a href="{% url 'manager_redirect' player.link %}">/Manage</a></li>
+                    <li><a href="{% url 'manager_redirect' player.link %}">/admin</a></li>
                 {% endif %}
             </ul>
             <br>

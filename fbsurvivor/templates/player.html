@@ -19,9 +19,8 @@
                 </div>
                 <br>
             {% endif %}
-            <strong>
-                {% if deadline %}Next lock in {{ deadline }}<br><br>{% endif %}
-            </strong>
+            {% if picks_display %}{{ picks_display }}{%  endif %}
+            <br><br>
             <table>
                 <tr>
                     <th>Username</th>

@@ -27,7 +27,7 @@
                 <li><a href="{% url 'picks_redirect' player.link %}">/picks</a></li>
                 <li><a href="{% url 'more' player.link %}">/more</a></li>
                 {% if player.is_admin %}
-                    <li><a href="{% url 'manager_redirect' player.link %}">/admin</a></li>
+                    <li><a href="{% url 'manager_redirect' player.link %}">/m</a></li>
                 {% endif %}
             </ul>
             <br>

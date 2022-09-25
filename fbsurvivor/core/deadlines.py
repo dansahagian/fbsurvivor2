@@ -85,4 +85,4 @@ def get_picks_count_display(season: Season) -> str | None:
 
     week = next_week.week_num
 
-    return f"{pick_cnt} / {player_cnt} active players have made their Week {week} pick."
+    return f"{pick_cnt} / {player_cnt} players have made their Week {week} pick."

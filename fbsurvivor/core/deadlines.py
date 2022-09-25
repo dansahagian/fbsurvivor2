@@ -86,3 +86,31 @@ def get_picks_count_display(season: Season) -> str | None:
     week = next_week.week_num
 
     return f"{pick_cnt} / {player_cnt} players have made their Week {week} pick."
+
+
+def get_reminder_message(season: Season, next_week: Week) -> str | None:
+    now = arrow.now().datetime
+
+    early_locks = Lock.objects.filter(
+        week__season=season, week=next_week, lock_datetime__gte=now
+    ).order_by("lock_datetime")
+
+    results = {}
+
+    for lock in early_locks:
+        if results.get(lock.lock_datetime):
+            results[lock.lock_datetime].append(lock.team.team_code)
+        else:
+            results[lock.lock_datetime] = [lock.team.team_code]
+
+    message = ""
+
+    for result in results:
+        teams = ", ".join(results[result])
+        message += f"{teams} lock in: {get_countdown(result)}\n"
+
+    weekly_deadline = get_weekly_deadline(season, next_week)
+    if weekly_deadline:
+        message += f"Week locks in: {get_countdown(weekly_deadline)}"
+
+    return message if message else None

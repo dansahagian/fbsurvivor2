@@ -8,11 +8,7 @@ app = Celery("fbsurvivor", broker=BROKER_URL)
 @app.task()
 def send_reminders_task():
     from fbsurvivor.core.models import PlayerStatus, Season, Week
-    from fbsurvivor.core.deadlines import (
-        get_early_deadline,
-        get_weekly_deadline,
-        get_countdown,
-    )
+    from fbsurvivor.core.deadlines import get_reminder_message
 
     current_season: Season = Season.objects.get(is_current=True)
     next_week: Week = Week.objects.get_next(current_season)
@@ -20,16 +16,13 @@ def send_reminders_task():
     if not next_week:
         return
 
-    subject = "Survivor Picks Reminder"
-    message = f"Survivor Picks Reminder - Week {next_week.week_num}\n\n"
+    message = get_reminder_message(current_season, next_week)
 
-    early_deadline = get_early_deadline(current_season, next_week)
-    if early_deadline and (countdown := get_countdown(early_deadline)):
-        message += f"Early picks lock in: {countdown}\n\n"
+    if not message:
+        return
 
-    weekly_deadline = get_weekly_deadline(current_season, next_week)
-    if weekly_deadline and (countdown := get_countdown(weekly_deadline)):
-        message += f"Weekly picks lock in: {countdown}"
+    subject = f"Survivor Week {next_week.week_num} Reminder"
+    message = f"Survivor Week {next_week.week_num} Reminder\n\n" + message
 
     recipients = list(PlayerStatus.objects.for_email_reminders(next_week))
     phone_numbers = list(PlayerStatus.objects.for_phone_reminders(next_week))

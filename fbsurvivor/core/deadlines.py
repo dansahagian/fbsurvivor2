@@ -80,7 +80,9 @@ def get_picks_count_display(season: Season) -> str | None:
     if not next_week:
         return None
 
-    player_count = PlayerStatus.objects.filter(season=season, is_retired=False).count()
-    pick_count = Pick.objects.filter(week=next_week, team__isnull=False).count()
+    player_cnt = PlayerStatus.objects.filter(season=season, is_retired=False).count()
+    pick_cnt = Pick.objects.filter(week=next_week, team__isnull=False).count()
 
-    return f"{pick_count} / {player_count} active players have picked this week."
+    week = next_week.week_num
+
+    return f"{pick_cnt} / {player_cnt} active players have made their Week {week} pick."

@@ -126,6 +126,7 @@ li a:hover {
 }
 
 .logo {
+    color: black;
     font-size: 1.2em;
     font-weight: bold;
     padding-right: .4em;

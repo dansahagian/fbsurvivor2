@@ -24,7 +24,7 @@ class PickForm(forms.Form):
         choices = [("", "--")]
         choices.extend(
             [
-                (team.team_code, team.team_code)
+                (team.team_code, f"{team.team_code} ({team.name})")
                 for team in (
                     Team.objects.filter(season=season)
                     .exclude(bye_week=week.week_num)

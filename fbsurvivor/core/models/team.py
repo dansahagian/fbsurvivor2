@@ -9,6 +9,7 @@ from .week import Week
 class Team(models.Model):
     season = models.ForeignKey(Season, on_delete=models.DO_NOTHING)
     team_code = models.CharField(max_length=3)
+    name = models.CharField(max_length=15, default="")
     bye_week = models.PositiveSmallIntegerField()
 
     def __str__(self):

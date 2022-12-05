@@ -10,12 +10,20 @@ from fbsurvivor.celery import send_email_task
 from .season import Season
 
 
+def get_all_used_links():
+    links = set(Player.objects.values_list("link", flat=True))
+    for old_links in Player.objects.values_list("old_links", flat=True):
+        for link in old_links.split(","):
+            links.add(link)
+
+    return links
+
+
 def generate_link():
     char_set = string.ascii_lowercase + string.digits
-    links = Player.objects.values_list("link", flat=True)
-
     link = "".join(secrets.choice(char_set) for _ in range(44))
-    if link in links:
+
+    if link in get_all_used_links():
         return generate_link()
     return link
 
@@ -40,6 +48,7 @@ class Player(models.Model):
     league = models.ForeignKey(League, null=True, on_delete=models.DO_NOTHING)
     is_dark_mode = models.BooleanField(default=False)
     emoji = models.CharField(max_length=8, null=True, blank=True)
+    old_links = models.TextField(default="", blank=True)
 
     def __str__(self):
         return f"{self.username}"

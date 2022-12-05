@@ -40,6 +40,7 @@ urlpatterns = [
     path("picks/<str:link>/<int:year>/", views.picks, name="picks"),
     path("picks/<str:link>/<int:year>/<int:week>/", views.pick, name="pick"),
     path("more/<str:link>/", views.more, name="more"),
+    path("link/<str:link>/reset/", views.reset_link, name="reset_link"),
     path("<str:link>/", views.player_redirect),
     path("<str:link>", views.player_redirect),
 ]

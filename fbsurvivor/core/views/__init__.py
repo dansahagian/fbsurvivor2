@@ -20,4 +20,5 @@ from .player import (
     payouts,
     rules,
     dark_mode,
+    reset_link,
 )

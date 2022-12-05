@@ -16,6 +16,7 @@ from fbsurvivor.core.models import (
     Week,
     Payout,
 )
+from fbsurvivor.core.models.player import generate_link
 from fbsurvivor.settings import VENMO
 
 
@@ -118,6 +119,19 @@ def retire(request, link, year):
         messages.info(request, "You have retired. See you next year!")
 
     return redirect(reverse("player", args=[link, year]))
+
+
+def reset_link(request, link):
+    player = get_object_or_404(Player, link=link)
+    old_links = player.old_links.split(",")
+    old_links.append(link)
+
+    player.old_links = ",".join(old_links)
+    player.link = generate_link()
+    player.save()
+
+    messages.info(request, "Link Updated. Bookmark this page!")
+    return redirect(reverse("player_redirect", args=[player.link]))
 
 
 def more(request, link):

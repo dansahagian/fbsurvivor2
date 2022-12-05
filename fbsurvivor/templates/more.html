@@ -27,4 +27,11 @@
                 <br><br>
             {% endif %}
         {% endfor %}
+    <h3>Security</h3>
+    You can reset your secret link if you think someone has it or you just want to change it.<br>
+    It will not ask you for confirmation and will break your previous bookmarks.<br><br>
+    If you really want to proceed:
+    <span class="space">
+        <a href="{% url 'reset_link' player.link %}">Reset Link</a>
+    </span>
 {% endblock %}

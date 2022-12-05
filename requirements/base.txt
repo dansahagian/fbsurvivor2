@@ -105,10 +105,6 @@ kombu==5.2.4 \
     --hash=sha256:37cee3ee725f94ea8bb173eaab7c1760203ea53bbebae226328600f9d2799610 \
     --hash=sha256:8b213b24293d3417bcf0d2f5537b7f756079e3ea232a8386dcc89a59fd2361a4
     # via celery
-packaging==21.3 \
-    --hash=sha256:dd47c42927d89ab911e606518907cc2d3a1f38bbd026385970643f9c5b8ecfeb \
-    --hash=sha256:ef103e05f519cdc783ae24ea4e2e0f508a9c99b2d4969652eed6a2e1ea5bd522
-    # via redis
 prompt-toolkit==3.0.33 \
     --hash=sha256:535c29c31216c77302877d5120aef6c94ff573748a5b5ca5b1b1f76f5e700c73 \
     --hash=sha256:ced598b222f6f4029c0800cefaa6a17373fb580cd093223003475ce32805c35b
@@ -132,10 +128,6 @@ pyjwt==2.6.0 \
     --hash=sha256:69285c7e31fc44f68a1feb309e948e0df53259d579295e6cfe2b1792329f05fd \
     --hash=sha256:d83c3d892a77bbb74d3e1a2cfa90afaadb60945205d1095d9221f04466f64c14
     # via twilio
-pyparsing==3.0.9 \
-    --hash=sha256:2b020ecf7d21b687f219b71ecad3631f644a47f01403fa1d1036b0c6416d70fb \
-    --hash=sha256:5026bae9a10eeaefb61dab2f09052b9f4307d44aee4eda64b309723d8d206bbc
-    # via packaging
 python-crontab==2.6.0 \
     --hash=sha256:1e35ed7a3cdc3100545b43e196d34754e6551e7f95e4caebbe0e1c0ca41c2f1b
     # via django-celery-beat
@@ -160,9 +152,9 @@ pytz==2022.6 \
     #   celery
     #   django-timezone-field
     #   twilio
-redis==4.3.5 \
-    --hash=sha256:30c07511627a4c5c4d970e060000772f323174f75e745a26938319817ead7a12 \
-    --hash=sha256:46652271dc7525cd5a9667e5b0ca983c848c75b2b8f7425403395bb8379dcf25
+redis==4.4.0 \
+    --hash=sha256:7b8c87d19c45d3f1271b124858d2a5c13160c4e74d4835e28273400fa34d5228 \
+    --hash=sha256:cae3ee5d1f57d8caf534cd8764edf3163c77e073bdd74b6f54a87ffafdc5e7d9
     # via django-redis
 requests==2.28.1 \
     --hash=sha256:7c5599b102feddaa661c826c56ab4fee28bfd17f5abca1ebbe3e7f19d7c97983 \
@@ -185,13 +177,13 @@ sqlparse==0.4.3 \
     --hash=sha256:0323c0ec29cd52bceabc1b4d9d579e311f3e4961b98d174201d5622a23b85e34 \
     --hash=sha256:69ca804846bb114d2ec380e4360a8a340db83f0ccf3afceeb1404df028f57268
     # via django
-twilio==7.15.3 \
-    --hash=sha256:805b3e880b20757726a38f0f4e0ea6f91f7ce68ecb8f75ba263dccc480a7fd26 \
-    --hash=sha256:f64f2106c2c8705ac84c01cb0cdb6157dc8b5d32b5eecbaec70e60cdbf774758
+twilio==7.15.4 \
+    --hash=sha256:13a9eca9e1f06b5f01b8745274a233143198afba19cacd4522ae9e571916dfe5 \
+    --hash=sha256:699c5723d87141e0af3a8f79076b1f97acbdcf3287d384f2adf921e780e419df
     # via -r requirements/base.in
-tzdata==2022.6 \
-    --hash=sha256:04a680bdc5b15750c39c12a448885a51134a27ec9af83667663f0b3a1bf3f342 \
-    --hash=sha256:91f11db4503385928c15598c98573e3af07e7229181bee5375bd30f1695ddcae
+tzdata==2022.7 \
+    --hash=sha256:2b88858b0e3120792a3c0635c23daf36a7d7eeeca657c323da299d2094402a0d \
+    --hash=sha256:fe5f866eddd8b96e9fcba978f8e503c909b19ea7efda11e52e39494bad3a7bfa
     # via django-celery-beat
 urllib3==1.26.13 \
     --hash=sha256:47cc05d99aaa09c9e72ed5809b60e7ba354e64b59c9c173ac3018642d8bb41fc \

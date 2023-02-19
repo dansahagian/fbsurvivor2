@@ -7,7 +7,6 @@ import fbsurvivor.core.models.player
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("core", "0020_signupcode"),
     ]

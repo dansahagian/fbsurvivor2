@@ -5,7 +5,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     replaces = [
         ("core", "0006_auto_20200517_1258"),
         ("core", "0007_auto_20200517_1359"),

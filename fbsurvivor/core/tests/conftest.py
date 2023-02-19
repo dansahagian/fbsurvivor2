@@ -34,7 +34,6 @@ def seasons(db):
 @pytest.fixture(autouse=True)
 def weeks(db, seasons):
     right_now = arrow.now()
-    now = right_now.datetime
     nw = right_now.shift(days=7).datetime
     lw = right_now.shift(days=-7).datetime
     ly = right_now.shift(days=-365).datetime

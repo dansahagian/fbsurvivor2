@@ -1,16 +1,11 @@
 from django.contrib import admin
 
-from fbsurvivor.core.models import (
-    Player,
-    PlayerStatus,
-    Season,
-    Week,
-    Team,
-    Pick,
-    Payout,
-    League,
-)
 from fbsurvivor.core.models.lock import Lock
+from fbsurvivor.core.models.pick import Pick
+from fbsurvivor.core.models.player import Player, PlayerStatus, Payout, League
+from fbsurvivor.core.models.season import Season
+from fbsurvivor.core.models.team import Team
+from fbsurvivor.core.models.week import Week
 
 admin.AdminSite.enable_nav_sidebar = False
 

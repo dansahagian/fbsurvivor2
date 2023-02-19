@@ -1,7 +1,7 @@
 import pytest
 from django.urls import reverse
 
-from fbsurvivor.core.models import Pick
+from fbsurvivor.core.models.pick import Pick
 from fbsurvivor.core.views.pick import get_player_info_and_context
 
 

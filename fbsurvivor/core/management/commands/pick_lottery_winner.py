@@ -2,7 +2,8 @@ from secrets import choice
 
 from django.core.management.base import BaseCommand
 
-from fbsurvivor.core.models import Player, Season
+from fbsurvivor.core.models.player import Player
+from fbsurvivor.core.models.season import Season
 
 
 class Command(BaseCommand):

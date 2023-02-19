@@ -1,6 +1,6 @@
 import pytest
 
-from fbsurvivor.core.models import Week
+from fbsurvivor.core.models.week import Week
 
 
 @pytest.fixture

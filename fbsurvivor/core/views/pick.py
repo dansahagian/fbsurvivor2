@@ -3,7 +3,11 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 
 from fbsurvivor.core.forms import PickForm
-from fbsurvivor.core.models import Player, Season, PlayerStatus, Pick, Week, Team
+from fbsurvivor.core.models.pick import Pick
+from fbsurvivor.core.models.player import Player, PlayerStatus
+from fbsurvivor.core.models.season import Season
+from fbsurvivor.core.models.team import Team
+from fbsurvivor.core.models.week import Week
 
 
 def get_player_info_and_context(link, year):

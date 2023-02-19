@@ -8,15 +8,10 @@ from fbsurvivor.core.helpers import (
     get_player_info,
     send_to_latest_season_played,
 )
-from fbsurvivor.core.models import (
-    Season,
-    Player,
-    PlayerStatus,
-    Pick,
-    Week,
-    Payout,
-)
-from fbsurvivor.core.models.player import generate_link
+from fbsurvivor.core.models.pick import Pick
+from fbsurvivor.core.models.player import generate_link, Player, PlayerStatus, Payout
+from fbsurvivor.core.models.season import Season
+from fbsurvivor.core.models.week import Week
 from fbsurvivor.settings import VENMO
 
 

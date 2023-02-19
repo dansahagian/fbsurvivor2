@@ -4,11 +4,12 @@ from django.shortcuts import render, get_object_or_404, redirect, reverse
 from fbsurvivor import settings
 from fbsurvivor.celery import send_email_task
 from fbsurvivor.core.forms import EmailForm, PlayerForm
-from fbsurvivor.core.models import Season, Player, League
+from fbsurvivor.core.models.player import Player, League
+from fbsurvivor.core.models.season import Season
 
 
 def home(request):
-    current_season = get_object_or_404(Season, is_current=True)
+    get_object_or_404(Season, is_current=True)
 
     if request.method == "GET":
         context = {

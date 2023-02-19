@@ -1,6 +1,7 @@
 import pytest
 
-from fbsurvivor.core.models import PlayerStatus, Pick
+from fbsurvivor.core.models.pick import Pick
+from fbsurvivor.core.models.player import PlayerStatus
 
 
 @pytest.fixture

@@ -1,12 +1,16 @@
 import arrow as arrow
 import factory
 
-from fbsurvivor.core import models
+from fbsurvivor.core.models.pick import Pick
+from fbsurvivor.core.models.player import Player, PlayerStatus
+from fbsurvivor.core.models.season import Season
+from fbsurvivor.core.models.team import Team
+from fbsurvivor.core.models.week import Week
 
 
 class PlayerFactory(factory.django.DjangoModelFactory):
     class Meta:
-        model = models.Player
+        model = Player
 
     username = factory.Sequence(lambda n: f"Player{n + 1}")
     link = factory.Sequence(lambda n: f"secretlink{n + 1}")
@@ -17,7 +21,7 @@ class PlayerFactory(factory.django.DjangoModelFactory):
 
 class SeasonFactory(factory.django.DjangoModelFactory):
     class Meta:
-        model = models.Season
+        model = Season
 
     year = factory.Sequence(lambda n: n + 2017)
     is_locked = True
@@ -26,7 +30,7 @@ class SeasonFactory(factory.django.DjangoModelFactory):
 
 class WeekFactory(factory.django.DjangoModelFactory):
     class Meta:
-        model = models.Week
+        model = Week
 
     season = factory.SubFactory(SeasonFactory)
     week_num = factory.Sequence(lambda n: n + 1)
@@ -35,7 +39,7 @@ class WeekFactory(factory.django.DjangoModelFactory):
 
 class TeamFactory(factory.django.DjangoModelFactory):
     class Meta:
-        model = models.Team
+        model = Team
 
     season = factory.SubFactory(SeasonFactory)
     team_code = factory.Sequence(lambda n: f"T{n + 1}")
@@ -44,7 +48,7 @@ class TeamFactory(factory.django.DjangoModelFactory):
 
 class PickFactory(factory.django.DjangoModelFactory):
     class Meta:
-        model = models.Pick
+        model = Pick
 
     player = factory.SubFactory(PlayerFactory)
     week = factory.SubFactory(WeekFactory)
@@ -53,7 +57,7 @@ class PickFactory(factory.django.DjangoModelFactory):
 
 class PlayerStatusFactory(factory.django.DjangoModelFactory):
     class Meta:
-        model = models.PlayerStatus
+        model = PlayerStatus
 
     player = factory.SubFactory(PlayerFactory)
     season = factory.SubFactory(SeasonFactory)

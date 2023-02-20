@@ -11,6 +11,7 @@ from fbsurvivor.core.views.manager import (
     paid,
     user_paid,
     manager,
+    send_message,
 )
 from fbsurvivor.core.views.pick import picks_redirect, picks, pick
 from fbsurvivor.core.views.player import (
@@ -34,6 +35,7 @@ urlpatterns = [
     path("board/<str:link>/<int:year>/", player, name="player"),
     path("manager/<str:link>/", manager_redirect, name="manager_redirect"),
     path("manager/<str:link>/<int:year>/", manager, name="manager"),
+    path("message/<str:link>/<int:year>/", send_message, name="message"),
     path("payouts/<str:link>/", payouts, name="payouts"),
     path("rules/<str:link>/", rules, name="rules"),
     path(

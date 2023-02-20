@@ -1,0 +1,17 @@
+{% extends "./base.html" %}
+    {% block content %}
+        Send a message to all players!
+        <br><br>
+        <form action="{% url 'message' player.link season.year %}" method="POST">
+            {% csrf_token %}
+            <label for="{{ form.subject.id_for_label }}">Subject:</label>
+            <br>
+            {{ form.subject }}
+            <br><br>
+            <label for="{{ form.message.id_for_label }}">Message:</label>
+            <br>
+            {{ form.message }}
+            <br><br>
+            <input class="blue-button" type="submit" value="Send" />
+        </form>
+    {% endblock %}

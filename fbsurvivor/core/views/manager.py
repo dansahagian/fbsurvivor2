@@ -2,7 +2,8 @@ from django.contrib import messages
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
 
-from fbsurvivor.celery import send_reminders_task
+from fbsurvivor.celery import send_reminders_task, send_email_task
+from fbsurvivor.core.forms import MessageForm
 from fbsurvivor.core.helpers import update_player_records, update_league_caches
 from fbsurvivor.core.models.pick import Pick
 from fbsurvivor.core.models.player import Player, PlayerStatus
@@ -101,3 +102,26 @@ def update_board_cache(request, link, year):
     update_league_caches(season)
 
     return redirect(reverse("player", args=[link, year]))
+
+
+def send_message(request, link, year):
+    player, season, context = get_admin_info(link, year)
+
+    if request.method == "GET":
+        context["form"] = MessageForm()
+        return render(request, "message.html", context=context)
+
+    if request.method == "POST":
+        form = MessageForm(request.POST)
+
+        if form.is_valid():
+            subject = form.cleaned_data["subject"]
+            message = form.cleaned_data["message"]
+
+            recipients = Player.objects.filter(playerstatus__season=season).values_list(
+                "email", flat=True
+            )
+
+            send_email_task.delay(subject, recipients, message)
+
+            return redirect(reverse("player", args=[link, year]))

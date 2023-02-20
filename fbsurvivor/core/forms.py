@@ -37,3 +37,8 @@ class PickForm(forms.Form):
         )
 
         self.fields["team"] = forms.ChoiceField(choices=choices, required=False)
+
+
+class MessageForm(forms.Form):
+    subject = forms.CharField(label="subject", max_length=25)
+    message = forms.CharField(label="message", widget=forms.Textarea)

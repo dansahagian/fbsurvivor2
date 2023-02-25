@@ -4,3 +4,10 @@ target-version = ['py311']
 
 [tool.ruff]
 line-length = 99
+
+exclude = [
+    ".git",
+    ".pytest_cache",
+    ".ruff_cache",
+    "venv",
+]

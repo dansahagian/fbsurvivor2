@@ -24,11 +24,7 @@ class Command(BaseCommand):
             p.username
             for p in players
             if not p.pick_set.filter(team__isnull=True, week__season=current_season)
-            and sum(
-                p.payout_set.filter(season=current_season).values_list(
-                    "amount", flat=True
-                )
-            )
+            and sum(p.payout_set.filter(season=current_season).values_list("amount", flat=True))
             < 30
         ]
         display = "\n".join(ep)

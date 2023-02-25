@@ -11,8 +11,6 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AddIndex(
             model_name="pick",
-            index=models.Index(
-                fields=["player", "week"], name="core_pick_player__7ddd2d_idx"
-            ),
+            index=models.Index(fields=["player", "week"], name="core_pick_player__7ddd2d_idx"),
         ),
     ]

@@ -54,12 +54,9 @@ def update_record(player_status):
 
 
 def _get_board(season, league):
-    ps = PlayerStatus.objects.for_season_board(season, league).prefetch_related(
-        "player"
-    )
+    ps = PlayerStatus.objects.for_season_board(season, league).prefetch_related("player")
     board = [
-        (x, list(Pick.objects.for_board(x.player, season).select_related("team")))
-        for x in ps
+        (x, list(Pick.objects.for_board(x.player, season).select_related("team"))) for x in ps
     ]
 
     return ps, board
@@ -69,9 +66,7 @@ def get_board(season, league, overwrite_cache=False):
     if overwrite_cache:
         player_statuses, board = _get_board(season, league)
         try:
-            cache.set(
-                f"player_statuses_{season.year}_{league}", player_statuses, timeout=None
-            )
+            cache.set(f"player_statuses_{season.year}_{league}", player_statuses, timeout=None)
             cache.set(f"board_{season.year}_{league}", board, timeout=None)
             print("Caching board")
         except redis.ConnectionError:

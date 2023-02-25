@@ -9,9 +9,7 @@ from .week import Week
 
 class PickQuerySet(models.QuerySet):
     def for_player_season(self, player, season):
-        return self.filter(player=player, week__season=season).order_by(
-            "week__week_num"
-        )
+        return self.filter(player=player, week__season=season).order_by("week__week_num")
 
     def for_board(self, player, season):
         return self.for_player_season(player, season).filter(
@@ -44,9 +42,7 @@ class Pick(models.Model):
     player = models.ForeignKey(Player, on_delete=models.DO_NOTHING)
     week = models.ForeignKey(Week, on_delete=models.DO_NOTHING)
     team = models.ForeignKey(Team, on_delete=models.DO_NOTHING, null=True)
-    result = models.CharField(
-        choices=result_choices, max_length=1, null=True, blank=True
-    )
+    result = models.CharField(choices=result_choices, max_length=1, null=True, blank=True)
 
     @property
     def is_locked(self):

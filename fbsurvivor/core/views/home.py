@@ -55,9 +55,7 @@ def forgot(request):
             players = Player.objects.filter(email=email)
             if players:
                 subject = "Survivor - Player Links"
-                message = (
-                    "We found the following links associated with your email address:"
-                )
+                message = "We found the following links associated with your email address:"
                 for player in players:
                     message += f"\n\n{settings.DOMAIN}/board/{player.link}/"
 

@@ -6,18 +6,18 @@ from .season import Season
 
 class WeekQuerySet(models.QuerySet):
     def for_display(self, season):
-        return self.filter(
-            season=season, lock_datetime__lte=arrow.now().datetime
-        ).order_by("week_num")
+        return self.filter(season=season, lock_datetime__lte=arrow.now().datetime).order_by(
+            "week_num"
+        )
 
     def get_current(self, season):
         qs = self.for_display(season)
         return qs.last() if qs else None
 
     def get_next(self, season):
-        qs = self.filter(
-            season=season, lock_datetime__gt=arrow.now().datetime
-        ).order_by("week_num")
+        qs = self.filter(season=season, lock_datetime__gt=arrow.now().datetime).order_by(
+            "week_num"
+        )
         return qs.first() if qs else None
 
 

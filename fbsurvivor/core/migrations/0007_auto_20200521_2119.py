@@ -11,8 +11,6 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AddIndex(
             model_name="playerstatus",
-            index=models.Index(
-                fields=["season"], name="core_player_season__627e82_idx"
-            ),
+            index=models.Index(fields=["season"], name="core_player_season__627e82_idx"),
         ),
     ]

@@ -19,9 +19,7 @@ def test_get_player_info_and_context(players, seasons, player_statuses):
     p1 = players[0]
     this_season = seasons[1]
 
-    player, season, player_status, context = get_player_info_and_context(
-        p1.link, this_season.year
-    )
+    player, season, player_status, context = get_player_info_and_context(p1.link, this_season.year)
     assert player == p1
     assert season == this_season
     assert player_status == player_statuses["p1"][1]

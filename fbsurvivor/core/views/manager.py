@@ -32,9 +32,7 @@ def manager(request, link, year):
 
 def paid(request, link, year):
     player, season, context = get_admin_info(link, year)
-    player_statuses = PlayerStatus.objects.paid_for_season(season).prefetch_related(
-        "player"
-    )
+    player_statuses = PlayerStatus.objects.paid_for_season(season).prefetch_related("player")
     context["player_statuses"] = player_statuses
     return render(request, "paid.html", context=context)
 

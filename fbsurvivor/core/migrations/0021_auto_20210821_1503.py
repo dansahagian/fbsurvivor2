@@ -36,15 +36,11 @@ class Migration(migrations.Migration):
                 ("lock_datetime", models.DateTimeField(null=True)),
                 (
                     "team",
-                    models.ForeignKey(
-                        on_delete=django.db.models.deletion.CASCADE, to="core.team"
-                    ),
+                    models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to="core.team"),
                 ),
                 (
                     "week",
-                    models.ForeignKey(
-                        on_delete=django.db.models.deletion.CASCADE, to="core.week"
-                    ),
+                    models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to="core.week"),
                 ),
             ],
         ),

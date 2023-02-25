@@ -47,9 +47,7 @@ def get_early_deadline(season, next_week):
     now = arrow.now().datetime
     try:
         deadline = (
-            Lock.objects.filter(
-                week__season=season, week=next_week, lock_datetime__gte=now
-            )
+            Lock.objects.filter(week__season=season, week=next_week, lock_datetime__gte=now)
             .order_by("lock_datetime")
             .first()
         )

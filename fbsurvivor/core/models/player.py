@@ -40,10 +40,8 @@ class Player(models.Model):
     username = models.CharField(max_length=20, unique=True)
     link = models.CharField(max_length=44, unique=True, default=generate_link)
     email = models.CharField(max_length=100)
-    phone = models.CharField(max_length=12, null=True, blank=True)
     is_admin = models.BooleanField(default=False)
     has_email_reminders = models.BooleanField(default=True)
-    has_phone_reminders = models.BooleanField(default=False)
     notes = models.TextField(null=True, blank=True)
     league = models.ForeignKey(League, null=True, on_delete=models.DO_NOTHING)
     is_dark_mode = models.BooleanField(default=False)
@@ -105,13 +103,6 @@ class PlayerStatusQuerySet(models.QuerySet):
             self.for_reminders(week)
             .filter(player__has_email_reminders=True)
             .values_list("player__email", flat=True)
-        )
-
-    def for_phone_reminders(self, week):
-        return (
-            self.for_reminders(week)
-            .filter(player__has_phone_reminders=True, player__phone__isnull=False)
-            .values_list("player__phone", flat=True)
         )
 
 

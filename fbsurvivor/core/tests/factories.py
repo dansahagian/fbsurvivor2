@@ -16,7 +16,6 @@ class PlayerFactory(factory.django.DjangoModelFactory):
     link = factory.Sequence(lambda n: f"secretlink{n + 1}")
     email = factory.LazyAttribute(lambda a: f"{a.username}@fbsurvivor.com")
     has_email_reminders = True
-    has_phone_reminders = True
 
 
 class SeasonFactory(factory.django.DjangoModelFactory):

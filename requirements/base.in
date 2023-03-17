@@ -8,6 +8,5 @@ psycopg2
 python-decouple
 python-dotenv
 requests
-twilio
 celery
 gunicorn

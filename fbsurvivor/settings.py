@@ -159,10 +159,6 @@ SMTP_USER = config("SMTP_USER")
 SMTP_PASSWORD = config("SMTP_PASSWORD")
 SMTP_PORT = config("SMTP_PORT")
 
-TWILIO_SID = config("TWILIO_SID")
-TWILIO_KEY = config("TWILIO_KEY")
-TWILIO_NUM = config("TWILIO_NUM")
-
 # CELERY
 BROKER_URL = f"redis://{REDIS_SERVER}:6379/0"
 CELERY_TIMEZONE = "America/Los_Angeles"

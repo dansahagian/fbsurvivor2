@@ -4,7 +4,7 @@ django-extensions
 django-htmlmin
 django-celery-beat
 django-redis
-psycopg2
+psycopg[c]
 python-decouple
 python-dotenv
 requests

@@ -138,9 +138,9 @@ click-repl==0.2.0 \
 cron-descriptor==1.2.35 \
     --hash=sha256:7b6fc5e07f3e505d247f35ef432a098d75769efdaf01b04ab8e42a528c75266d
     # via django-celery-beat
-django==4.1.7 \
-    --hash=sha256:44f714b81c5f190d9d2ddad01a532fe502fa01c4cb8faf1d081f4264ed15dcd8 \
-    --hash=sha256:f2f431e75adc40039ace496ad3b9f17227022e8b11566f4b363da44c7e44761e
+django==4.2 \
+    --hash=sha256:ad33ed68db9398f5dfb33282704925bce044bef4261cd4fb59e4e7f9ae505a78 \
+    --hash=sha256:c36e2ab12824e2ac36afa8b2515a70c53c7742f0d6eaefa7311ec379558db997
     # via
     #   -r requirements/base.in
     #   django-celery-beat
@@ -185,21 +185,13 @@ prompt-toolkit==3.0.38 \
     --hash=sha256:23ac5d50538a9a38c8bde05fecb47d0b403ecd0662857a86f886f798563d5b9b \
     --hash=sha256:45ea77a2f7c60418850331366c81cf6b5b9cf4c7fd34616f733c5427e6abbb1f
     # via click-repl
-psycopg2==2.9.5 \
-    --hash=sha256:093e3894d2d3c592ab0945d9eba9d139c139664dcf83a1c440b8a7aa9bb21955 \
-    --hash=sha256:190d51e8c1b25a47484e52a79638a8182451d6f6dff99f26ad9bd81e5359a0fa \
-    --hash=sha256:1a5c7d7d577e0eabfcf15eb87d1e19314c8c4f0e722a301f98e0e3a65e238b4e \
-    --hash=sha256:1e5a38aa85bd660c53947bd28aeaafb6a97d70423606f1ccb044a03a1203fe4a \
-    --hash=sha256:322fd5fca0b1113677089d4ebd5222c964b1760e361f151cbb2706c4912112c5 \
-    --hash=sha256:4cb9936316d88bfab614666eb9e32995e794ed0f8f6b3b718666c22819c1d7ee \
-    --hash=sha256:920bf418000dd17669d2904472efeab2b20546efd0548139618f8fa305d1d7ad \
-    --hash=sha256:922cc5f0b98a5f2b1ff481f5551b95cd04580fd6f0c72d9b22e6c0145a4840e0 \
-    --hash=sha256:a5246d2e683a972e2187a8714b5c2cf8156c064629f9a9b1a873c1730d9e245a \
-    --hash=sha256:b9ac1b0d8ecc49e05e4e182694f418d27f3aedcfca854ebd6c05bb1cffa10d6d \
-    --hash=sha256:d3ef67e630b0de0779c42912fe2cbae3805ebaba30cda27fea2a3de650a9414f \
-    --hash=sha256:f5b6320dbc3cf6cfb9f25308286f9f7ab464e65cfb105b64cc9c52831748ced2 \
-    --hash=sha256:fc04dd5189b90d825509caa510f20d1d504761e78b8dfb95a0ede180f71d50e5
+psycopg[c]==3.1.8 \
+    --hash=sha256:59b4a71536b146925513c0234dfd1dc42b81e65d56ce5335dff4813434dbc113 \
+    --hash=sha256:b1500c42063abaa01d30b056f0b300826b8dd8d586900586029a294ce74af327
     # via -r requirements/base.in
+psycopg-c==3.1.8 \
+    --hash=sha256:6e0602db219f0087a5939344e7750fff8cc3a26307cfc47469f2aca6e9849a0c
+    # via psycopg
 python-crontab==2.7.1 \
     --hash=sha256:9c374d1c9d401afdd8dd958f20077f74c158ab3fffb9604296802715e887fe48 \
     --hash=sha256:b21af4647c7bbb848fef2f020616c6b0289dcb9f94b4f991a55310ff9bec5749
@@ -247,6 +239,10 @@ sqlparse==0.4.3 \
     --hash=sha256:0323c0ec29cd52bceabc1b4d9d579e311f3e4961b98d174201d5622a23b85e34 \
     --hash=sha256:69ca804846bb114d2ec380e4360a8a340db83f0ccf3afceeb1404df028f57268
     # via django
+typing-extensions==4.5.0 \
+    --hash=sha256:5cb5f4a79139d699607b3ef622a1dedafa84e115ab0024e0d9c044a9479ca7cb \
+    --hash=sha256:fb33085c39dd998ac16d1431ebc293a8b3eedd00fd4a32de0ff79002c19511b4
+    # via psycopg
 tzdata==2023.3 \
     --hash=sha256:11ef1e08e54acb0d4f95bdb1be05da659673de4acbd21bf9c69e94cc5e907a3a \
     --hash=sha256:7e65763eef3120314099b6939b5546db7adce1e7d6f2e179e3df563c70511eda

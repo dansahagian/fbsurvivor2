@@ -18,9 +18,6 @@ SECRET_KEY = config("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 ENV = config("ENV")
 
-if ENV == "dev":
-    DEBUG = True
-
 ALLOWED_HOSTS = ["fbsurvivor.com"]
 SECURE_SSL_REDIRECT = False
 SESSION_COOKIE_SECURE = True
@@ -164,6 +161,7 @@ BROKER_URL = f"redis://{REDIS_SERVER}:6379/0"
 CELERY_TIMEZONE = "America/Los_Angeles"
 
 if ENV == "dev":
+    DEBUG = True
     ALLOWED_HOSTS = ["*"]
     SECURE_SSL_REDIRECT = False
     SESSION_COOKIE_SECURE = False

@@ -148,7 +148,7 @@ USE_TZ = True
 HTML_MINIFY = True
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "fbsurvivor/static")]
 STATIC_URL = "/static/"
-STATIC_ROOT = "/srv/www/static/"
+STATIC_ROOT = "/srv/www/fbsurvivor/static/"
 
 SMTP_SERVER = config("SMTP_SERVER")
 SMTP_SENDER = config("SMTP_SENDER")

@@ -4,7 +4,7 @@
     <br>
     Current Pick: {% if pick.team.team_code %}{{ pick.team.team_code }}{% endif %}
     <br>
-    <form action="{% url 'pick' player.link season.year pick.week.week_num %}" method="POST">
+    <form action="{% url 'pick' season.year pick.week.week_num %}" method="POST">
         {% csrf_token %}
         Choose Pick:
         {{ form.team }}

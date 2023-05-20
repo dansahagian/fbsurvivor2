@@ -1,0 +1,138 @@
+html {
+    -webkit-text-size-adjust: 100%;
+    background: var(--background);
+    font-family: Arial, Helvetica, sans-serif;
+    letter-spacing: .04em;
+}
+
+body {
+    font-size: .95em;
+    color: var(--body-color);
+    line-height: 1.5em;
+    padding-left: 1.0em;
+    padding-right: 1.0em;
+}
+
+a {
+    padding-left: .50em;
+    padding-right: .50em;
+    color: var(--link-color);
+}
+
+table {
+    border-collapse: collapse;
+}
+
+table, th, td {
+    border: 1px solid lightgray;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding-left: .33em;
+    padding-right: .33em;
+    text-align: left;
+}
+
+th {
+    text-align: center;
+}
+
+ul {
+    list-style-type: none;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    padding: 0;
+    color: white;
+}
+
+li {
+    float: left;
+}
+
+li a {
+    text-align: center;
+    text-decoration: underline;
+    padding-right: 1.0em;
+}
+
+li a svg {
+    text-align: center;
+    max-width: 2.0em;
+    padding-right: 2.0em;
+}
+
+.messages {
+    color: var(--message-color);
+}
+
+.win {
+    color: black;
+    background: var(--win-color);
+}
+
+.loss {
+    color: white;
+    background: var(--loss-color);
+}
+
+.black {
+    color: black;
+    background: black;
+}
+
+.small {
+    font-size: .8em;
+}
+
+.resizedTextBox {
+    width: 15em;
+    height: 1.5em;
+}
+
+.notfound {
+    font-size: 1.50em;
+    font-weight: 800;
+}
+
+.space {
+    padding: .4em;
+}
+
+.red-button {
+    padding: .25em .50em;
+    text-decoration: none;
+    border-radius: .25em;
+    background-color: var(--red-button);
+    color: white;
+}
+
+.blue-button {
+    padding: .25em .50em;
+    text-decoration: none;
+    border-radius: .25em;
+    background-color: var(--blue-button);
+    color: white;
+}
+
+.toggle {
+    padding: 0;
+    font-size: .80em;
+}
+
+.logo {
+    font-size: 1.2em;
+    font-weight: bold;
+    padding-right: .4em;
+    color: var(--body-color);
+}
+
+.footer {
+    padding-top: 2.0em;
+}
+
+.center {
+    padding-top: 2.0em;
+    text-align: center;
+}

@@ -22,13 +22,35 @@
     <body>
         {% if player %}
             <ul>
-                <li class="logo">Survivor {% if season %}{{ season.year }}{% endif %}</li>
-                <li><a href="{% url 'player_redirect' player.link %}">board</a>
-                <li><a href="{% url 'picks_redirect' player.link %}">picks</a></li>
-                <li><a href="{% url 'more' player.link %}">more</a></li>
-                {% if player.is_admin %}
-                    <li><a href="{% url 'manager_redirect' player.link %}">a</a></li>
-                {% endif %}
+                <li class="logo">Survivor</li>
+                <li>
+                    {% if player.is_dark_mode %}
+                        <a href="{% url 'dark_mode' %}">
+                            <svg id="sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="5"></circle>
+                                <line x1="12" y1="1" x2="12" y2="3"></line>
+                                <line x1="12" y1="21" x2="12" y2="23"></line>
+                                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                                <line x1="1" y1="12" x2="3" y2="12"></line>
+                                <line x1="21" y1="12" x2="23" y2="12"></line>
+                                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                            </svg>
+                        </a>
+                    {% else %}
+                        <a href="{% url 'dark_mode' %}">
+                            <svg id="moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                            </svg>
+                        </a>
+                    {% endif %}
+                </li>
+                <li><a href="{% url 'board' season.year %}">board</a>
+                <li><a href="{% url 'picks' season.year %}">picks</a></li>
+{#                {% if player.is_admin %}#}
+{#                    <li class="nav"><a href="#">manage</a></li>#}
+{#                {% endif %}#}
             </ul>
             <br>
             <br>
@@ -44,6 +66,16 @@
         <div id="content">
             {% block content %}{% endblock %}
         </div>
+        {% if player %}
+            <div class="footer">
+                <ul>
+                    <li><a href="{% url 'rules' %}">rules</a></li>
+                    <li><a href="{% url 'payouts' %}">payouts</a></li>
+                    <li><a href="{% url 'seasons' %}">seasons</a></li>
+                </ul>
+            </div>
+            <br><br>
+        {% endif %}
     </body>
 </html>
 

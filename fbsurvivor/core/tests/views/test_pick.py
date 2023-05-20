@@ -29,13 +29,15 @@ def test_get_player_info_and_context(players, seasons, player_statuses):
 
 
 def test_view_picks(client, link, year):
-    url = reverse("picks", args=[link, year])
+    client.get(reverse("login", args=[link]))
+    url = reverse("picks", args=[year])
     response = client.get(url)
     assert response.status_code == 200
 
 
 def test_view_pick_week_is_locked(client, link, year):
-    url = reverse("pick", args=[link, year, 1])
+    client.get(reverse("login", args=[link]))
+    url = reverse("pick", args=[year, 1])
     response = client.get(url, follow=True)
     messages = [str(x) for x in response.context["messages"]]
     assert response.status_code == 200
@@ -43,15 +45,17 @@ def test_view_pick_week_is_locked(client, link, year):
 
 
 def test_view_pick_get(client, link, year):
-    url = reverse("pick", args=[link, year, 5])
+    client.get(reverse("login", args=[link]))
+    url = reverse("pick", args=[year, 5])
     response = client.get(url)
     assert response.status_code == 200
 
 
 def test_view_pick_post(client, link, year, players):
+    client.get(reverse("login", args=[link]))
     p1 = players[0]
 
-    url = reverse("pick", args=[link, year, 5])
+    url = reverse("pick", args=[year, 5])
     response = client.post(url, {"team": "BUF"}, follow=True)
     messages = [str(x) for x in response.context["messages"]]
     pick = Pick.objects.get(player=p1, week__season__year=year, week__week_num=5)
@@ -62,7 +66,8 @@ def test_view_pick_post(client, link, year, players):
 
 
 def test_view_pick_post_bad_team(client, link, year, players):
-    url = reverse("pick", args=[link, year, 5])
+    client.get(reverse("login", args=[link]))
+    url = reverse("pick", args=[year, 5])
     response = client.post(url, {"team": "WAS"}, follow=True)
     messages = [str(x) for x in response.context["messages"]]
 

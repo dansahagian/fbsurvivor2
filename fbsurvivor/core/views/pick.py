@@ -3,6 +3,12 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 
 from fbsurvivor.core.forms import PickForm
+from fbsurvivor.core.helpers import (
+    get_player,
+    get_current_season,
+    get_player_status_info,
+    get_context,
+)
 from fbsurvivor.core.models.pick import Pick
 from fbsurvivor.core.models.player import Player, PlayerStatus
 from fbsurvivor.core.models.season import Season
@@ -23,14 +29,19 @@ def get_player_info_and_context(link, year):
     return player, season, player_status, context
 
 
-def picks_redirect(request, link):
-    get_object_or_404(Player, link=link)
-    current_season = get_object_or_404(Season, is_current=True)
-    return redirect(reverse("picks", args=[link, current_season.year]))
+def picks_redirect(request):
+    get_player(request)
+    season = get_current_season()
+
+    return redirect(reverse("picks", args=[season.year]))
 
 
-def picks(request, link, year):
-    player, season, player_status, context = get_player_info_and_context(link, year)
+def picks(request, year):
+    player = get_player(request)
+    season, player_status = get_player_status_info(player, year)
+
+    context = get_context(player, season, player_status)
+
     can_retire = player_status and (not player_status.is_retired) and season.is_current
 
     context["picks"] = (
@@ -40,11 +51,17 @@ def picks(request, link, year):
     )
     context["status"] = "Retired" if player_status.is_retired else "Playing"
     context["can_retire"] = can_retire
+    context["current"] = "picks"
+
     return render(request, "picks.html", context=context)
 
 
-def pick(request, link, year, week):
-    player, season, player_status, context = get_player_info_and_context(link, year)
+def pick(request, year, week):
+    player = get_player(request)
+    season, player_status = get_player_status_info(player, year)
+
+    context = get_context(player, season, player_status)
+
     week = get_object_or_404(Week, season=season, week_num=week)
 
     user_pick = get_object_or_404(Pick, player=player, week=week)
@@ -52,7 +69,7 @@ def pick(request, link, year, week):
 
     if user_pick.is_locked:
         messages.info(request, f"Week {week.week_num} is locked!")
-        return redirect(reverse("picks", args=[link, year]))
+        return redirect(reverse("picks", args=[year]))
 
     if request.method == "GET":
         form = PickForm(player, season, week)
@@ -70,7 +87,7 @@ def pick(request, link, year, week):
                 user_pick.team = choice
                 if user_pick.is_locked:
                     messages.info(request, f"Week {week.week_num} is locked!")
-                    return redirect(reverse("picks", args=[link, year]))
+                    return redirect(reverse("picks", args=[year]))
             else:
                 user_pick.team = None
 
@@ -84,4 +101,4 @@ def pick(request, link, year, week):
         else:
             messages.info(request, "Bad form submission")
 
-        return redirect(reverse("picks", args=[link, year]))
+        return redirect(reverse("picks", args=[year]))

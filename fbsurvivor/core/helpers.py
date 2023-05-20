@@ -9,8 +9,18 @@ from fbsurvivor.core.models.player import Player, PlayerStatus, League
 from fbsurvivor.core.models.season import Season
 
 
-def get_player_info(link, year):
-    player = get_object_or_404(Player, link=link)
+def get_context(player, season, player_status):
+    return {"player": player, "season": season, "player_status": player_status}
+
+
+def get_player(request):
+    player = get_object_or_404(Player, link=request.session.get("link"))
+    request.session["path"] = request.path
+
+    return player
+
+
+def get_player_status_info(player: Player, year: int):
     season = get_object_or_404(Season, year=year)
 
     try:
@@ -18,15 +28,20 @@ def get_player_info(link, year):
     except PlayerStatus.DoesNotExist:
         player_status = None
 
-    return player, season, player_status
+    return season, player_status
 
 
-def send_to_latest_season_played(request, link, year):
+def get_current_season():
+    return Season.objects.get(is_current=True)
+
+
+def send_to_latest_season_played(request):
+    link = request.session.get("link")
     ps = PlayerStatus.objects.filter(player__link=link).order_by("-season__year")
     if ps:
         latest = ps[0].season.year
-        messages.info(request, f"You did NOT play in {year}. Here is {latest}")
-        return redirect(reverse("player", args=[link, latest]))
+        messages.info(request, f"No record for the requested year. Here is {latest}")
+        return redirect(reverse("board", args=[latest]))
     else:
         messages.info(request, "We don't have a record of you playing any season.")
         return redirect(reverse("home"))

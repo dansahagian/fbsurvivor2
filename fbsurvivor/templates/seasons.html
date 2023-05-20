@@ -1,0 +1,12 @@
+{% extends "./base.html" %}
+{% block content %}
+    <h3>Seasons</h3>
+        {% for year in years %}
+            <span class="space">
+                <a href="{% url 'board' year %}">{{ year }}</a>
+            </span>
+            {% if forloop.counter|divisibleby:2  %}
+                <br><br>
+            {% endif %}
+        {% endfor %}
+{% endblock %}

@@ -8,7 +8,7 @@
             </span>
         {% else %}
             {% if playable and playable not in years %}
-                <a href="{% url 'player' player.link playable %}">Join the {{ playable }} season!</a>
+                <a href="{% url 'board' player.link playable %}">Join the {{ playable }} season!</a>
                 <br><br>
             {% endif %}
         {% endif %}
@@ -23,7 +23,7 @@
             <br><br>
             <table>
                 <tr>
-                    <th>Username</th>
+                    <th>{{ season }}</th>
                     <th>😀</th>
                     <th>$</th>
                     <th>Ws</th>

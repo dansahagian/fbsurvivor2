@@ -5,7 +5,7 @@
         {% if player_status.is_retired %}Retired{% else %}Playing{% endif %}<br>
         ({{ player_status.win_count }} - {{ player_status.loss_count }})
         {% if can_retire %}
-            <a class="red-button" href="{% url 'retire' player.link season.year %}">Retire</a>
+            <a class="red-button" href="{% url 'retire' season.year %}">Retire</a>
         {% endif %}
         <br><br>
         <table>
@@ -28,7 +28,7 @@
                     {% if pick.is_locked %}
                         locked
                     {% else %}
-                        <a href="{% url 'pick' player.link season.year pick.week.week_num %}">
+                        <a href="{% url 'pick' season.year pick.week.week_num %}">
                             edit
                         </a>
                     {% endif %}

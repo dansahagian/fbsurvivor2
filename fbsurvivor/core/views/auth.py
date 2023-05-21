@@ -97,7 +97,10 @@ def login(request, link):
 
     if player.has_advanced_security:
         send_magic_link(player)
-        return render(request, "sent-magic-link.html")
+        context = {
+            "is_dark_mode": player.is_dark_mode,
+        }
+        return render(request, "sent-magic-link.html", context=context)
 
     token = create_token(player)
     return redirect(reverse("enter", args=[token]))

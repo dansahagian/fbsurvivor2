@@ -4,43 +4,26 @@ from django.urls import reverse
 
 from fbsurvivor.core.forms import PickForm
 from fbsurvivor.core.helpers import (
-    get_player,
     get_current_season,
-    get_player_status_info,
-    get_context,
+    get_player_context,
 )
 from fbsurvivor.core.models.pick import Pick
-from fbsurvivor.core.models.player import Player, PlayerStatus
-from fbsurvivor.core.models.season import Season
 from fbsurvivor.core.models.team import Team
 from fbsurvivor.core.models.week import Week
+from fbsurvivor.core.views.auth import authenticator
 
 
-def get_player_info_and_context(link, year):
-    player = get_object_or_404(Player, link=link)
-    season = get_object_or_404(Season, year=year)
-    player_status = get_object_or_404(PlayerStatus, player=player, season=season)
-    context = {
-        "player": player,
-        "season": season,
-        "player_status": player_status,
-    }
-
-    return player, season, player_status, context
-
-
+@authenticator
 def picks_redirect(request):
-    get_player(request)
     season = get_current_season()
 
     return redirect(reverse("picks", args=[season.year]))
 
 
-def picks(request, year):
-    player = get_player(request)
-    season, player_status = get_player_status_info(player, year)
-
-    context = get_context(player, season, player_status)
+@authenticator
+def picks(request, year, **kwargs):
+    player = kwargs["player"]
+    season, player_status, context = get_player_context(player, year)
 
     can_retire = player_status and (not player_status.is_retired) and season.is_current
 
@@ -56,11 +39,10 @@ def picks(request, year):
     return render(request, "picks.html", context=context)
 
 
-def pick(request, year, week):
-    player = get_player(request)
-    season, player_status = get_player_status_info(player, year)
-
-    context = get_context(player, season, player_status)
+@authenticator
+def pick(request, year, week, **kwargs):
+    player = kwargs["player"]
+    season, player_status, context = get_player_context(player, year)
 
     week = get_object_or_404(Week, season=season, week_num=week)
 

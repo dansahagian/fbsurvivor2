@@ -1,27 +1,27 @@
 from django.urls import path
 
-from fbsurvivor.core.views.player import (
-    board,
-    board_redirect,
-    dark_mode,
-    login,
-    payouts,
-    play,
-    retire,
-    rules,
-    seasons,
-    signin,
-)
+from fbsurvivor.core.views.auth import enter, login, signin
 from fbsurvivor.core.views.pick import (
     picks,
     picks_redirect,
     pick,
 )
+from fbsurvivor.core.views.player import (
+    board,
+    board_redirect,
+    dark_mode,
+    payouts,
+    play,
+    retire,
+    rules,
+    seasons,
+)
 
 urlpatterns = [
     path("", signin, name="signin"),
+    path("enter/<str:token>/", enter, name="enter"),
     path("login/<str:link>/", login, name="login"),
-    path("board/", board_redirect),
+    path("board/", board_redirect, name="board_redirect"),
     path("board/<int:year>/", board, name="board"),
     path("play/<int:year>/", play, name="play"),
     path("retire/<int:year>/", retire, name="retire"),

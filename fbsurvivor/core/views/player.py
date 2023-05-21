@@ -1,66 +1,33 @@
 from django.contrib import messages
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
 from django.urls import reverse
 
-from fbsurvivor.celery import send_email_task
 from fbsurvivor.core.deadlines import get_next_deadline, get_picks_count_display
-from fbsurvivor.core.forms import EmailForm
 from fbsurvivor.core.helpers import (
     get_board,
     get_current_season,
-    get_player,
-    get_player_status_info,
+    get_player_context,
     send_to_latest_season_played,
 )
 from fbsurvivor.core.models.pick import Pick
-from fbsurvivor.core.models.player import generate_link, Player, PlayerStatus, Payout
+from fbsurvivor.core.models.player import generate_link, PlayerStatus, Payout
 from fbsurvivor.core.models.season import Season
 from fbsurvivor.core.models.week import Week
-from fbsurvivor.settings import DOMAIN, VENMO
+from fbsurvivor.core.views.auth import authenticator
+from fbsurvivor.settings import VENMO
 
 
-def signin(request):
-    if request.method == "GET":
-        context = {
-            "form": EmailForm(),
-        }
-        return render(request, "signin.html", context=context)
-
-    if request.method == "POST":
-        form = EmailForm(request.POST)
-
-        if form.is_valid():
-            email = form.cleaned_data["email"]
-            try:
-                player = Player.objects.get(email=email)
-            except Player.DoesNotExist:
-                player = None
-
-            if player:
-                subject = "Survivor - Sign in"
-                message = f"Click the link below to signin\n{DOMAIN}/login/{player.link}"
-                send_email_task.delay(subject, [email], message)
-        return render(request, "signin-sent.html")
-
-
-def login(request, link):
-    player = get_object_or_404(Player, link=link)
-    current_season = get_object_or_404(Season, is_current=True)
-
-    request.session["link"] = player.link
-    return redirect(reverse("board", args=[current_season.year]))
-
-
-def board_redirect(request):
-    get_player(request)
+@authenticator
+def board_redirect(request, **kwargs):
     season = get_current_season()
 
     return redirect(reverse("board", args=[season.year]))
 
 
-def board(request, year):
-    player = get_player(request)
-    season, player_status = get_player_status_info(player, year)
+@authenticator
+def board(request, year, **kwargs):
+    player = kwargs["player"]
+    season, player_status, context = get_player_context(player, year)
 
     if season.is_locked and not player_status:
         return send_to_latest_season_played(request)
@@ -80,27 +47,27 @@ def board(request, year):
 
     survivor = survivors[0].player.username if len(survivors) == 1 else ""
 
-    context = {
-        "player": player,
-        "season": season,
-        "player_status": player_status,
-        "can_play": can_play,
-        "weeks": weeks,
-        "board": leader_board,
-        "player_count": player_statuses.count(),
-        "survivor": survivor,
-        "deadline": deadline,
-        "picks_display": picks_display,
-        "playable": playable,
-        "venmo": VENMO,
-    }
+    context.update(
+        {
+            "can_play": can_play,
+            "weeks": weeks,
+            "board": leader_board,
+            "player_count": player_statuses.count(),
+            "survivor": survivor,
+            "deadline": deadline,
+            "picks_display": picks_display,
+            "playable": playable,
+            "venmo": VENMO,
+        }
+    )
 
     return render(request, "board.html", context=context)
 
 
-def play(request, year):
-    player = get_player(request)
-    season, player_status = get_player_status_info(player, year)
+@authenticator
+def play(request, year, **kwargs):
+    player = kwargs["player"]
+    season, player_status, context = get_player_context(player, year)
 
     if player_status:
         messages.info(request, f"You are already playing for {year}!")
@@ -109,10 +76,12 @@ def play(request, year):
     if season.is_locked:
         return send_to_latest_season_played(request)
 
-    context = {
-        "player": player,
-        "season": season,
-    }
+    context.update(
+        {
+            "player": player,
+            "season": season,
+        }
+    )
 
     if request.method == "GET":
         return render(request, "confirm.html", context=context)
@@ -127,9 +96,10 @@ def play(request, year):
         return redirect(reverse("board", args=[year]))
 
 
-def retire(request, year):
-    player = get_player(request)
-    season, player_status = get_player_status_info(player, year)
+@authenticator
+def retire(request, year, **kwargs):
+    player = kwargs["player"]
+    season, player_status, context = get_player_context(player, year)
 
     if not player_status:
         messages.info(request, "You can NOT retire from a season you didn't play!")
@@ -149,8 +119,9 @@ def retire(request, year):
     return redirect(reverse("board", args=[year]))
 
 
-def reset_link(request):
-    player = get_player(request)
+@authenticator
+def reset_link(request, **kwargs):
+    player = kwargs["player"]
 
     old_links = player.old_links.split(",")
     old_links.append(str(player.link))
@@ -163,8 +134,9 @@ def reset_link(request):
     return redirect(reverse("login", args=[player.link]))
 
 
-def payouts(request):
-    player = get_player(request)
+@authenticator
+def payouts(request, **kwargs):
+    player = kwargs["player"]
     player_payouts = Payout.objects.for_payout_table(player.league)
 
     context = {"player": player, "payouts": player_payouts, "season": get_current_season()}
@@ -172,16 +144,18 @@ def payouts(request):
     return render(request, "payouts.html", context=context)
 
 
-def rules(request):
-    player = get_player(request)
+@authenticator
+def rules(request, **kwargs):
+    player = kwargs["player"]
 
     context = {"player": player, "season": get_current_season()}
 
     return render(request, "rules.html", context=context)
 
 
-def seasons(request):
-    player = get_player(request)
+@authenticator
+def seasons(request, **kwargs):
+    player = kwargs["player"]
 
     years = list(PlayerStatus.objects.player_years(player))
 
@@ -190,9 +164,10 @@ def seasons(request):
     return render(request, "seasons.html", context=context)
 
 
-def dark_mode(request):
-    link = request.session.get("link")
-    player = get_object_or_404(Player, link=link)
+@authenticator
+def dark_mode(request, **kwargs):
+    player = kwargs["player"]
     player.is_dark_mode = not player.is_dark_mode
     player.save()
-    return redirect(request.session["path"])
+
+    return redirect(kwargs["path"])

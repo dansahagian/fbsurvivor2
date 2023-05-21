@@ -9,18 +9,7 @@ from fbsurvivor.core.models.player import Player, PlayerStatus, League
 from fbsurvivor.core.models.season import Season
 
 
-def get_context(player, season, player_status):
-    return {"player": player, "season": season, "player_status": player_status}
-
-
-def get_player(request):
-    player = get_object_or_404(Player, link=request.session.get("link"))
-    request.session["path"] = request.path
-
-    return player
-
-
-def get_player_status_info(player: Player, year: int):
+def get_player_context(player: Player, year: int):
     season = get_object_or_404(Season, year=year)
 
     try:
@@ -28,7 +17,9 @@ def get_player_status_info(player: Player, year: int):
     except PlayerStatus.DoesNotExist:
         player_status = None
 
-    return season, player_status
+    context = {"player": player, "season": season, "player_status": player_status}
+
+    return season, player_status, context
 
 
 def get_current_season():
@@ -44,7 +35,7 @@ def send_to_latest_season_played(request):
         return redirect(reverse("board", args=[latest]))
     else:
         messages.info(request, "We don't have a record of you playing any season.")
-        return redirect(reverse("home"))
+        return redirect(reverse("signin"))
 
 
 def update_player_records(year):

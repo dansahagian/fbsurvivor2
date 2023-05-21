@@ -1,13 +1,14 @@
 import pytest
 from django.urls import reverse
 
+from fbsurvivor.core.helpers import get_player_context
 from fbsurvivor.core.models.pick import Pick
-from fbsurvivor.core.views.pick import get_player_info_and_context
+from fbsurvivor.core.views.auth import create_token
 
 
 @pytest.fixture
-def link(players):
-    return players[0].link
+def token(players):
+    return create_token(players[0])
 
 
 @pytest.fixture
@@ -19,8 +20,7 @@ def test_get_player_info_and_context(players, seasons, player_statuses):
     p1 = players[0]
     this_season = seasons[1]
 
-    player, season, player_status, context = get_player_info_and_context(p1.link, this_season.year)
-    assert player == p1
+    season, player_status, context = get_player_context(p1, this_season.year)
     assert season == this_season
     assert player_status == player_statuses["p1"][1]
     assert "player" in context
@@ -28,15 +28,15 @@ def test_get_player_info_and_context(players, seasons, player_statuses):
     assert "player_status" in context
 
 
-def test_view_picks(client, link, year):
-    client.get(reverse("login", args=[link]))
+def test_view_picks(client, token, year):
+    client.get(reverse("enter", args=[token]))
     url = reverse("picks", args=[year])
     response = client.get(url)
     assert response.status_code == 200
 
 
-def test_view_pick_week_is_locked(client, link, year):
-    client.get(reverse("login", args=[link]))
+def test_view_pick_week_is_locked(client, token, year):
+    client.get(reverse("enter", args=[token]))
     url = reverse("pick", args=[year, 1])
     response = client.get(url, follow=True)
     messages = [str(x) for x in response.context["messages"]]
@@ -44,15 +44,15 @@ def test_view_pick_week_is_locked(client, link, year):
     assert "Week 1 is locked!" in messages
 
 
-def test_view_pick_get(client, link, year):
-    client.get(reverse("login", args=[link]))
+def test_view_pick_get(client, token, year):
+    client.get(reverse("enter", args=[token]))
     url = reverse("pick", args=[year, 5])
     response = client.get(url)
     assert response.status_code == 200
 
 
-def test_view_pick_post(client, link, year, players):
-    client.get(reverse("login", args=[link]))
+def test_view_pick_post(client, token, year, players):
+    client.get(reverse("enter", args=[token]))
     p1 = players[0]
 
     url = reverse("pick", args=[year, 5])
@@ -65,8 +65,8 @@ def test_view_pick_post(client, link, year, players):
     assert "BUF submitted for week 5" in messages
 
 
-def test_view_pick_post_bad_team(client, link, year, players):
-    client.get(reverse("login", args=[link]))
+def test_view_pick_post_bad_team(client, token, year, players):
+    client.get(reverse("enter", args=[token]))
     url = reverse("pick", args=[year, 5])
     response = client.post(url, {"team": "WAS"}, follow=True)
     messages = [str(x) for x in response.context["messages"]]

@@ -192,6 +192,10 @@ psycopg[c]==3.1.8 \
 psycopg-c==3.1.8 \
     --hash=sha256:6e0602db219f0087a5939344e7750fff8cc3a26307cfc47469f2aca6e9849a0c
     # via psycopg
+pyjwt==2.7.0 \
+    --hash=sha256:ba2b425b15ad5ef12f200dc67dd56af4e26de2331f965c5439994dad075876e1 \
+    --hash=sha256:bd6ca4a3c4285c1a2d4349e5a035fdf8fb94e04ccd0fcbe6ba289dae9cc3e074
+    # via -r requirements/base.in
 python-crontab==2.7.1 \
     --hash=sha256:9c374d1c9d401afdd8dd958f20077f74c158ab3fffb9604296802715e887fe48 \
     --hash=sha256:b21af4647c7bbb848fef2f020616c6b0289dcb9f94b4f991a55310ff9bec5749

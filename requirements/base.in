@@ -10,3 +10,4 @@ python-dotenv
 requests
 celery
 gunicorn
+PyJWT

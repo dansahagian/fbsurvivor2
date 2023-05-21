@@ -4,9 +4,6 @@
         Status:
         {% if player_status.is_retired %}Retired{% else %}Playing{% endif %}<br>
         ({{ player_status.win_count }} - {{ player_status.loss_count }})
-        {% if can_retire %}
-            <a class="red-button" href="{% url 'retire' season.year %}">Retire</a>
-        {% endif %}
         <br><br>
         <table>
             <tr>
@@ -38,5 +35,9 @@
         </table>
     {% else %}
         No pick data available for {{ season.year }}!
+    {% endif %}
+    <br><br>
+    {% if can_retire %}
+        <a class="red-button" href="{% url 'retire' season.year %}">Retire</a>
     {% endif %}
 {% endblock %}

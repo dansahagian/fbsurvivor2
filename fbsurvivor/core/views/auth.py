@@ -129,3 +129,11 @@ def login(request, link):
 
     token = create_token(player)
     return redirect(reverse("enter", args=[token]))
+
+
+@authenticate_admin
+def assume(request, link, **kwargs):
+    player = get_object_or_404(Player, link=link)
+    token = create_token(player)
+
+    return redirect(reverse("enter", args=[token]))

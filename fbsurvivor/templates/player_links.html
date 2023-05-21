@@ -3,7 +3,7 @@
     <br>
     {% for username, player_link in player_links %}
         <span class="space">
-            <a href="{% url 'player_redirect' player_link %}">{{ username }}</a>
+            <a href="{% url 'assume' player_link %}">{{ username }}</a>
         </span>
         <br><br>
     {% endfor %}

@@ -1,6 +1,6 @@
 from django.urls import path
 
-from fbsurvivor.core.views.auth import enter, login, me, signin
+from fbsurvivor.core.views.auth import enter, login, me, signin, assume
 from fbsurvivor.core.views.manager import (
     manager_redirect,
     manager,
@@ -32,6 +32,7 @@ from fbsurvivor.core.views.player import (
 urlpatterns = [
     path("", signin, name="signin"),
     path("enter/<str:token>/", enter, name="enter"),
+    path("assume/<str:link>/", assume, name="assume"),
     path("me/<str:link>/", me, name="me"),
     path("login/<str:link>/", login, name="login"),
     path("board/", board_redirect, name="board_redirect"),

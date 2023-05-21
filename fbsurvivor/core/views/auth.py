@@ -1,5 +1,4 @@
 import arrow
-from django.contrib import messages
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
 from jwt import ExpiredSignatureError, InvalidSignatureError, encode, decode
@@ -39,7 +38,6 @@ def authenticator(view):
             request.session["path"] = request.path
             return view(*args, **kwargs)
 
-        messages.info(request, "Token is missing, expired, or corrupted. Please sign in!")
         return redirect(reverse("signin"))
 
     return inner
@@ -65,7 +63,7 @@ def signin(request):
             if player:
                 token = create_token(player)
                 subject = "Survivor - Sign in"
-                message = f"Click the link below to signin\n{DOMAIN}/enter/{token}"
+                message = f"Click the link below to signin\n\n{DOMAIN}/enter/{token}"
                 send_email_task.delay(subject, [email], message)
         return render(request, "signin-sent.html")
 

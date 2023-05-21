@@ -6,7 +6,7 @@ html {
 }
 
 body {
-    font-size: .95em;
+    font-size: .97em;
     color: var(--body-color);
     line-height: 1.5em;
     padding-left: 1.0em;
@@ -101,19 +101,21 @@ li a svg {
 }
 
 .red-button {
-    padding: .25em .50em;
+    padding: .75em 1.0em;
     text-decoration: none;
-    border-radius: .25em;
+    border-radius: 5em;
     background-color: var(--red-button);
     color: white;
+    border: none;
 }
 
 .blue-button {
-    padding: .25em .50em;
+    padding: .75em 1.0em;
     text-decoration: none;
-    border-radius: .25em;
+    border-radius: 5em;
     background-color: var(--blue-button);
     color: white;
+    border: none;
 }
 
 .toggle {

@@ -60,7 +60,7 @@ li a {
 li a svg {
     text-align: center;
     max-width: 2.0em;
-    padding-right: 2.0em;
+    padding-right: 1.0em;
 }
 
 .messages {

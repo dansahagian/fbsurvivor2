@@ -25,10 +25,11 @@
                 <li class="logo">Survivor</li>
                 <li><a href="{% url 'board' season.year %}">board</a>
                 <li><a href="{% url 'picks' season.year %}">picks</a></li>
-                <li><a href="{% url 'me' player.link %}">link</a></li>
-{#                {% if player.is_admin %}#}
-{#                    <li class="nav"><a href="#">manage</a></li>#}
-{#                {% endif %}#}
+                {% if player.is_admin %}
+                    <li><a href="{% url 'manager' season.year %}">manage</a></li>
+                {% else %}
+                    <li><a href="{% url 'me' player.link %}">link</a></li>
+                {% endif %}
             </ul>
             <br>
             <br>

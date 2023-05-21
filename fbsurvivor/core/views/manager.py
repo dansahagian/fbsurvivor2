@@ -13,9 +13,9 @@ from fbsurvivor.core.models.week import Week
 from fbsurvivor.core.views.auth import authenticate_admin
 
 
-def get_season_context(year):
+def get_season_context(year, **kwargs):
     season = get_object_or_404(Season, year=year)
-    return season, {"season": season}
+    return season, {"season": season, "player": kwargs["player"]}
 
 
 @authenticate_admin
@@ -27,13 +27,13 @@ def manager_redirect(request, **kwargs):
 
 @authenticate_admin
 def manager(request, year, **kwargs):
-    season, context = get_season_context(year)
+    season, context = get_season_context(year, **kwargs)
     return render(request, "manager.html", context=context)
 
 
 @authenticate_admin
 def paid(request, year, **kwargs):
-    season, context = get_season_context(year)
+    season, context = get_season_context(year, **kwargs)
     player_statuses = PlayerStatus.objects.paid_for_season(season).prefetch_related("player")
     context["player_statuses"] = player_statuses
     return render(request, "paid.html", context=context)
@@ -41,7 +41,7 @@ def paid(request, year, **kwargs):
 
 @authenticate_admin
 def user_paid(request, year, user_link, **kwargs):
-    season, context = get_season_context(year)
+    season, context = get_season_context(year, **kwargs)
     ps = get_object_or_404(PlayerStatus, player__link=user_link, season=season)
     ps.is_paid = True
     ps.save()
@@ -52,7 +52,7 @@ def user_paid(request, year, user_link, **kwargs):
 
 @authenticate_admin
 def results(request, year, **kwargs):
-    season, context = get_season_context(year)
+    season, context = get_season_context(year, **kwargs)
     current_week = Week.objects.get_current(season)
     teams = Pick.objects.for_results(current_week)
 
@@ -64,7 +64,7 @@ def results(request, year, **kwargs):
 
 @authenticate_admin
 def result(request, year, week, team, outcome, **kwargs):
-    season, context = get_season_context(year)
+    season, context = get_season_context(year, **kwargs)
     week = get_object_or_404(Week, season=season, week_num=week)
 
     team = get_object_or_404(Team, team_code=team, season=season)
@@ -89,7 +89,7 @@ def remind(request, year, **kwargs):
 
 @authenticate_admin
 def player_links(request, year, **kwargs):
-    season, context = get_season_context(year)
+    season, context = get_season_context(year, **kwargs)
     context["player_links"] = (
         PlayerStatus.objects.values_list("player__username", "player__link")
         .distinct()
@@ -101,7 +101,7 @@ def player_links(request, year, **kwargs):
 
 @authenticate_admin
 def update_board_cache(request, year, **kwargs):
-    season, context = get_season_context(year)
+    season, context = get_season_context(year, **kwargs)
     update_league_caches(season)
 
     return redirect(reverse("board", args=[year]))
@@ -109,7 +109,7 @@ def update_board_cache(request, year, **kwargs):
 
 @authenticate_admin
 def send_message(request, year, **kwargs):
-    season, context = get_season_context(year)
+    season, context = get_season_context(year, **kwargs)
 
     if request.method == "GET":
         context["form"] = MessageForm()

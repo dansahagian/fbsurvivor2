@@ -2,7 +2,7 @@
     {% block content %}
         Send a message to all players!
         <br><br>
-        <form action="{% url 'message' player.link season.year %}" method="POST">
+        <form action="{% url 'send_message' season.year %}" method="POST">
             {% csrf_token %}
             <label for="{{ form.subject.id_for_label }}">Subject:</label>
             <br>

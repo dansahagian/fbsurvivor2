@@ -3,8 +3,8 @@
     <br>
     {% for team in teams %}
         {{ team }}
-        <a href="{% url 'mark_result' player.link season.year week.week_num team 'W' %}">Won</a>
-        <a href="{% url 'mark_result' player.link season.year week.week_num team 'L' %}">Lost</a>
+        <a href="{% url 'result' season.year week.week_num team 'W' %}">Won</a>
+        <a href="{% url 'result' season.year week.week_num team 'L' %}">Lost</a>
         <br><br>
     {% endfor %}
 {% endblock %}

@@ -1,6 +1,18 @@
 from django.urls import path
 
 from fbsurvivor.core.views.auth import enter, login, me, signin
+from fbsurvivor.core.views.manager import (
+    manager_redirect,
+    manager,
+    paid,
+    user_paid,
+    results,
+    result,
+    remind,
+    player_links,
+    update_board_cache,
+    send_message,
+)
 from fbsurvivor.core.views.pick import (
     picks,
     picks_redirect,
@@ -33,23 +45,14 @@ urlpatterns = [
     path("picks/", picks_redirect, name="picks_redirect"),
     path("picks/<int:year>/", picks, name="picks"),
     path("picks/<int:year>/<int:week>/", pick, name="pick"),
-    # path(
-    #     "player-links/<str:link>/<int:year>",
-    #     get_player_links,
-    #     name="get-player-links",
-    # ),
-    # path(
-    #     "update-board-cache/<str:link>/<int:year>/",
-    #     update_board_cache,
-    #     name="update-board-cache",
-    # ),
-    # path("remind/<str:link>/<int:year>/", remind, name="remind"),
-    # path("results/<str:link>/<int:year>/", results, name="results"),
-    # path(
-    #     "results/<str:link>/<int:year>/<int:week>/<str:team>/<str:result>/",
-    #     mark_result,
-    #     name="mark_result",
-    # ),
-    # path("paid/<str:link>/<int:year>/", paid, name="paid"),
-    # path("paid/<str:link>/<int:year>/<str:user_link>/", user_paid, name="user_paid"),
+    path("manager/", manager_redirect, name="manager_redirect"),
+    path("manager/<int:year>/", manager, name="manager"),
+    path("paid/<int:year>/", paid, name="paid"),
+    path("paid/<int:year>/<str:user_link>/", user_paid, name="user_paid"),
+    path("results/<int:year>/", results, name="results"),
+    path("results/<int:year>/<int:week>/<str:team>/<str:result>/", result, name="result"),
+    path("remind/<int:year>/", remind, name="remind"),
+    path("player-links/<int:year>", player_links, name="player_links"),
+    path("update-board-cache/<int:year>/", update_board_cache, name="update_board_cache"),
+    path("message/<int:year>/", send_message, name="send_message"),
 ]

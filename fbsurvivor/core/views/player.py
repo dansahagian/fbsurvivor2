@@ -13,18 +13,18 @@ from fbsurvivor.core.models.pick import Pick
 from fbsurvivor.core.models.player import generate_link, PlayerStatus, Payout
 from fbsurvivor.core.models.season import Season
 from fbsurvivor.core.models.week import Week
-from fbsurvivor.core.views.auth import authenticator
+from fbsurvivor.core.views.auth import authenticate_player
 from fbsurvivor.settings import VENMO
 
 
-@authenticator
+@authenticate_player
 def board_redirect(request, **kwargs):
     season = get_current_season()
 
     return redirect(reverse("board", args=[season.year]))
 
 
-@authenticator
+@authenticate_player
 def board(request, year, **kwargs):
     player = kwargs["player"]
     season, player_status, context = get_player_context(player, year)
@@ -64,7 +64,7 @@ def board(request, year, **kwargs):
     return render(request, "board.html", context=context)
 
 
-@authenticator
+@authenticate_player
 def play(request, year, **kwargs):
     player = kwargs["player"]
     season, player_status, context = get_player_context(player, year)
@@ -96,7 +96,7 @@ def play(request, year, **kwargs):
         return redirect(reverse("board", args=[year]))
 
 
-@authenticator
+@authenticate_player
 def retire(request, year, **kwargs):
     player = kwargs["player"]
     season, player_status, context = get_player_context(player, year)
@@ -119,7 +119,7 @@ def retire(request, year, **kwargs):
     return redirect(reverse("board", args=[year]))
 
 
-@authenticator
+@authenticate_player
 def reset_link(request, **kwargs):
     player = kwargs["player"]
 
@@ -134,7 +134,7 @@ def reset_link(request, **kwargs):
     return redirect(reverse("login", args=[player.link]))
 
 
-@authenticator
+@authenticate_player
 def payouts(request, **kwargs):
     player = kwargs["player"]
     player_payouts = Payout.objects.for_payout_table(player.league)
@@ -144,7 +144,7 @@ def payouts(request, **kwargs):
     return render(request, "payouts.html", context=context)
 
 
-@authenticator
+@authenticate_player
 def rules(request, **kwargs):
     player = kwargs["player"]
 
@@ -153,7 +153,7 @@ def rules(request, **kwargs):
     return render(request, "rules.html", context=context)
 
 
-@authenticator
+@authenticate_player
 def seasons(request, **kwargs):
     player = kwargs["player"]
 
@@ -164,7 +164,7 @@ def seasons(request, **kwargs):
     return render(request, "seasons.html", context=context)
 
 
-@authenticator
+@authenticate_player
 def dark_mode(request, **kwargs):
     player = kwargs["player"]
     player.is_dark_mode = not player.is_dark_mode

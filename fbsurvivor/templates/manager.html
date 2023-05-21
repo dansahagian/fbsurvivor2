@@ -2,27 +2,28 @@
 {% block content %}
     <br>
     <span class="space">
-        <a href="{% url 'paid' player.link season.year %}">Paid</a>
+        <a href="{% url 'paid' season.year %}">Paid</a>
     </span>
     <br><br>
     <span class="space">
-        <a href="{% url 'results' player.link season.year %}">Results</a>
+        <a href="{% url 'results' season.year %}">Results</a>
     </span>
     <br><br>
     <span class="space">
-        <a href="{% url 'get-player-links' player.link season.year %}">Player Links</a>
-    </span>
-    <br><br>
-        <span class="space">
-        <a href="{% url 'message' player.link season.year %}">Send Message</a>
+        <a href="{% url 'player_links' season.year %}">Player Links</a>
     </span>
     <br><br>
     <span class="space">
-        <a href="{% url 'update-board-cache' player.link season.year %}">Update Board Cache</a>
+        <a href="{% url 'update_board_cache' season.year %}">Update Board Cache</a>
+    </span>
+    <br><br>
+    <span class="space">
+        <a href="{% url 'send_message' season.year %}">Send Message</a>
     </span>
     <br><br>
     <br><br>
+    <br><br>
     <span class="space">
-        <a href="{% url 'remind' player.link season.year %}">Remind</a>
+        <a href="{% url 'remind' season.year %}">Remind</a>
     </span>
 {% endblock %}

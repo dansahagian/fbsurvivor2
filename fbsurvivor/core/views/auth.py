@@ -18,7 +18,7 @@ def create_token(player) -> str:
     return encode(payload, SECRET_KEY, algorithm="HS256")
 
 
-def authenticate(request) -> Player | None:
+def get_authenticated_player(request) -> Player | None:
     if token := request.session.get("token"):
         try:
             if payload := decode(token, SECRET_KEY, algorithms="HS256"):
@@ -28,10 +28,35 @@ def authenticate(request) -> Player | None:
     return None
 
 
-def authenticator(view):
+def authenticate_player(view):
     def inner(*args, **kwargs):
         request = args[0]
-        if player := authenticate(request):
+        if player := get_authenticated_player(request):
+            kwargs["player"] = player
+            kwargs["path"] = request.session.get("path")
+            request.session["path"] = request.path
+            return view(*args, **kwargs)
+
+        return redirect(reverse("signin"))
+
+    return inner
+
+
+def get_authenticated_admin(request) -> Player | None:
+    if token := request.session.get("token"):
+        try:
+            if payload := decode(token, SECRET_KEY, algorithms="HS256"):
+                player = get_object_or_404(Player, link=payload["link"])
+                return player if player.is_admin else None
+        except (ExpiredSignatureError, InvalidSignatureError):
+            return None
+    return None
+
+
+def authenticate_admin(view):
+    def inner(*args, **kwargs):
+        request = args[0]
+        if player := get_authenticated_admin(request):
             kwargs["player"] = player
             kwargs["path"] = request.session.get("path")
             request.session["path"] = request.path
@@ -90,7 +115,7 @@ def enter(request, token):
 
 
 def login(request, link):
-    if authenticate(request):
+    if get_authenticated_player(request):
         return redirect(reverse("board_redirect"))
 
     player = get_object_or_404(Player, link=link)

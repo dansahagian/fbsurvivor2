@@ -10,17 +10,17 @@ from fbsurvivor.core.helpers import (
 from fbsurvivor.core.models.pick import Pick
 from fbsurvivor.core.models.team import Team
 from fbsurvivor.core.models.week import Week
-from fbsurvivor.core.views.auth import authenticator
+from fbsurvivor.core.views.auth import authenticate_player
 
 
-@authenticator
+@authenticate_player
 def picks_redirect(request):
     season = get_current_season()
 
     return redirect(reverse("picks", args=[season.year]))
 
 
-@authenticator
+@authenticate_player
 def picks(request, year, **kwargs):
     player = kwargs["player"]
     season, player_status, context = get_player_context(player, year)
@@ -39,7 +39,7 @@ def picks(request, year, **kwargs):
     return render(request, "picks.html", context=context)
 
 
-@authenticator
+@authenticate_player
 def pick(request, year, week, **kwargs):
     player = kwargs["player"]
     season, player_status, context = get_player_context(player, year)

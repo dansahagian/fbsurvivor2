@@ -4,51 +4,55 @@ from django.urls import reverse
 
 from fbsurvivor.celery import send_reminders_task, send_email_task
 from fbsurvivor.core.forms import MessageForm
-from fbsurvivor.core.helpers import update_player_records, update_league_caches
+from fbsurvivor.core.helpers import update_player_records, update_league_caches, get_current_season
 from fbsurvivor.core.models.pick import Pick
 from fbsurvivor.core.models.player import Player, PlayerStatus
 from fbsurvivor.core.models.season import Season
 from fbsurvivor.core.models.team import Team
 from fbsurvivor.core.models.week import Week
+from fbsurvivor.core.views.auth import authenticate_admin
 
 
-def get_admin_info(link, year):
-    player = get_object_or_404(Player, link=link, is_admin=True)
+def get_season_context(year):
     season = get_object_or_404(Season, year=year)
-    context = {"player": player, "season": season}
-    return player, season, context
+    return season, {"season": season}
 
 
-def manager_redirect(request, link):
-    current_season = get_object_or_404(Season, is_current=True)
-    player, season, context = get_admin_info(link, current_season.year)
-    return redirect(reverse("manager", args=[link, current_season.year]))
+@authenticate_admin
+def manager_redirect(request, **kwargs):
+    season = get_current_season()
+
+    return redirect(reverse("manager", args=[season.year]))
 
 
-def manager(request, link, year):
-    player, season, context = get_admin_info(link, year)
+@authenticate_admin
+def manager(request, year, **kwargs):
+    season, context = get_season_context(year)
     return render(request, "manager.html", context=context)
 
 
-def paid(request, link, year):
-    player, season, context = get_admin_info(link, year)
+@authenticate_admin
+def paid(request, year, **kwargs):
+    season, context = get_season_context(year)
     player_statuses = PlayerStatus.objects.paid_for_season(season).prefetch_related("player")
     context["player_statuses"] = player_statuses
     return render(request, "paid.html", context=context)
 
 
-def user_paid(request, link, year, user_link):
-    player, season, context = get_admin_info(link, year)
+@authenticate_admin
+def user_paid(request, year, user_link, **kwargs):
+    season, context = get_season_context(year)
     ps = get_object_or_404(PlayerStatus, player__link=user_link, season=season)
     ps.is_paid = True
     ps.save()
     update_league_caches(season)
     messages.info(request, f"{ps.player.username} marked as paid!")
-    return redirect(reverse("paid", args=[link, year]))
+    return redirect(reverse("paid", args=[year]))
 
 
-def results(request, link, year):
-    player, season, context = get_admin_info(link, year)
+@authenticate_admin
+def results(request, year, **kwargs):
+    season, context = get_season_context(year)
     current_week = Week.objects.get_current(season)
     teams = Pick.objects.for_results(current_week)
 
@@ -58,12 +62,13 @@ def results(request, link, year):
     return render(request, "results.html", context=context)
 
 
-def mark_result(request, link, year, week, team, result):
-    player, season, context = get_admin_info(link, year)
+@authenticate_admin
+def result(request, year, week, team, outcome, **kwargs):
+    season, context = get_season_context(year)
     week = get_object_or_404(Week, season=season, week_num=week)
 
     team = get_object_or_404(Team, team_code=team, season=season)
-    Pick.objects.for_result_updates(week, team).update(result=result)
+    Pick.objects.for_result_updates(week, team).update(result=outcome)
     Pick.objects.for_no_picks(week).update(result="L")
 
     messages.info(request, f"Picks for week {week.week_num} of {team} updated!")
@@ -72,38 +77,39 @@ def mark_result(request, link, year, week, team, result):
     update_league_caches(season)
     messages.info(request, f"{player_records_updated} player records updated!")
 
-    return redirect(reverse("results", args=[link, year]))
+    return redirect(reverse("results", args=[year]))
 
 
-def remind(request, link, year):
-    get_object_or_404(Player, link=link, is_admin=True)
+@authenticate_admin
+def remind(request, year, **kwargs):
     send_reminders_task.delay()
     messages.info(request, "Reminder task kicked off")
-    return redirect(reverse("manager", args=[link, year]))
+    return redirect(reverse("manager", args=[year]))
 
 
-def get_player_links(request, link, year):
-    player, season, context = get_admin_info(link, year)
-    player_links = (
+@authenticate_admin
+def player_links(request, year, **kwargs):
+    season, context = get_season_context(year)
+    context["player_links"] = (
         PlayerStatus.objects.values_list("player__username", "player__link")
         .distinct()
         .order_by("player__username")
     )
 
-    context["player_links"] = player_links
     return render(request, "player_links.html", context=context)
 
 
-def update_board_cache(request, link, year):
-    get_object_or_404(Player, link=link, is_admin=True)
-    season = get_object_or_404(Season, year=year)
+@authenticate_admin
+def update_board_cache(request, year, **kwargs):
+    season, context = get_season_context(year)
     update_league_caches(season)
 
-    return redirect(reverse("player", args=[link, year]))
+    return redirect(reverse("board", args=[year]))
 
 
-def send_message(request, link, year):
-    player, season, context = get_admin_info(link, year)
+@authenticate_admin
+def send_message(request, year, **kwargs):
+    season, context = get_season_context(year)
 
     if request.method == "GET":
         context["form"] = MessageForm()
@@ -122,4 +128,4 @@ def send_message(request, link, year):
 
             send_email_task.delay(subject, recipients, message)
 
-            return redirect(reverse("player", args=[link, year]))
+            return redirect(reverse("board", args=[year]))

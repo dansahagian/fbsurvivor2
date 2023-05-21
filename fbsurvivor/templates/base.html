@@ -45,7 +45,7 @@
         <div id="content">
             {% block content %}{% endblock %}
         </div>
-        {% if player %}
+        {% if player and show_footer %}
             <div class="footer">
                 <ul>
                     <li><a href="{% url 'dark_mode' %}">theme</a></li>

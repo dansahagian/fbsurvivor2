@@ -58,6 +58,7 @@ def board(request, year, **kwargs):
             "picks_display": picks_display,
             "playable": playable,
             "venmo": VENMO,
+            "show_footer": True,
         }
     )
 

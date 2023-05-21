@@ -77,6 +77,7 @@ def me(request, link):
         "username": player.username,
         "has_advanced_security": player.has_advanced_security,
         "link": link,
+        "is_dark_mode": player.is_dark_mode,
     }
 
     return render(request, "me.html", context=context)

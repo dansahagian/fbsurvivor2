@@ -40,13 +40,17 @@ class Player(models.Model):
     username = models.CharField(max_length=20, unique=True)
     link = models.CharField(max_length=44, unique=True, default=generate_link)
     email = models.CharField(max_length=100)
-    is_admin = models.BooleanField(default=False)
-    has_email_reminders = models.BooleanField(default=True)
-    notes = models.TextField(null=True, blank=True)
+
     league = models.ForeignKey(League, null=True, on_delete=models.DO_NOTHING)
-    is_dark_mode = models.BooleanField(default=False)
+
     emoji = models.CharField(max_length=8, null=True, blank=True)
     old_links = models.TextField(default="", blank=True)
+    notes = models.TextField(null=True, blank=True)
+
+    is_admin = models.BooleanField(default=False)
+    has_advanced_security = models.BooleanField(default=False)
+    has_email_reminders = models.BooleanField(default=True)
+    is_dark_mode = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.username}"

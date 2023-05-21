@@ -54,12 +54,7 @@ li {
 li a {
     text-align: center;
     text-decoration: underline;
-    padding-right: 1.0em;
-}
-
-li a svg {
-    text-align: center;
-    max-width: 2.0em;
+    padding-left: 1.0em;
     padding-right: 1.0em;
 }
 
@@ -118,11 +113,6 @@ li a svg {
     border: none;
 }
 
-.toggle {
-    padding: 0;
-    font-size: .80em;
-}
-
 .logo {
     font-size: 1.2em;
     font-weight: bold;
@@ -130,8 +120,10 @@ li a svg {
     color: var(--body-color);
 }
 
-.footer {
-    padding-top: 2.0em;
+.footer li {
+    padding-top: 1.0em;
+    text-align: left;
+    float: none;
 }
 
 .center {

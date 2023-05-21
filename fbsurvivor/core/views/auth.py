@@ -6,12 +6,11 @@ from jwt import ExpiredSignatureError, InvalidSignatureError, encode, decode
 from fbsurvivor.celery import send_email_task
 from fbsurvivor.core.forms import EmailForm
 from fbsurvivor.core.models.player import Player
-from fbsurvivor.core.models.season import Season
 from fbsurvivor.settings import SECRET_KEY, DOMAIN
 
 
 def create_token(player) -> str:
-    days = 1 if player.is_admin else 7
+    days = 1 if player.has_advanced_security else 7
     exp = arrow.now().shift(days=days).datetime
 
     payload = {"link": player.link, "exp": exp}
@@ -43,6 +42,13 @@ def authenticator(view):
     return inner
 
 
+def send_magic_link(player):
+    token = create_token(player)
+    subject = "Survivor - Sign in"
+    message = f"Click the link below to signin\n\n{DOMAIN}/enter/{token}"
+    send_email_task.delay(subject, [player.email], message)
+
+
 def signin(request):
     if request.method == "GET":
         context = {
@@ -57,26 +63,40 @@ def signin(request):
             email = form.cleaned_data["email"]
             try:
                 player = Player.objects.get(email=email)
+                send_magic_link(player)
             except Player.DoesNotExist:
-                player = None
+                pass
 
-            if player:
-                token = create_token(player)
-                subject = "Survivor - Sign in"
-                message = f"Click the link below to signin\n\n{DOMAIN}/enter/{token}"
-                send_email_task.delay(subject, [email], message)
         return render(request, "signin-sent.html")
 
 
-def login(request, link):
+def me(request, link):
     player = get_object_or_404(Player, link=link)
-    current_season = get_object_or_404(Season, is_current=True)
 
-    request.session["link"] = player.link
-    return redirect(reverse("board", args=[current_season.year]))
+    context = {
+        "username": player.username,
+        "has_advanced_security": player.has_advanced_security,
+        "link": link,
+    }
+
+    return render(request, "me.html", context=context)
 
 
 def enter(request, token):
     request.session["token"] = token
 
     return redirect(reverse("board_redirect"))
+
+
+def login(request, link):
+    if authenticate(request):
+        return redirect(reverse("board_redirect"))
+
+    player = get_object_or_404(Player, link=link)
+
+    if player.has_advanced_security:
+        send_magic_link(player)
+        return render(request, "sent-magic-link.html")
+
+    token = create_token(player)
+    return redirect(reverse("enter", args=[token]))

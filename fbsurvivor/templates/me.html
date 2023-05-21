@@ -1,0 +1,17 @@
+{% extends "./base.html" %}
+    {% block content %}
+        <div class="center">
+            Hello, {{ username }}!<br><br>
+            Bookmark this page for the fastest access.<br><br>
+            {% if has_advanced_security %}
+                You have advanced security enabled.<br><br>
+                If token is present, we will log you in.<br>
+                Otherwise, we'll email you a magic link.
+            {% else %}
+                You don't have advanced security enabled.<br>
+                Treat the link to this page like your password.
+            {% endif %}
+            <br><br>
+            <a href="{% url 'login' link %}">Let me in!</a>
+        </div>
+    {% endblock %}

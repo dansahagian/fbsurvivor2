@@ -1,6 +1,6 @@
 from django.urls import path
 
-from fbsurvivor.core.views.auth import enter, login, me, signin, assume
+from fbsurvivor.core.views.auth import enter, signin, assume, logout
 from fbsurvivor.core.views.manager import (
     manager_redirect,
     manager,
@@ -9,7 +9,7 @@ from fbsurvivor.core.views.manager import (
     results,
     result,
     remind,
-    player_links,
+    get_players,
     update_board_cache,
     send_message,
 )
@@ -31,10 +31,9 @@ from fbsurvivor.core.views.player import (
 
 urlpatterns = [
     path("", signin, name="signin"),
+    path("logout", logout, name="logout"),
     path("enter/<str:token>/", enter, name="enter"),
-    path("assume/<str:link>/", assume, name="assume"),
-    path("me/<str:link>/", me, name="me"),
-    path("login/<str:link>/", login, name="login"),
+    path("assume/<str:username>/", assume, name="assume"),
     path("board/", board_redirect, name="board_redirect"),
     path("board/<int:year>/", board, name="board"),
     path("play/<int:year>/", play, name="play"),
@@ -49,11 +48,11 @@ urlpatterns = [
     path("manager/", manager_redirect, name="manager_redirect"),
     path("manager/<int:year>/", manager, name="manager"),
     path("paid/<int:year>/", paid, name="paid"),
-    path("paid/<int:year>/<str:user_link>/", user_paid, name="user_paid"),
+    path("paid/<int:year>/<str:username>/", user_paid, name="user_paid"),
     path("results/<int:year>/", results, name="results"),
     path("results/<int:year>/<int:week>/<str:team>/<str:result>/", result, name="result"),
     path("remind/<int:year>/", remind, name="remind"),
-    path("player-links/<int:year>", player_links, name="player_links"),
+    path("players/<int:year>", get_players, name="players"),
     path("update-board-cache/<int:year>/", update_board_cache, name="update_board_cache"),
     path("message/<int:year>/", send_message, name="send_message"),
 ]

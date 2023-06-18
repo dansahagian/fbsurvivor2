@@ -10,10 +10,8 @@ from fbsurvivor.settings import SECRET_KEY, DOMAIN
 
 
 def create_token(player) -> str:
-    days = 1 if player.has_advanced_security else 7
-    exp = arrow.now().shift(days=days).datetime
-
-    payload = {"link": player.link, "exp": exp}
+    exp = arrow.now().shift(days=30).datetime
+    payload = {"username": player.username, "exp": exp}
 
     return encode(payload, SECRET_KEY, algorithm="HS256")
 
@@ -22,7 +20,9 @@ def get_authenticated_player(request) -> Player | None:
     if token := request.session.get("token"):
         try:
             if payload := decode(token, SECRET_KEY, algorithms="HS256"):
-                return get_object_or_404(Player, link=payload["link"])
+                if username := payload.get("username"):
+                    return get_object_or_404(Player, username=username)
+                request.session.delete("token")
         except (ExpiredSignatureError, InvalidSignatureError):
             return None
     return None
@@ -43,14 +43,8 @@ def authenticate_player(view):
 
 
 def get_authenticated_admin(request) -> Player | None:
-    if token := request.session.get("token"):
-        try:
-            if payload := decode(token, SECRET_KEY, algorithms="HS256"):
-                player = get_object_or_404(Player, link=payload["link"])
-                return player if player.is_admin else None
-        except (ExpiredSignatureError, InvalidSignatureError):
-            return None
-    return None
+    if player := get_authenticated_player(request):
+        return player if player.is_admin else None
 
 
 def authenticate_admin(view):
@@ -76,6 +70,9 @@ def send_magic_link(player):
 
 def signin(request):
     if request.method == "GET":
+        if request.session.get("token"):
+            return redirect(reverse("board_redirect"))
+
         context = {
             "form": EmailForm(),
         }
@@ -95,17 +92,9 @@ def signin(request):
         return render(request, "signin-sent.html")
 
 
-def me(request, link):
-    player = get_object_or_404(Player, link=link)
-
-    context = {
-        "username": player.username,
-        "has_advanced_security": player.has_advanced_security,
-        "link": link,
-        "is_dark_mode": player.is_dark_mode,
-    }
-
-    return render(request, "me.html", context=context)
+def logout(request):
+    request.session.delete("token")
+    return redirect(reverse("signin"))
 
 
 def enter(request, token):
@@ -114,26 +103,9 @@ def enter(request, token):
     return redirect(reverse("board_redirect"))
 
 
-def login(request, link):
-    if get_authenticated_player(request):
-        return redirect(reverse("board_redirect"))
-
-    player = get_object_or_404(Player, link=link)
-
-    if player.has_advanced_security:
-        send_magic_link(player)
-        context = {
-            "is_dark_mode": player.is_dark_mode,
-        }
-        return render(request, "sent-magic-link.html", context=context)
-
-    token = create_token(player)
-    return redirect(reverse("enter", args=[token]))
-
-
 @authenticate_admin
-def assume(request, link, **kwargs):
-    player = get_object_or_404(Player, link=link)
+def assume(request, username, **kwargs):
+    player = get_object_or_404(Player, username=username)
     token = create_token(player)
 
     return redirect(reverse("enter", args=[token]))

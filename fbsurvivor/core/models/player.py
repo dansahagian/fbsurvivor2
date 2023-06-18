@@ -10,22 +10,14 @@ from fbsurvivor.celery import send_email_task
 from .season import Season
 
 
-def get_all_used_links():
-    links = set(Player.objects.values_list("link", flat=True))
-    for old_links in Player.objects.values_list("old_links", flat=True):
-        for link in old_links.split(","):
-            links.add(link)
-
-    return links
-
-
+# do I need this forever?
 def generate_link():
-    char_set = string.ascii_lowercase + string.digits
-    link = "".join(secrets.choice(char_set) for _ in range(44))
+    return ""
 
-    if link in get_all_used_links():
-        return generate_link()
-    return link
+
+def generate_secret():
+    char_set = string.ascii_lowercase + string.digits
+    return "".join(secrets.choice(char_set) for _ in range(32))
 
 
 class League(models.Model):
@@ -38,25 +30,21 @@ class League(models.Model):
 
 class Player(models.Model):
     username = models.CharField(max_length=20, unique=True)
-    link = models.CharField(max_length=44, unique=True, default=generate_link)
     email = models.CharField(max_length=100)
 
     league = models.ForeignKey(League, null=True, on_delete=models.DO_NOTHING)
 
     emoji = models.CharField(max_length=8, null=True, blank=True)
-    old_links = models.TextField(default="", blank=True)
     notes = models.TextField(null=True, blank=True)
 
     is_admin = models.BooleanField(default=False)
-    has_advanced_security = models.BooleanField(default=False)
     has_email_reminders = models.BooleanField(default=True)
     is_dark_mode = models.BooleanField(default=False)
 
+    secret = models.CharField(max_length=32, default=generate_secret)
+
     def __str__(self):
         return f"{self.username}"
-
-    class Meta:
-        indexes = [models.Index(fields=["link"])]
 
     def save(self, *args, **kwargs):
         pk = self.pk
@@ -64,10 +52,10 @@ class Player(models.Model):
 
         if not pk:
             ps = f"If you didn't sign up, please email {settings.CONTACT}"
-            link = f"{settings.DOMAIN}/board/{self.link}/"
+            signin = f"{settings.DOMAIN}"
             subject = "Survivor User Account"
             recipients = [self.email]
-            message = f"You can use this link to manage your account:\n\n{link}\n\n{ps}"
+            message = f"You can login here:\n\n{signin}\n\n{ps}"
 
             send_email_task.delay(subject, recipients, message)
 

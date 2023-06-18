@@ -17,7 +17,6 @@ def players(db):
     return PlayerFactory.create_batch(
         size=2,
         username=factory.Iterator(["Automator", "Roboto"]),
-        link=factory.Iterator(["ABC123", "DEF456"]),
     )
 
 

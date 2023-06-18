@@ -27,8 +27,8 @@ def get_current_season():
 
 
 def send_to_latest_season_played(request):
-    link = request.session.get("link")
-    ps = PlayerStatus.objects.filter(player__link=link).order_by("-season__year")
+    username = request.session.get("username")
+    ps = PlayerStatus.objects.filter(player__username=username).order_by("-season__year")
     if ps:
         latest = ps[0].season.year
         messages.info(request, f"No record for the requested year. Here is {latest}")

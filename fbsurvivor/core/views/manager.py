@@ -40,9 +40,9 @@ def paid(request, year, **kwargs):
 
 
 @authenticate_admin
-def user_paid(request, year, user_link, **kwargs):
+def user_paid(request, year, username, **kwargs):
     season, context = get_season_context(year, **kwargs)
-    ps = get_object_or_404(PlayerStatus, player__link=user_link, season=season)
+    ps = get_object_or_404(PlayerStatus, player__username=username, season=season)
     ps.is_paid = True
     ps.save()
     update_league_caches(season)
@@ -88,15 +88,15 @@ def remind(request, year, **kwargs):
 
 
 @authenticate_admin
-def player_links(request, year, **kwargs):
+def get_players(request, year, **kwargs):
     season, context = get_season_context(year, **kwargs)
-    context["player_links"] = (
-        PlayerStatus.objects.values_list("player__username", "player__link")
+    context["players"] = (
+        PlayerStatus.objects.values_list("player__username", flat=True)
         .distinct()
         .order_by("player__username")
     )
 
-    return render(request, "player_links.html", context=context)
+    return render(request, "players.html", context=context)
 
 
 @authenticate_admin

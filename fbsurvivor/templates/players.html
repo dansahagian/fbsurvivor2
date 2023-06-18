@@ -1,9 +1,9 @@
 {% extends "./base.html" %}
 {% block content %}
     <br>
-    {% for username, player_link in player_links %}
+    {% for username in players %}
         <span class="space">
-            <a href="{% url 'assume' player_link %}">{{ username }}</a>
+            <a href="{% url 'assume' username %}">{{ username }}</a>
         </span>
         <br><br>
     {% endfor %}

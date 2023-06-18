@@ -10,7 +10,7 @@ from fbsurvivor.core.helpers import (
     send_to_latest_season_played,
 )
 from fbsurvivor.core.models.pick import Pick
-from fbsurvivor.core.models.player import generate_link, PlayerStatus, Payout
+from fbsurvivor.core.models.player import PlayerStatus, Payout
 from fbsurvivor.core.models.season import Season
 from fbsurvivor.core.models.week import Week
 from fbsurvivor.core.views.auth import authenticate_player
@@ -118,21 +118,6 @@ def retire(request, year, **kwargs):
         messages.info(request, "You have retired. See you next year!")
 
     return redirect(reverse("board", args=[year]))
-
-
-@authenticate_player
-def reset_link(request, **kwargs):
-    player = kwargs["player"]
-
-    old_links = player.old_links.split(",")
-    old_links.append(str(player.link))
-
-    player.old_links = ",".join(old_links)
-    player.link = generate_link()
-    player.save()
-
-    messages.info(request, "Link Updated. Please check your email!")
-    return redirect(reverse("login", args=[player.link]))
 
 
 @authenticate_player

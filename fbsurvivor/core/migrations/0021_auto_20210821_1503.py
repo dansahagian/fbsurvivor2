@@ -3,8 +3,6 @@
 import django.db.models.deletion
 from django.db import migrations, models
 
-import fbsurvivor.core.models.player
-
 
 class Migration(migrations.Migration):
     dependencies = [
@@ -16,7 +14,7 @@ class Migration(migrations.Migration):
             model_name="player",
             name="link",
             field=models.CharField(
-                default=fbsurvivor.core.models.player.generate_link,
+                default="",
                 max_length=44,
                 unique=True,
             ),

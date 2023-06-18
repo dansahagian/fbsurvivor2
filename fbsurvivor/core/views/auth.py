@@ -1,3 +1,5 @@
+import hashlib
+
 import arrow
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
@@ -5,24 +7,41 @@ from jwt import ExpiredSignatureError, InvalidSignatureError, encode, decode
 
 from fbsurvivor.celery import send_email_task
 from fbsurvivor.core.forms import EmailForm
-from fbsurvivor.core.models.player import Player
+from fbsurvivor.core.models.player import Player, TokenHash
 from fbsurvivor.settings import SECRET_KEY, DOMAIN
+
+
+def get_token_hash(token):
+    return hashlib.sha256(token.encode("utf-8")).hexdigest()
 
 
 def create_token(player) -> str:
     exp = arrow.now().shift(days=30).datetime
     payload = {"username": player.username, "exp": exp}
 
-    return encode(payload, SECRET_KEY, algorithm="HS256")
+    token = encode(payload, SECRET_KEY, algorithm="HS256")
+    TokenHash.objects.create(hash=get_token_hash(token), player=player)
+    return token
+
+
+def check_token_and_get_player(request, payload, token):
+    if username := payload.get("username"):
+        player = get_object_or_404(Player, username=username)
+        try:
+            player.tokens.get(hash=get_token_hash(token))
+            return player
+        except TokenHash.DoesNotExist:
+            request.session.delete("token")
+            return None
+    request.session.delete("token")
+    return None
 
 
 def get_authenticated_player(request) -> Player | None:
     if token := request.session.get("token"):
         try:
-            if payload := decode(token, SECRET_KEY, algorithms="HS256"):
-                if username := payload.get("username"):
-                    return get_object_or_404(Player, username=username)
-                request.session.delete("token")
+            payload = decode(token, SECRET_KEY, algorithms="HS256")
+            return check_token_and_get_player(request, payload, token)
         except (ExpiredSignatureError, InvalidSignatureError):
             return None
     return None
@@ -92,7 +111,10 @@ def signin(request):
         return render(request, "signin-sent.html")
 
 
-def logout(request):
+@authenticate_player
+def logout(request, **kwargs):
+    if token := request.session.get("token"):
+        TokenHash.objects.get(hash=get_token_hash(token)).delete()
     request.session.delete("token")
     return redirect(reverse("signin"))
 

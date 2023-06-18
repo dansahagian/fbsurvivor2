@@ -1,6 +1,3 @@
-import secrets
-import string
-
 from django.db import models
 from django.db.models import Sum
 from django.db.models.functions import Lower
@@ -8,16 +5,6 @@ from django.db.models.functions import Lower
 from fbsurvivor import settings
 from fbsurvivor.celery import send_email_task
 from .season import Season
-
-
-# do I need this forever?
-def generate_link():
-    return ""
-
-
-def generate_secret():
-    char_set = string.ascii_lowercase + string.digits
-    return "".join(secrets.choice(char_set) for _ in range(32))
 
 
 class League(models.Model):
@@ -41,8 +28,6 @@ class Player(models.Model):
     has_email_reminders = models.BooleanField(default=True)
     is_dark_mode = models.BooleanField(default=False)
 
-    secret = models.CharField(max_length=32, default=generate_secret)
-
     def __str__(self):
         return f"{self.username}"
 
@@ -58,6 +43,17 @@ class Player(models.Model):
             message = f"You can login here:\n\n{signin}\n\n{ps}"
 
             send_email_task.delay(subject, recipients, message)
+
+
+class TokenHash(models.Model):
+    hash = models.CharField(max_length=128)
+    player = models.ForeignKey(
+        Player, related_name="tokens", related_query_name="token", on_delete=models.CASCADE
+    )
+    created_at = models.DateField(auto_now_add=True)
+
+    class Meta:
+        indexes = [models.Index(fields=["hash"])]
 
 
 class PlayerStatusQuerySet(models.QuerySet):

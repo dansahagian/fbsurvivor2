@@ -120,6 +120,10 @@ li a {
     color: var(--body-color);
 }
 
+.logo a {
+    text-decoration: none;
+}
+
 .footer li {
     padding-top: 1.0em;
     text-align: left;

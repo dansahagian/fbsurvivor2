@@ -5,7 +5,7 @@
             {% if player_status.is_paid %}
                 {{ player_status.player.username }}
             {% else %}
-                <a href="{% url 'user_paid' season.year player_status.player.link %}">{{ player_status.player.username }}</a>
+                <a href="{% url 'user_paid' season.year player_status.player.username %}">{{ player_status.player.username }}</a>
             {% endif %}
             <br><br>
         {% endfor %}

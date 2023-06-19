@@ -54,8 +54,8 @@ li {
 li a {
     text-align: center;
     text-decoration: underline;
-    padding-left: 1.0em;
-    padding-right: 1.0em;
+    padding-left: .95em;
+    padding-right: .95em;
 }
 
 .messages {
@@ -116,7 +116,6 @@ li a {
 .logo {
     font-size: 1.2em;
     font-weight: bold;
-    padding-right: .4em;
     color: var(--body-color);
 }
 

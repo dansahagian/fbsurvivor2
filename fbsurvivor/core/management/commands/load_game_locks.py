@@ -26,7 +26,11 @@ class Command(BaseCommand):
 
                 lock_datetime = arrow.get(lock_datetime).datetime
 
-                Lock.objects.create(week=week, team=team1, lock_datetime=lock_datetime)
-                Lock.objects.create(week=week, team=team2, lock_datetime=lock_datetime)
+                Lock.objects.get_or_create(
+                    week=week, team=team1, defaults={"lock_datetime": lock_datetime}
+                )
+                Lock.objects.get_or_create(
+                    week=week, team=team2, defaults={"lock_datetime": lock_datetime}
+                )
 
         print("Complete!")

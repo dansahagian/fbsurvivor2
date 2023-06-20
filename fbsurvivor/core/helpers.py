@@ -1,4 +1,8 @@
+import secrets
+import string
+
 import redis
+import requests
 from django.contrib import messages
 from django.core.cache import cache
 from django.shortcuts import redirect, get_object_or_404
@@ -97,3 +101,18 @@ def update_league_caches(season=None):
     leagues = League.objects.all()
     for league in leagues:
         get_board(season, league, overwrite_cache=True)
+
+
+def generate_ntfy_topic():
+    char_set = string.ascii_lowercase + string.digits
+    ntfy_topics = Player.objects.values_list("ntfy_topic", flat=True)
+
+    ntfy_topic = "".join(secrets.choice(char_set) for _ in range(32))
+    if ntfy_topic in ntfy_topics:
+        return generate_ntfy_topic()
+    return ntfy_topic
+
+
+def send_push_notification(topic: str, title: str, message: str):
+    headers = {"Title": title, "Tags": "football"}
+    requests.post(f"https://ntfy.sh/{topic}", data=message, headers=headers)

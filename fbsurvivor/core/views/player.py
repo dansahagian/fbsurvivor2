@@ -8,13 +8,15 @@ from fbsurvivor.core.helpers import (
     get_current_season,
     get_player_context,
     send_to_latest_season_played,
+    generate_ntfy_topic,
+    send_push_notification,
 )
 from fbsurvivor.core.models.pick import Pick
 from fbsurvivor.core.models.player import PlayerStatus, Payout
 from fbsurvivor.core.models.season import Season
 from fbsurvivor.core.models.week import Week
 from fbsurvivor.core.views.auth import authenticate_player
-from fbsurvivor.settings import VENMO
+from fbsurvivor.settings import VENMO, CONTACT
 
 
 @authenticate_player
@@ -134,7 +136,7 @@ def payouts(request, **kwargs):
 def rules(request, **kwargs):
     player = kwargs["player"]
 
-    context = {"player": player, "season": get_current_season()}
+    context = {"player": player, "season": get_current_season(), "contact": CONTACT}
 
     return render(request, "rules.html", context=context)
 
@@ -157,3 +159,32 @@ def dark_mode(request, **kwargs):
     player.save()
 
     return redirect(kwargs["path"])
+
+
+@authenticate_player
+def reminders(request, **kwargs):
+    player = kwargs["player"]
+    context = {"player": player, "season": get_current_season(), "contact": CONTACT}
+
+    return render(request, "reminders.html", context=context)
+
+
+@authenticate_player
+def change_reminders(request, **kwargs):
+    player = kwargs["player"]
+
+    if not player.has_push_reminders:
+        player.has_push_reminders = True
+        if not player.ntfy_topic:
+            player.ntfy_topic = generate_ntfy_topic()
+
+        send_push_notification(
+            player.ntfy_topic,
+            "Survivor Push Notifications",
+            "You've enabled push notifications for Survivor.",
+        )
+    else:
+        player.has_push_reminders = False
+    player.save()
+
+    return redirect(reverse("reminders"))

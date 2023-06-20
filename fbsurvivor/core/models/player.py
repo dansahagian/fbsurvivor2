@@ -17,16 +17,20 @@ class League(models.Model):
 
 class Player(models.Model):
     username = models.CharField(max_length=20, unique=True)
-    email = models.CharField(max_length=100)
+    email = models.CharField(max_length=100, blank=True, default="")
 
     league = models.ForeignKey(League, null=True, on_delete=models.DO_NOTHING)
 
-    emoji = models.CharField(max_length=8, null=True, blank=True)
-    notes = models.TextField(null=True, blank=True)
+    emoji = models.CharField(max_length=8, blank=True, default="")
+    notes = models.TextField(blank=True, default="")
 
     is_admin = models.BooleanField(default=False)
-    has_email_reminders = models.BooleanField(default=True)
     is_dark_mode = models.BooleanField(default=False)
+
+    has_email_reminders = models.BooleanField(default=True)
+    has_push_reminders = models.BooleanField(default=False)
+
+    ntfy_topic = models.CharField(max_length=32, blank=True, default="")
 
     def __str__(self):
         return f"{self.username}"

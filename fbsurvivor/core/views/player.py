@@ -12,7 +12,7 @@ from fbsurvivor.core.helpers import (
     generate_ntfy_topic,
 )
 from fbsurvivor.core.models.pick import Pick
-from fbsurvivor.core.models.player import PlayerStatus, Payout
+from fbsurvivor.core.models.player import PlayerStatus, Payout, Player
 from fbsurvivor.core.models.season import Season
 from fbsurvivor.core.models.week import Week
 from fbsurvivor.core.views.auth import authenticate_player
@@ -96,6 +96,10 @@ def play(request, year, **kwargs):
         Pick.objects.bulk_create(picks)
         get_board(season, player.league, overwrite_cache=True)
         messages.info(request, f"Good luck in the {year} season!")
+
+        topic = Player.objects.get(username="DanTheAutomator").ntfy_topic
+        send_push_notification.delay(topic, f"New Player {player.username}!", "")
+
         return redirect(reverse("board", args=[year]))
 
 

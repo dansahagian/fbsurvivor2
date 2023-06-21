@@ -30,7 +30,7 @@ class Player(models.Model):
     has_email_reminders = models.BooleanField(default=True)
     has_push_reminders = models.BooleanField(default=False)
 
-    ntfy_topic = models.CharField(max_length=32, blank=True, default="")
+    ntfy_topic = models.CharField(max_length=36, blank=True, default="")
 
     def __str__(self):
         return f"{self.username}"
@@ -95,6 +95,13 @@ class PlayerStatusQuerySet(models.QuerySet):
             self.for_reminders(week)
             .filter(player__has_email_reminders=True)
             .values_list("player__email", flat=True)
+        )
+
+    def for_push_reminders(self, week):
+        return (
+            self.for_reminders(week)
+            .filter(player__has_push_reminders=True)
+            .values_list("player__ntfy_topic", flat=True)
         )
 
 

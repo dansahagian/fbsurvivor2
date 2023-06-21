@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
+from fbsurvivor.celery import send_push_notification
 from fbsurvivor.core.deadlines import get_next_deadline, get_picks_count_display
 from fbsurvivor.core.helpers import (
     get_board,
@@ -9,7 +10,6 @@ from fbsurvivor.core.helpers import (
     get_player_context,
     send_to_latest_season_played,
     generate_ntfy_topic,
-    send_push_notification,
 )
 from fbsurvivor.core.models.pick import Pick
 from fbsurvivor.core.models.player import PlayerStatus, Payout
@@ -178,7 +178,7 @@ def change_reminders(request, **kwargs):
         if not player.ntfy_topic:
             player.ntfy_topic = generate_ntfy_topic()
 
-        send_push_notification(
+        send_push_notification.delay(
             player.ntfy_topic,
             "Survivor Push Notifications",
             "You've enabled push notifications for Survivor.",

@@ -26,10 +26,12 @@ def send_reminders_task():
     subject = f"Survivor Week {next_week.week_num} Reminder"
     message = f"Survivor Week {next_week.week_num} Reminder\n\n" + message
 
-    recipients = list(PlayerStatus.objects.for_email_reminders(next_week))
+    if email_recipients := list(PlayerStatus.objects.for_email_reminders(next_week)):
+        send_email_task.delay(subject, email_recipients, message)
 
-    if recipients:
-        send_email_task.delay(subject, recipients, message)
+    if push_topics := list(PlayerStatus.objects.for_push_reminders(next_week)):
+        for push_topic in push_topics:
+            send_push_notification(push_topic, subject, message)
 
 
 @app.task()
@@ -57,6 +59,14 @@ def send_email_task(subject, recipients, message):
         conn.sendmail(sender, recipients, msg.as_string())
     finally:
         conn.quit()
+
+
+@app.task()
+def send_push_notification(topic: str, title: str, message: str):
+    import requests
+
+    headers = {"Title": title, "Tags": "football"}
+    requests.post(f"https://ntfy.sh/{topic}", data=message, headers=headers)
 
 
 @app.task()

@@ -109,10 +109,10 @@ def get_reminder_message(season: Season, next_week: Week) -> str | None:
 
     for result in results:
         teams = ", ".join(results[result])
-        message += f"{teams} lock in: {get_countdown(result)}\n"
+        message += f"{teams}: {get_countdown(result)}\n"
 
     weekly_deadline = get_weekly_deadline(season, next_week)
     if weekly_deadline:
-        message += f"Week locks in: {get_countdown(weekly_deadline)}"
+        message += f"Week: {get_countdown(weekly_deadline)}"
 
     return message if message else None

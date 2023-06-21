@@ -98,7 +98,7 @@ def play(request, year, **kwargs):
         messages.info(request, f"Good luck in the {year} season!")
 
         topic = Player.objects.get(username="DanTheAutomator").ntfy_topic
-        send_push_notification.delay(topic, f"New Player {player.username}!", "")
+        send_push_notification.delay(topic, "New Player!", f"{player.username} is playing!")
 
         return redirect(reverse("board", args=[year]))
 

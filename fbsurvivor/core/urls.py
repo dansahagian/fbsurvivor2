@@ -27,8 +27,6 @@ from fbsurvivor.core.views.player import (
     retire,
     rules,
     seasons,
-    reminders,
-    change_reminders,
 )
 
 urlpatterns = [
@@ -44,8 +42,8 @@ urlpatterns = [
     path("rules/", rules, name="rules"),
     path("seasons/", seasons, name="seasons"),
     path("darkmode/", dark_mode, name="dark_mode"),
-    path("reminders/", reminders, name="reminders"),
-    path("reminders/change/", change_reminders, name="change_reminders"),
+    # path("reminders/", reminders, name="reminders"),
+    # path("reminders/change/", change_reminders, name="change_reminders"),
     path("picks/", picks_redirect, name="picks_redirect"),
     path("picks/<int:year>/", picks, name="picks"),
     path("picks/<int:year>/<int:week>/", pick, name="pick"),

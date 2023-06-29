@@ -1,6 +1,5 @@
 from uuid import uuid4
 
-import redis
 from django.contrib import messages
 from django.core.cache import cache
 from django.shortcuts import redirect, get_object_or_404
@@ -73,24 +72,17 @@ def _get_board(season, league):
 def get_board(season, league, overwrite_cache=False):
     if overwrite_cache:
         player_statuses, board = _get_board(season, league)
-        try:
-            cache.set(f"player_statuses_{season.year}_{league}", player_statuses, timeout=None)
-            cache.set(f"board_{season.year}_{league}", board, timeout=None)
-            print("Caching board")
-        except redis.ConnectionError:
-            print("Redis is unavailable. Could not cache board.")
+        cache.set(f"player_statuses_{season.year}_{league.name}", player_statuses, timeout=None)
+        cache.set(f"board_{season.year}_{league.name}", board, timeout=None)
+        print("Caching board!")
         return player_statuses, board
 
-    try:
-        player_statuses = cache.get(f"player_statuses_{season.year}_{league}")
-        board = cache.get(f"board_{season.year}_{league}")
-        if not (player_statuses and board):
-            return get_board(season, league, overwrite_cache=True)
-        print("Using cached board.")
-        return player_statuses, board
-    except redis.ConnectionError:
-        print("Redis is unavailable. Could not cache board.")
-        return _get_board(season, league)
+    player_statuses = cache.get(f"player_statuses_{season.year}_{league.name}")
+    board = cache.get(f"board_{season.year}_{league.name}")
+    if not (player_statuses and board):
+        return get_board(season, league, overwrite_cache=True)
+    print("Using cached board!")
+    return player_statuses, board
 
 
 def update_league_caches(season=None):

@@ -11,3 +11,4 @@ class Season(models.Model):
 
     class Meta:
         ordering = ["-year"]
+        indexes = [models.Index(fields=["year"])]

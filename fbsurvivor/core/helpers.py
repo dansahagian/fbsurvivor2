@@ -74,7 +74,7 @@ def get_board(season, league, overwrite_cache=False):
         player_statuses, board = _get_board(season, league)
         cache.set(f"player_statuses_{season.year}_{league.name}", player_statuses, timeout=None)
         cache.set(f"board_{season.year}_{league.name}", board, timeout=None)
-        print("Caching board!")
+        print("Board Cached!")
         return player_statuses, board
 
     player_statuses = cache.get(f"player_statuses_{season.year}_{league.name}")

@@ -32,6 +32,9 @@ class Player(models.Model):
 
     ntfy_topic = models.CharField(max_length=36, blank=True, default="")
 
+    class Meta:
+        indexes = [models.Index(fields=["username"]), models.Index(fields=["email"])]
+
     def __str__(self):
         return f"{self.username}"
 

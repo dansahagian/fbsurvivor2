@@ -22,8 +22,10 @@
     <body>
         {% if player %}
             <ul>
-                <li class="logo"><a href="{% url 'board' season.year %}">Survivor</a></li>
-                <li><a href="{% url 'picks' season.year %}">picks</a></li>
+                <li class="logo"><a href="{% url 'board' current_season.year %}">Survivor</a></li>
+                {% if season.year == current_season.year %}
+                    <li><a href="{% url 'picks' season.year %}">picks</a></li>
+                {% endif %}
                 {% if player.is_admin %}
                     <li><a href="{% url 'manager' season.year %}">admin</a></li>
                 {% endif %}

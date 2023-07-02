@@ -12,13 +12,19 @@ from fbsurvivor.core.models.season import Season
 
 def get_player_context(player: Player, year: int):
     season = get_object_or_404(Season, year=year)
+    current_season = get_current_season()
 
     try:
         player_status = PlayerStatus.objects.get(player=player, season=season)
     except PlayerStatus.DoesNotExist:
         player_status = None
 
-    context = {"player": player, "season": season, "player_status": player_status}
+    context = {
+        "player": player,
+        "season": season,
+        "player_status": player_status,
+        "current_season": current_season,
+    }
 
     return season, player_status, context
 
@@ -74,7 +80,7 @@ def get_board(season, league, overwrite_cache=False):
         player_statuses, board = _get_board(season, league)
         cache.set(f"player_statuses_{season.year}_{league.name}", player_statuses, timeout=None)
         cache.set(f"board_{season.year}_{league.name}", board, timeout=None)
-        print("Board Cached!")
+        print("\nBoard Cached!")
         return player_statuses, board
 
     player_statuses = cache.get(f"player_statuses_{season.year}_{league.name}")

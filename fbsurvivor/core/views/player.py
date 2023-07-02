@@ -150,8 +150,14 @@ def seasons(request, **kwargs):
     player = kwargs["player"]
 
     years = list(PlayerStatus.objects.player_years(player))
+    current_season = get_current_season()
 
-    context = {"player": player, "years": years, "season": get_current_season()}
+    context = {
+        "player": player,
+        "years": years,
+        "season": current_season,
+        "current_season": get_current_season(),
+    }
 
     return render(request, "seasons.html", context=context)
 

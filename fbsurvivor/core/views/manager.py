@@ -15,7 +15,8 @@ from fbsurvivor.core.views.auth import authenticate_admin
 
 def get_season_context(year, **kwargs):
     season = get_object_or_404(Season, year=year)
-    return season, {"season": season, "player": kwargs["player"]}
+    current_season = get_current_season()
+    return season, {"season": season, "player": kwargs["player"], "current_season": current_season}
 
 
 @authenticate_admin

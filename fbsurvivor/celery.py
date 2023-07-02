@@ -24,7 +24,7 @@ def send_reminders_task():
         return
 
     subject = f"Survivor Week {next_week.week_num} Reminder"
-    message = f"Survivor Week {next_week.week_num} Locks\n\n" + message
+    message = f"🏈 Survivor Week {next_week.week_num} Locks\n\n" + message
 
     if email_recipients := list(PlayerStatus.objects.for_email_reminders(next_week)):
         send_email_task.delay(subject, email_recipients, message)

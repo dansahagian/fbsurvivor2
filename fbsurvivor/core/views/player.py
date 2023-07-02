@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.http import Http404
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
@@ -130,8 +131,14 @@ def retire(request, year, **kwargs):
 def payouts(request, **kwargs):
     player = kwargs["player"]
     player_payouts = Payout.objects.for_payout_table(player.league)
+    current_season = get_current_season()
 
-    context = {"player": player, "payouts": player_payouts, "season": get_current_season()}
+    context = {
+        "player": player,
+        "payouts": player_payouts,
+        "season": current_season,
+        "current_season": get_current_season(),
+    }
 
     return render(request, "payouts.html", context=context)
 
@@ -139,8 +146,14 @@ def payouts(request, **kwargs):
 @authenticate_player
 def rules(request, **kwargs):
     player = kwargs["player"]
+    current_season = get_current_season()
 
-    context = {"player": player, "season": get_current_season(), "contact": CONTACT}
+    context = {
+        "player": player,
+        "season": current_season,
+        "current_season": current_season,
+        "contact": CONTACT,
+    }
 
     return render(request, "rules.html", context=context)
 
@@ -156,7 +169,7 @@ def seasons(request, **kwargs):
         "player": player,
         "years": years,
         "season": current_season,
-        "current_season": get_current_season(),
+        "current_season": current_season,
     }
 
     return render(request, "seasons.html", context=context)
@@ -169,3 +182,41 @@ def dark_mode(request, **kwargs):
     player.save()
 
     return redirect(kwargs["path"])
+
+
+@authenticate_player
+def reminders(request, **kwargs):
+    player = kwargs["player"]
+    current_season = get_current_season()
+
+    context = {
+        "player": player,
+        "season": current_season,
+        "current_season": current_season,
+        "contact": CONTACT,
+        "last_two": player.phone_number[-2:],
+    }
+
+    return render(request, "reminders.html", context=context)
+
+
+@authenticate_player
+def update_reminders(request, kind, status, **kwargs):
+    player = kwargs["player"]
+
+    statuses = {
+        "on": True,
+        "off": False,
+    }
+
+    if status not in statuses or kind not in ["email", "sms"]:
+        raise Http404
+
+    if kind == "email":
+        player.has_email_reminders = statuses[status]
+    if kind == "sms":
+        player.has_sms_reminders = statuses[status]
+
+    player.save()
+
+    return redirect(reverse("reminders"))

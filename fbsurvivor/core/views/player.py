@@ -3,7 +3,7 @@ from django.http import Http404
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
-from fbsurvivor.celery import send_email_task
+from fbsurvivor.celery import send_email_task, send_sms_task
 from fbsurvivor.core.deadlines import get_next_deadline, get_picks_count_display
 from fbsurvivor.core.helpers import (
     get_board,
@@ -216,6 +216,8 @@ def update_reminders(request, kind, status, **kwargs):
         player.has_email_reminders = statuses[status]
     if kind == "sms":
         player.has_sms_reminders = statuses[status]
+        body = f"🏈 Survivor\n\nYou have turned SMS Reminders {status.upper()}"
+        send_sms_task.delay(player.phone_number, body)
 
     player.save()
 

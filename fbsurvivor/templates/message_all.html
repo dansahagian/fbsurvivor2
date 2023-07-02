@@ -1,8 +1,8 @@
 {% extends "./base.html" %}
     {% block content %}
-        Send a message to the players of this season!
+        Send a message to all players!
         <br><br>
-        <form action="{% url 'send_message' season.year %}" method="POST">
+        <form action="{% url 'send_message_all' season.year %}" method="POST">
             {% csrf_token %}
             <label for="{{ form.subject.id_for_label }}">Subject:</label>
             <br>
@@ -12,6 +12,6 @@
             <br>
             {{ form.message }}
             <br><br>
-            <input class="blue-button" type="submit" value="Send to Season" />
+            <input class="blue-button" type="submit" value="Send to All" />
         </form>
     {% endblock %}

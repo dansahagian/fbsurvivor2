@@ -23,7 +23,7 @@ def send_reminders_task():
     if not message:
         return
 
-    subject = f"Survivor Week {next_week.week_num} Reminder"
+    subject = f"🏈 Survivor Week {next_week.week_num} Reminder"
     message = f"🏈 Survivor Week {next_week.week_num} Locks\n\n" + message
 
     if email_recipients := list(PlayerStatus.objects.for_email_reminders(next_week)):
@@ -43,7 +43,7 @@ def send_email_task(subject, recipients, message):
     from fbsurvivor.settings import ENV, SMTP_SENDER, SMTP_USER, SMTP_PASSWORD, SMTP_SERVER
 
     if ENV == "dev":
-        print(f"\n\nSending Email...\n\n{message}\n\n")
+        print(f"\n\nSending Email to {len(recipients)} players...\n{subject}\n\n{message}\n\n")
         return
 
     msg = MIMEText(message)

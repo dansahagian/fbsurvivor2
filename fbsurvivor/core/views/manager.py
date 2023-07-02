@@ -123,9 +123,37 @@ def send_message(request, year, **kwargs):
             subject = form.cleaned_data["subject"]
             message = form.cleaned_data["message"]
 
-            recipients = Player.objects.filter(playerstatus__season=season).values_list(
-                "email", flat=True
+            recipients = list(
+                Player.objects.filter(playerstatus__season=season)
+                .exclude(email="")
+                .values_list("email", flat=True)
             )
+
+            subject = f"🏈 Survivor {subject}"
+
+            send_email_task.delay(subject, recipients, message)
+
+            return redirect(reverse("board", args=[year]))
+
+
+@authenticate_admin
+def send_message_all(request, year, **kwargs):
+    season, context = get_season_context(year, **kwargs)
+
+    if request.method == "GET":
+        context["form"] = MessageForm()
+        return render(request, "message_all.html", context=context)
+
+    if request.method == "POST":
+        form = MessageForm(request.POST)
+
+        if form.is_valid():
+            subject = form.cleaned_data["subject"]
+            message = form.cleaned_data["message"]
+
+            recipients = list(Player.objects.exclude(email="").values_list("email", flat=True))
+
+            subject = f"🏈 Survivor {subject}"
 
             send_email_task.delay(subject, recipients, message)
 

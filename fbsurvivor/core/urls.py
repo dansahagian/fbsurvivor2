@@ -12,6 +12,7 @@ from fbsurvivor.core.views.manager import (
     get_players,
     update_board_cache,
     send_message,
+    send_message_all,
 )
 from fbsurvivor.core.views.pick import (
     picks,
@@ -57,6 +58,7 @@ urlpatterns = [
     path("players/<int:year>", get_players, name="players"),
     path("update-board-cache/<int:year>/", update_board_cache, name="update_board_cache"),
     path("message/<int:year>/", send_message, name="send_message"),
+    path("message-all/<int:year>/", send_message_all, name="send_message_all"),
     path("reminders/", reminders, name="reminders"),
     path("reminders/<str:kind>/<str:status>/", update_reminders, name="update_reminders"),
 ]

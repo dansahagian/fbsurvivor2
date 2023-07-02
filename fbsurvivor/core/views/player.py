@@ -2,14 +2,13 @@ from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
-from fbsurvivor.celery import send_push_notification
+from fbsurvivor.celery import send_email_task
 from fbsurvivor.core.deadlines import get_next_deadline, get_picks_count_display
 from fbsurvivor.core.helpers import (
     get_board,
     get_current_season,
     get_player_context,
     send_to_latest_season_played,
-    generate_ntfy_topic,
 )
 from fbsurvivor.core.models.pick import Pick
 from fbsurvivor.core.models.player import PlayerStatus, Payout, Player
@@ -97,8 +96,9 @@ def play(request, year, **kwargs):
         get_board(season, player.league, overwrite_cache=True)
         messages.info(request, f"Good luck in the {year} season!")
 
-        topic = Player.objects.get(username="DanTheAutomator").ntfy_topic
-        send_push_notification.delay(topic, "New Player!", f"{player.username} is playing!")
+        recipient = Player.objects.get(username="DanTheAutomator").email
+        message = f"{player.username} in for {season.year}"
+        send_email_task.delay("🏈 New Player! 🏈", [recipient], message)
 
         return redirect(reverse("board", args=[year]))
 
@@ -169,32 +169,3 @@ def dark_mode(request, **kwargs):
     player.save()
 
     return redirect(kwargs["path"])
-
-
-@authenticate_player
-def reminders(request, **kwargs):
-    player = kwargs["player"]
-    context = {"player": player, "season": get_current_season(), "contact": CONTACT}
-
-    return render(request, "reminders.html", context=context)
-
-
-@authenticate_player
-def change_reminders(request, **kwargs):
-    player = kwargs["player"]
-
-    if not player.has_push_reminders:
-        player.has_push_reminders = True
-        if not player.ntfy_topic:
-            player.ntfy_topic = generate_ntfy_topic()
-
-        send_push_notification.delay(
-            player.ntfy_topic,
-            "Survivor Push Notifications",
-            "You've enabled push notifications for Survivor.",
-        )
-    else:
-        player.has_push_reminders = False
-    player.save()
-
-    return redirect(reverse("reminders"))

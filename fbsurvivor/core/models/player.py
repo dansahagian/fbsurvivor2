@@ -28,9 +28,8 @@ class Player(models.Model):
     is_dark_mode = models.BooleanField(default=False)
 
     has_email_reminders = models.BooleanField(default=True)
-    has_push_reminders = models.BooleanField(default=False)
-
-    ntfy_topic = models.CharField(max_length=36, blank=True, default="")
+    has_sms_reminders = models.BooleanField(default=False)
+    phone_number = models.CharField(max_length=10, blank=True, default="")
 
     class Meta:
         indexes = [models.Index(fields=["username"]), models.Index(fields=["email"])]
@@ -100,11 +99,11 @@ class PlayerStatusQuerySet(models.QuerySet):
             .values_list("player__email", flat=True)
         )
 
-    def for_push_reminders(self, week):
+    def for_sms_reminders(self, week):
         return (
             self.for_reminders(week)
-            .filter(player__has_push_reminders=True)
-            .values_list("player__ntfy_topic", flat=True)
+            .filter(player__has_sms_reminders=True)
+            .values_list("player__phone_number", flat=True)
         )
 
 

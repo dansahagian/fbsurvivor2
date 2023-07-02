@@ -42,14 +42,3 @@ class PickForm(forms.Form):
 class MessageForm(forms.Form):
     subject = forms.CharField(label="subject", max_length=25)
     message = forms.CharField(label="message", widget=forms.Textarea)
-
-
-class RemindersForm(forms.Form):
-    def __init__(self, player, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-        self.fields["has_email_reminders"] = forms.BooleanField()
-        self.fields["has_push_reminders"] = forms.BooleanField()
-
-        self.fields["has_email_reminders"].initial = player.has_email_reminders
-        self.fields["has_push_reminders"].initial = player.has_push_reminders

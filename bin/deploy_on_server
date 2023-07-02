@@ -1,11 +1,11 @@
 #!/bin/zsh
 
-echo "Stopping services..."
+echo "\nStopping services...\n"
 sudo systemctl stop wsgi-server.service
 sudo systemctl stop celeryworker.service
 sudo systemctl stop celerybeat.service
 
-echo "Deploying..."
+echo "\nDeploying...\n"
 cd /opt/fbsurvivor2
 git pull origin main
 venv/bin/pip install --upgrade pip
@@ -17,7 +17,7 @@ venv/bin/python manage.py collectstatic --no-input
 venv/bin/python manage.py check --deploy
 venv/bin/python manage.py updatecache
 
-echo "Starting services..."
+echo "\nStarting services...\n"
 sudo systemctl start wsgi-server.service
 sudo systemctl start celeryworker.service
 sudo systemctl start celerybeat.service

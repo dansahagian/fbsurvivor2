@@ -1,11 +1,18 @@
 #!/bin/zsh
 
-echo "Running CI..."
+echo "\nRunning Deployment..."
+git checkout main
+git pull origin main
+echo "\nChecking formatting...\n"
 if venv/bin/black --check .
-then
-  ssh -t linode "/opt/fbsurvivor2/bin/deploy_on_server"
+  echo "\nRunning tests...\n"
+  then
+  if venv/bin/pytest .
+  then
+    ssh -t linode "/opt/fbsurvivor2/bin/deploy_on_server"
+  else
+    echo "\n❌Failed to deploy: Tests\n"
+  fi
 else
-  echo
-  echo "Failed to deploy"
-  echo
+  echo "\n❌Failed to deploy: Formatting\n"
 fi

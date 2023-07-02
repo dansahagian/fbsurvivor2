@@ -1,8 +1,7 @@
 {% extends "./base.html" %}
 {% block content %}
     <br>
-    Email {{ contact }} if you need to change<br>
-    your info or are having issues with reminders.
+    Contact: {{ contact }}.
     <br><br>
     <h3>Email Reminders</h3>
     {% if player.has_email_reminders %}
@@ -24,7 +23,8 @@
             <a class="blue-button" href="{% url 'update_reminders' 'sms' 'on' %}">Enable</a>
         {% endif %}
     {% else %}
-        Sorry! 😢 We don't have a phone number on file.<br>
-        To enable SMS reminders, contact Dan.
+        Sorry! 😢<br>
+        We don't have a phone number on file.<br>
+        Contact Dan to add your phone number.
     {% endif %}
 {% endblock %}

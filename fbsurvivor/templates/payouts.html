@@ -11,11 +11,6 @@
             <tr>
                 <td>{{ payout.player__username }}</td>
                 <td style="text-align: right;">{{ payout.total|floatformat:"0" }}</td>
-                {% if payout.player__notes %}
-                    <td>{{ payout.player__notes }}</td>
-                {% else %}
-                    <td></td>
-                {% endif %}
             </tr>
         {% endfor %}
     </table>

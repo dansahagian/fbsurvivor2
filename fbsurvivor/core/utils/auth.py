@@ -6,8 +6,8 @@ from django.urls import reverse
 from jwt import encode, decode, ExpiredSignatureError, InvalidSignatureError
 
 from fbsurvivor.celery import send_email_task
-from fbsurvivor.core.helpers import get_current_season
 from fbsurvivor.core.models import TokenHash, Player, Season
+from fbsurvivor.core.utils.helpers import get_current_season
 from fbsurvivor.settings import SECRET_KEY, DOMAIN
 
 

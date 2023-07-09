@@ -4,16 +4,7 @@ from django.shortcuts import redirect, render, get_object_or_404
 from django.urls import reverse
 
 from fbsurvivor.celery import send_email_task, send_sms_task, send_reminders_task
-from fbsurvivor.core.deadlines import get_next_deadline, get_picks_count_display
 from fbsurvivor.core.forms import EmailForm, PickForm, MessageForm
-from fbsurvivor.core.helpers import (
-    get_current_season,
-    get_player_context,
-    send_to_latest_season_played,
-    get_board,
-    update_league_caches,
-    update_player_records,
-)
 from fbsurvivor.core.models import (
     Week,
     Season,
@@ -31,6 +22,15 @@ from fbsurvivor.core.utils.auth import (
     authenticate_admin,
     get_season_context,
     send_magic_link,
+)
+from fbsurvivor.core.utils.deadlines import get_next_deadline, get_picks_count_display
+from fbsurvivor.core.utils.helpers import (
+    get_current_season,
+    get_player_context,
+    send_to_latest_season_played,
+    get_board,
+    update_league_caches,
+    update_player_records,
 )
 from fbsurvivor.settings import VENMO, CONTACT
 

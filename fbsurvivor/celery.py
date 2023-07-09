@@ -10,7 +10,7 @@ def send_reminders_task():
     from fbsurvivor.core.models import PlayerStatus
     from fbsurvivor.core.models import Season
     from fbsurvivor.core.models import Week
-    from fbsurvivor.core.deadlines import get_reminder_message
+    from fbsurvivor.core.utils.deadlines import get_reminder_message
 
     current_season: Season = Season.objects.get(is_current=True)
     next_week: Week = Week.objects.get_next(current_season)
@@ -78,6 +78,6 @@ def send_sms_task(recipient, body):
 
 @app.task()
 def update_board_cache():
-    from fbsurvivor.core.helpers import update_league_caches
+    from fbsurvivor.core.utils.helpers import update_league_caches
 
     update_league_caches()

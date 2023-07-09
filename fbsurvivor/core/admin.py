@@ -17,8 +17,8 @@ class PlayerAdmin(admin.ModelAdmin):
         "email",
         "is_admin",
         "has_email_reminders",
+        "has_sms_reminders",
     ]
-    list_editable = ["is_admin", "has_email_reminders"]
 
     def get_queryset(self, request):
         qs = super(PlayerAdmin, self).get_queryset(request)

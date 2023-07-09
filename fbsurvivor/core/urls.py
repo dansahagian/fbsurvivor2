@@ -1,7 +1,23 @@
 from django.urls import path
 
-from fbsurvivor.core.views.auth import enter, signin, assume, logout
-from fbsurvivor.core.views.manager import (
+from fbsurvivor.core.views import (
+    board_redirect,
+    board,
+    play,
+    retire,
+    payouts,
+    rules,
+    seasons,
+    dark_mode,
+    reminders,
+    update_reminders,
+    signin,
+    logout,
+    enter,
+    assume,
+    picks_redirect,
+    picks,
+    pick,
     manager_redirect,
     manager,
     paid,
@@ -13,23 +29,6 @@ from fbsurvivor.core.views.manager import (
     update_board_cache,
     send_message,
     send_message_all,
-)
-from fbsurvivor.core.views.pick import (
-    picks,
-    picks_redirect,
-    pick,
-)
-from fbsurvivor.core.views.player import (
-    board,
-    board_redirect,
-    dark_mode,
-    payouts,
-    play,
-    retire,
-    rules,
-    seasons,
-    reminders,
-    update_reminders,
 )
 
 urlpatterns = [

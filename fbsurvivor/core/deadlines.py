@@ -1,10 +1,6 @@
 import arrow
 
-from fbsurvivor.core.models.lock import Lock
-from fbsurvivor.core.models.pick import Pick
-from fbsurvivor.core.models.player import PlayerStatus
-from fbsurvivor.core.models.season import Season
-from fbsurvivor.core.models.week import Week
+from fbsurvivor.core.models import PlayerStatus, Season, Week, Lock, Pick
 
 
 def _zero_pad_number(number):

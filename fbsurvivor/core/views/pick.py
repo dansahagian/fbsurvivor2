@@ -7,9 +7,7 @@ from fbsurvivor.core.helpers import (
     get_current_season,
     get_player_context,
 )
-from fbsurvivor.core.models.pick import Pick
-from fbsurvivor.core.models.team import Team
-from fbsurvivor.core.models.week import Week
+from fbsurvivor.core.models import Week, Team, Pick
 from fbsurvivor.core.views.auth import authenticate_player
 
 

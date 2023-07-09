@@ -1,4 +1,4 @@
-from fbsurvivor.core.models.pick import Pick
+from fbsurvivor.core.models import Pick
 
 
 def test_pick_for_player_season(db, players, seasons, picks):

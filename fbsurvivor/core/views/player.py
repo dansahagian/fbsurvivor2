@@ -11,10 +11,7 @@ from fbsurvivor.core.helpers import (
     get_player_context,
     send_to_latest_season_played,
 )
-from fbsurvivor.core.models.pick import Pick
-from fbsurvivor.core.models.player import PlayerStatus, Payout, Player
-from fbsurvivor.core.models.season import Season
-from fbsurvivor.core.models.week import Week
+from fbsurvivor.core.models import Player, PlayerStatus, Payout, Season, Week, Pick
 from fbsurvivor.core.views.auth import authenticate_player
 from fbsurvivor.settings import VENMO, CONTACT
 

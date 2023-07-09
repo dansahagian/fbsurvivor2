@@ -2,7 +2,7 @@ import pytest
 from django.urls import reverse
 
 from fbsurvivor.core.helpers import get_player_context
-from fbsurvivor.core.models.pick import Pick
+from fbsurvivor.core.models import Pick
 from fbsurvivor.core.views.auth import create_token
 
 

@@ -7,7 +7,7 @@ from jwt import ExpiredSignatureError, InvalidSignatureError, encode, decode
 
 from fbsurvivor.celery import send_email_task
 from fbsurvivor.core.forms import EmailForm
-from fbsurvivor.core.models.player import Player, TokenHash
+from fbsurvivor.core.models import Player, TokenHash
 from fbsurvivor.settings import SECRET_KEY, DOMAIN
 
 

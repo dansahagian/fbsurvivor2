@@ -7,9 +7,9 @@ app = Celery("fbsurvivor", broker=BROKER_URL)
 
 @app.task()
 def send_reminders_task():
-    from fbsurvivor.core.models.player import PlayerStatus
-    from fbsurvivor.core.models.season import Season
-    from fbsurvivor.core.models.week import Week
+    from fbsurvivor.core.models import PlayerStatus
+    from fbsurvivor.core.models import Season
+    from fbsurvivor.core.models import Week
     from fbsurvivor.core.deadlines import get_reminder_message
 
     current_season: Season = Season.objects.get(is_current=True)

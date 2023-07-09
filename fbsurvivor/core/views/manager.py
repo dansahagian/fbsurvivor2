@@ -5,11 +5,7 @@ from django.urls import reverse
 from fbsurvivor.celery import send_reminders_task, send_email_task
 from fbsurvivor.core.forms import MessageForm
 from fbsurvivor.core.helpers import update_player_records, update_league_caches, get_current_season
-from fbsurvivor.core.models.pick import Pick
-from fbsurvivor.core.models.player import Player, PlayerStatus
-from fbsurvivor.core.models.season import Season
-from fbsurvivor.core.models.team import Team
-from fbsurvivor.core.models.week import Week
+from fbsurvivor.core.models import Player, PlayerStatus, Season, Week, Team, Pick
 from fbsurvivor.core.views.auth import authenticate_admin
 
 

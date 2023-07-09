@@ -3,9 +3,7 @@ from django.core.cache import cache
 from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse
 
-from fbsurvivor.core.models.pick import Pick
-from fbsurvivor.core.models.player import Player, PlayerStatus, League
-from fbsurvivor.core.models.season import Season
+from fbsurvivor.core.models import League, Player, PlayerStatus, Season, Pick
 
 
 def get_player_context(player: Player, year: int):

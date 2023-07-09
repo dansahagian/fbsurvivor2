@@ -1,11 +1,7 @@
 import arrow as arrow
 import factory
 
-from fbsurvivor.core.models.pick import Pick
-from fbsurvivor.core.models.player import Player, PlayerStatus
-from fbsurvivor.core.models.season import Season
-from fbsurvivor.core.models.team import Team
-from fbsurvivor.core.models.week import Week
+from fbsurvivor.core.models import Player, PlayerStatus, Season, Week, Team, Pick
 
 
 class PlayerFactory(factory.django.DjangoModelFactory):

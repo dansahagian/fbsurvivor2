@@ -80,9 +80,9 @@ celery==5.3.1 \
     # via
     #   -r requirements/base.txt
     #   django-celery-beat
-certifi==2023.5.7 \
-    --hash=sha256:0f0d56dc5a6ad56fd4ba36484d6cc34451e1c6548c61daad8c320169f91eddc7 \
-    --hash=sha256:c6c2e98f5c7869efca1f8916fed228dd91539f9f1b444c314c06eef02980c716
+certifi==2023.7.22 \
+    --hash=sha256:539cc1d13202e33ca466e88b2807e29f4c13049d6d87031a3c110744495cb082 \
+    --hash=sha256:92d6037539857d8206b8f6ae472e8b77db8058fec5937a1ef3f54304089edbb9
     # via
     #   -r requirements/base.txt
     #   requests
@@ -165,9 +165,9 @@ charset-normalizer==3.2.0 \
     # via
     #   -r requirements/base.txt
     #   requests
-click==8.1.4 \
-    --hash=sha256:2739815aaa5d2c986a88f1e9230c55e17f0caad3d958a5e13ad0797c166db9e3 \
-    --hash=sha256:b97d0c74955da062a7d4ef92fadb583806a585b2ea81958a81bd72726cbb8e37
+click==8.1.6 \
+    --hash=sha256:48ee849951919527a045bfe3bf7baa8a959c423134e1a5b98c05c20ba75a1cbd \
+    --hash=sha256:fa244bb30b3b5ee2cae3da8f55c9e5e0c0e86093306301fb418eb9dc40fbded5
     # via
     #   -r requirements/base.txt
     #   black
@@ -241,17 +241,17 @@ executing==1.2.0 \
     --hash=sha256:0314a69e37426e3608aada02473b4161d4caf5a4b244d1d0c48072b8fee7bacc \
     --hash=sha256:19da64c18d2d851112f09c287f8d3dbbdf725ab0e569077efb6cdcbd3497c107
     # via stack-data
-factory-boy==3.2.1 \
-    --hash=sha256:a98d277b0c047c75eb6e4ab8508a7f81fb03d2cb21986f627913546ef7a2a55e \
-    --hash=sha256:eb02a7dd1b577ef606b75a253b9818e6f9eaf996d94449c9d5ebb124f90dc795
+factory-boy==3.3.0 \
+    --hash=sha256:a2cdbdb63228177aa4f1c52f4b6d83fab2b8623bf602c7dedd7eb83c0f69c04c \
+    --hash=sha256:bc76d97d1a65bbd9842a6d722882098eb549ec8ee1081f9fb2e8ff29f0c300f1
     # via -r requirements/dev.in
-faker==19.0.0 \
-    --hash=sha256:14bfe8e861efdfcdf2a3e66ff61a780d911410a474a667295bae4f8c4586456b \
-    --hash=sha256:d37406dff33ae63ae019bd7bf95e33251e703cddbcb2857e0611002062f774e8
+faker==19.2.0 \
+    --hash=sha256:78840b94843f3aa32a34a220b2b5e8b309e3ffff3a231b0c54e841bb68e0757d \
+    --hash=sha256:c6c1218482faf79ae1d791bb7124067d12339e0b8f400de855e2c281bcf78c77
     # via factory-boy
-gunicorn==20.1.0 \
-    --hash=sha256:9dcc4547dbb1cb284accfb15ab5667a0e5d1881cc443e0677b4882a4067a807e \
-    --hash=sha256:e0a968b5ba15f8a328fdfd7ab1fcb5af4470c28aaf7e55df02a99bc13138e6e8
+gunicorn==21.2.0 \
+    --hash=sha256:3213aa5e8c24949e792bcacfc176fef362e7aac80b76c56f6b5122bf350722f0 \
+    --hash=sha256:88ec8bff1d634f98e61b9f65bc4bf3cd918a90806c6f5c48bc5603849ec81033
     # via -r requirements/base.txt
 html5lib==1.1 \
     --hash=sha256:0d78f8fde1c230e99fe37986a60526d7049ed4bf8a9fadbad5f00e22e58e041d \
@@ -273,9 +273,9 @@ ipython==8.14.0 \
     --hash=sha256:1d197b907b6ba441b692c48cf2a3a2de280dc0ac91a3405b39349a50272ca0a1 \
     --hash=sha256:248aca623f5c99a6635bc3857677b7320b9b8039f99f070ee0d20a5ca5a8e6bf
     # via -r requirements/dev.in
-jedi==0.18.2 \
-    --hash=sha256:203c1fd9d969ab8f2119ec0a3342e0b49910045abe6af0a3ae83a5764d54639e \
-    --hash=sha256:bae794c30d07f6d910d32a7048af09b5a39ed740918da923c6b780790ebac612
+jedi==0.19.0 \
+    --hash=sha256:bcf9894f1753969cbac8022a8c2eaee06bfa3724e4192470aaffe7eb6272b0c4 \
+    --hash=sha256:cb8ce23fbccff0025e9386b5cf85e892f94c9b822378f8da49970471335ac64e
     # via ipython
 kombu==5.3.1 \
     --hash=sha256:48ee589e8833126fd01ceaa08f8a2041334e9f5894e5763c8486a550454551e9 \
@@ -295,15 +295,17 @@ packaging==23.1 \
     --hash=sha256:994793af429502c4ea2ebf6bf664629d07c1a9fe974af92966e4b8d2df7edc61 \
     --hash=sha256:a392980d2b6cffa644431898be54b0045151319d1e7ec34f0cfed48767dd334f
     # via
+    #   -r requirements/base.txt
     #   black
+    #   gunicorn
     #   pytest
 parso==0.8.3 \
     --hash=sha256:8c07be290bb59f03588915921e29e8a50002acaf2cdc5fa0e0114f91709fafa0 \
     --hash=sha256:c001d4636cd3aecdaf33cbb40aebb59b094be2a74c556778ef5576c175e19e75
     # via jedi
-pathspec==0.11.1 \
-    --hash=sha256:2798de800fa92780e33acca925945e9a19a133b715067cf165b8866c15a31687 \
-    --hash=sha256:d8af70af76652554bd134c22b3e8a1cc46ed7d91edcdd721ef1a0c51a84a5293
+pathspec==0.11.2 \
+    --hash=sha256:1d6ed233af05e679efb96b1851550ea95bbb64b7c490b0f5aa52996c11e92a20 \
+    --hash=sha256:e0d8d0ac2f12da61956eb2306b69f9469b42f4deb0f3cb6ed47b9cce9996ced3
     # via black
 pexpect==4.8.0 \
     --hash=sha256:0b48a55dcb3c05f3329815901ea4fc1537514d6ba867a152b581d69ae3710937 \
@@ -313,9 +315,9 @@ pickleshare==0.7.5 \
     --hash=sha256:87683d47965c1da65cdacaf31c8441d12b8044cdec9aca500cd78fc2c683afca \
     --hash=sha256:9649af414d74d4df115d5d718f82acb59c9d418196b7b4290ed47a12ce62df56
     # via ipython
-platformdirs==3.8.1 \
-    --hash=sha256:cec7b889196b9144d088e4c57d9ceef7374f6c39694ad1577a0aab50d27ea28c \
-    --hash=sha256:f87ca4fcff7d2b0f81c6a748a77973d7af0f4d526f98f308477c3c436c74d528
+platformdirs==3.10.0 \
+    --hash=sha256:b45696dab2d7cc691a3226759c0d3b00c47c8b6e293d96f6436f733303f77f6d \
+    --hash=sha256:d7c24979f292f916dc9cbf8648319032f551ea8c49a4c9bf2fb556a02070ec1d
     # via black
 pluggy==1.2.0 \
     --hash=sha256:c2fd55a7d7a3863cba1a013e4e2414658b1d07b6bc57b3919e0c63c9abb99849 \
@@ -349,9 +351,9 @@ pygments==2.15.1 \
     --hash=sha256:8ace4d3c1dd481894b2005f560ead0f9f19ee64fe983366be1a21e171d12775c \
     --hash=sha256:db2db3deb4b4179f399a09054b023b6a586b76499d36965813c71aa8ed7b5fd1
     # via ipython
-pyjwt==2.7.0 \
-    --hash=sha256:ba2b425b15ad5ef12f200dc67dd56af4e26de2331f965c5439994dad075876e1 \
-    --hash=sha256:bd6ca4a3c4285c1a2d4349e5a035fdf8fb94e04ccd0fcbe6ba289dae9cc3e074
+pyjwt==2.8.0 \
+    --hash=sha256:57e28d156e3d5c10088e0c68abb90bfac3df82b40a71bd0daa20c65ccd5c23de \
+    --hash=sha256:59127c392cc44c2da5bb3192169a91f429924e17aff6534d70fdc02ab3e04320
     # via -r requirements/base.txt
 pytest==7.4.0 \
     --hash=sha256:78bf16451a2eb8c7a2ea98e32dc119fd2aa758f1d5d66dbf0a59d69a3969df32 \
@@ -363,9 +365,9 @@ pytest-django==4.5.2 \
     --hash=sha256:c60834861933773109334fe5a53e83d1ef4828f2203a1d6a0fa9972f4f75ab3e \
     --hash=sha256:d9076f759bb7c36939dbdd5ae6633c18edfc2902d1a69fdbefd2426b970ce6c2
     # via -r requirements/dev.in
-python-crontab==2.7.1 \
-    --hash=sha256:9c374d1c9d401afdd8dd958f20077f74c158ab3fffb9604296802715e887fe48 \
-    --hash=sha256:b21af4647c7bbb848fef2f020616c6b0289dcb9f94b4f991a55310ff9bec5749
+python-crontab==3.0.0 \
+    --hash=sha256:6d5ba3c190ec76e4d252989a1644fcb233dbf53fbc8fceeb9febe1657b9fb1d4 \
+    --hash=sha256:79fb7465039ddfd4fb93d072d6ee0d45c1ac8bf1597f0686ea14fd4361dba379
     # via
     #   -r requirements/base.txt
     #   django-celery-beat
@@ -445,9 +447,9 @@ tzdata==2023.3 \
     #   -r requirements/base.txt
     #   celery
     #   django-celery-beat
-urllib3==2.0.3 \
-    --hash=sha256:48e7fafa40319d358848e1bc6809b208340fafe2096f1725d05d67443d0483d1 \
-    --hash=sha256:bee28b5e56addb8226c96f7f13ac28cb4c301dd5ea8a6ca179c0b9835e032825
+urllib3==2.0.4 \
+    --hash=sha256:8d22f86aae8ef5e410d4f539fde9ce6b2113a001bb4d189e0aed70642d602b11 \
+    --hash=sha256:de7df1803967d2c2a98e4b11bb7d6bd9210474c46e8a0401514e3a42a75ebde4
     # via
     #   -r requirements/base.txt
     #   requests
@@ -471,8 +473,3 @@ webencodings==0.5.1 \
     # via
     #   -r requirements/base.txt
     #   html5lib
-
-# WARNING: The following packages were not pinned, but pip requires them to be
-# pinned when the requirements file includes hashes and the requirement is not
-# satisfied by a package already installed. Consider using the --allow-unsafe flag.
-# setuptools

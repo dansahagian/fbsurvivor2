@@ -293,3 +293,6 @@ class Pick(models.Model):
     class Meta:
         models.UniqueConstraint(fields=["player", "week"], name="unique_pick")
         indexes = [models.Index(fields=["player", "week"])]
+
+
+# see if I can get this to run CI

@@ -36,8 +36,8 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements/dev.txt --no-deps
       - name: Run Ruff
-        run: ruff check .
+        run: python -m ruff check .
       - name: Run Black
-        run: black --check .
+        run: python -m black --check .
       - name: Run Tests
         run: python -m pytest -p no:warnings

@@ -7,14 +7,14 @@ on:
 
 jobs:
   check:
-    name: ruff & black
+    name: Continuous Integration
     runs-on: ubuntu-latest
     services:
       postgres:
         image: postgres:latest
         env:
           POSTGRES_USER: postgres
-          POSTGRES_PW: password
+          POSTGRES_PASSWORD: password
           POSTGRES_DB: ci
         ports:
           - 5432:5432

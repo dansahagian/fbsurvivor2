@@ -153,11 +153,11 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, "fbsurvivor/static")]
 STATIC_URL = "/static/"
 STATIC_ROOT = "/srv/www/fbsurvivor/static/"
 
-SMTP_SERVER = config("SMTP_SERVER")
-SMTP_SENDER = config("SMTP_SENDER")
-SMTP_USER = config("SMTP_USER")
-SMTP_PASSWORD = config("SMTP_PASSWORD")
-SMTP_PORT = config("SMTP_PORT")
+SMTP_SERVER = config("SMTP_SERVER", "")
+SMTP_SENDER = config("SMTP_SENDER", "")
+SMTP_USER = config("SMTP_USER", "")
+SMTP_PASSWORD = config("SMTP_PASSWORD", "")
+SMTP_PORT = config("SMTP_PORT", "")
 
 # CELERY
 BROKER_URL = f"redis://{REDIS_SERVER}:6379/0"

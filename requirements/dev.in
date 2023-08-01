@@ -5,3 +5,4 @@ pytest-django
 factory-boy
 django-debug-toolbar
 black
+ruff

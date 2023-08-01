@@ -13,8 +13,6 @@ jobs:
       ENV: dev
       DOMAIN: http://127.0.0.1:8000
       SECRET_KEY: abcdefghijklmnop
-      CONTACT: empty
-      VENMO: empty
     services:
       postgres:
         image: postgres:latest

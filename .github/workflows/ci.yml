@@ -53,3 +53,12 @@ jobs:
         run: black --check .
       - name: Run Tests
         run: pytest -p no:warnings .
+      - name: Configure SSH
+        run: |
+          mkdir -p ~/.ssh/
+          echo "$SSH_KEY" > ~/.ssh/ssh_key
+          chmod 600 ~/.ssh/ssh_key
+        env:
+          SSH_KEY: ${{ secrets.SSH_KEY }}
+      - name: Deploy
+        run: ssh -t -i ~/.ssh/ssk_key fbsurvivor.com "/opt/fbsurvivor2/bin/deploy_on_server"

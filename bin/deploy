@@ -1,4 +1,5 @@
 #!/bin/zsh
 
 echo "\nDeploying...\n"
-ssh -t linode "/opt/fbsurvivor2/bin/deploy_on_server"
+ssh github@linode "cd /opt/fbsurvivor2 && git pull origin main"
+ssh github@linode "/opt/fbsurvivor2/bin/deploy_on_server"

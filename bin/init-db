@@ -1,4 +1,5 @@
 #!/bin/zsh
+
 ssh dan@linode "pg_dump -U fbsurvivor2 fbsurvivor2 > /tmp/fbsurvivor2_dump"
 scp dan@linode:/tmp/fbsurvivor2_dump ~/d/code/fbsurvivor2/data/fbsurvivor2_dump
 ssh dan@linode "rm /tmp/fbsurvivor2_dump"

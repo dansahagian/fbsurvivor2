@@ -61,5 +61,3 @@ urlpatterns = [
     path("reminders/", reminders, name="reminders"),
     path("reminders/<str:kind>/<str:status>/", update_reminders, name="update_reminders"),
 ]
-
-# typo so we run it back

@@ -58,7 +58,14 @@ jobs:
           mkdir -p ~/.ssh/
           echo "$SSH_KEY" > ~/.ssh/ssh_key
           chmod 600 ~/.ssh/ssh_key
+          cat >>~/.ssh/config <<END
+          Host fbsurvivor
+            HostName fbsurvivor.com
+            User github
+            IdentityFile ~/.ssh/ssh_key
+            StrictHostKeyChecking no
+          END
         env:
           SSH_KEY: ${{ secrets.SSH_KEY }}
       - name: Deploy
-        run: ssh -i ~/.ssh/ssh_key github@fbsurvivor.com "/opt/fbsurvivor2/bin/deploy_on_server"
+        run: ssh fbsurvivor "/opt/fbsurvivor2/bin/deploy_on_server"

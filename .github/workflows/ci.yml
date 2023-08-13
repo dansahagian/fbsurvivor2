@@ -61,4 +61,4 @@ jobs:
         env:
           SSH_KEY: ${{ secrets.SSH_KEY }}
       - name: Deploy
-        run: ssh -t -i ~/.ssh/ssk_key fbsurvivor.com "/opt/fbsurvivor2/bin/deploy_on_server"
+        run: ssh -i ~/.ssh/ssk_key github@fbsurvivor.com "/opt/fbsurvivor2/bin/deploy_on_server"

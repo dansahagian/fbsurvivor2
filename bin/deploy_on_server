@@ -1,6 +1,6 @@
 #!/bin/zsh
 
-echo "\Installing Dependencies...\n"
+echo "\nInstalling Dependencies...\n"
 cd /opt/fbsurvivor2
 venv/bin/pip install --upgrade pip
 venv/bin/pip install -r ./requirements/base.txt

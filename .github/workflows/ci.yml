@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - "fbsurvivor/**"
+      - "requirements/**"
 
 jobs:
   check:

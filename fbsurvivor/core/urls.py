@@ -61,3 +61,5 @@ urlpatterns = [
     path("reminders/", reminders, name="reminders"),
     path("reminders/<str:kind>/<str:status>/", update_reminders, name="update_reminders"),
 ]
+
+# new comment to trigger the build

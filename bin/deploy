@@ -1,5 +1,5 @@
 #!/bin/zsh
 
 echo "\nDeploying...\n"
-ssh fbsurvivor2 "cd /opt/fbsurvivor2 && git pull origin main"
-ssh fbsurvivor2 "/opt/fbsurvivor2/bin/deploy_on_server"
+ssh fbsurvivor "cd /opt/fbsurvivor2 && git pull origin main"
+ssh fbsurvivor "/opt/fbsurvivor2/bin/deploy_on_server"

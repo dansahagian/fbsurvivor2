@@ -22,11 +22,9 @@
             <table>
                 <tr>
                     <th>{{ season }}</th>
-                    <th>😀</th>
                     <th>$</th>
-                    <th>Ws</th>
-                    <th>Ls</th>
-                    <th style="border-right: 10px solid #f9f9f9;">Pick</th>
+                    <th>W - L</th>
+                    <th style="border-right: 5px solid #f9f9f9;">Pick</th>
                     {% if board %}
                     {% for week in weeks %}
                         <th>{{ week|stringformat:"02d" }}</th>
@@ -36,43 +34,56 @@
                 {% for ps, picks in board %}
                     {% if ps.player == player %}
                         {% if player.is_dark_mode %}
-                            <tr style="font-weight:bold; border: 3px solid white;">
+                            <tr style="border: 3px solid white;">
                         {% else %}
-                            <tr style="font-weight:bold; border: 3px solid black;">
+                            <tr style="border: 3px solid black;">
                         {% endif %}
                     {% else %}
                         <tr>
                     {% endif %}
-                        <td>{{ ps.player.username }}</td>
-                        <td>{% if ps.player.emoji %}{{ ps.player.emoji }}{% endif %}</td>
-                        <td>{% if ps.is_paid %}💸{% endif %}</td>
-                        <td>{{ ps.win_count }}</td>
-                        <td>{{ ps.loss_count }}</td>
-
-                            <td style="border-right: 10px solid #f9f9f9;"
+                        <td style="text-align: left">{{ ps.player.username }}</td>
+                        <td>{% if ps.is_paid %}✅{% endif %}</td>
+                        <td>{{ ps.win_count }} - {{ ps.loss_count }}</td>
+                            <td style="border-right: 5px solid var(--body-color);"
                                 {% with picks|last as current %}
                                     {% if current.result == "R" %}
-                                        class="black"
+                                        class="none"
                                     {% elif current.result == "W" %}
                                         class="win"
                                     {% elif current.result == "L" %}
                                         class="loss"
                                     {% endif %}
                                     >
-                                    {% if current.team %}{{ current.team.team_code }}{% endif %}
+                                    {% if current.team %}
+                                        {{ current.team.team_code }}
+                                    {% else %}
+                                        {% if current.result == "L" %}
+                                            🤬
+                                        {% else %}
+                                            🌴
+                                        {% endif %}
+                                    {% endif %}
                                 {% endwith %}
                             </td>
                         {% for pick in picks %}
                             <td
                                 {% if pick.result == "R" %}
-                                    class="black"
+                                    class="none"
                                 {% elif pick.result == "W" %}
                                     class="win"
                                 {% elif pick.result == "L" %}
                                     class="loss"
                                 {% endif %}
                             >
-                            {% if pick.team %}{{ pick.team.team_code }}{% endif %}
+                            {% if pick.team %}
+                                {{ pick.team.team_code }}
+                            {% else %}
+                                 {% if pick.result == "L" %}
+                                     🤬
+                                 {% else %}
+                                     🌴
+                                 {% endif %}
+                            {% endif %}
                             </td>
                         {% endfor %}
                         </tr>

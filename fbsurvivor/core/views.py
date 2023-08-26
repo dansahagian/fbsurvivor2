@@ -243,7 +243,7 @@ def dark_mode(request, **kwargs):
     player.is_dark_mode = not player.is_dark_mode
     player.save()
 
-    return redirect(kwargs["path"])
+    return board_redirect(request)
 
 
 @authenticate_player

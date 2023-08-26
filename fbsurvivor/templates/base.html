@@ -22,12 +22,12 @@
             <ul>
                 <li class="logo"><a href="{% url 'board' current_season.year %}">Survivor</a></li>
                 {% if season and season.year == current_season.year %}
-                    <li><a href="{% url 'picks' season.year %}">picks</a></li>
+                    <li><a href="{% url 'picks' season.year %}">/picks</a></li>
                 {% endif %}
                 {% if player.is_admin and season and season.year == current_season.year %}
-                    <li><a href="{% url 'manager' season.year %}">admin</a></li>
+                    <li><a href="{% url 'manager' season.year %}">/admin</a></li>
                 {% endif %}
-                <li><a href="{% url 'logout' %}">logout</a></li>
+                <li><a href="{% url 'logout' %}">/logout</a></li>
             </ul>
             <br>
             <br>
@@ -46,11 +46,15 @@
         {% if player and show_footer %}
             <div class="footer">
                 <ul>
-                    <li><a href="{% url 'dark_mode' %}">theme</a></li>
-                    <li><a href="{% url 'reminders' %}">reminders</a></li>
-                    <li><a href="{% url 'rules' %}">rules</a></li>
-                    <li><a href="{% url 'payouts' %}">payouts</a></li>
-                    <li><a href="{% url 'seasons' %}">seasons</a></li>
+                    {% if player and player.is_dark_mode or is_dark_mode %}
+                        <li><a href="{% url 'dark_mode' %}">/light theme</a></li>
+                    {% else %}
+                        <li><a href="{% url 'dark_mode' %}">/dark theme</a></li>
+                    {% endif %}
+                    <li><a href="{% url 'reminders' %}">/reminders</a></li>
+                    <li><a href="{% url 'seasons' %}">/seasons</a></li>
+                    <li><a href="{% url 'payouts' %}">/payouts</a></li>
+                    <li><a href="{% url 'rules' %}">/rules</a></li>
                 </ul>
             </div>
             <br><br>

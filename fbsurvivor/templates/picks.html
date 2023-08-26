@@ -2,9 +2,7 @@
 {% block content %}
     {% if picks %}
         Status:
-        {% if player_status.is_retired %}Retired{% else %}Playing{% endif %}<br>
-        ({{ player_status.win_count }} - {{ player_status.loss_count }})
-        <br><br>
+        {% if player_status.is_retired %}Retired{% else %}Playing{% endif %}<br><br>
         <table>
             <tr>
                 <th>Wk</th>

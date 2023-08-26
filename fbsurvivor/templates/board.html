@@ -23,7 +23,7 @@
                 <tr>
                     <th>{{ season }}</th>
                     <th>$</th>
-                    <th>W - L</th>
+                    <th>Record</th>
                     <th style="border-right: 5px solid #f9f9f9;">Pick</th>
                     {% if board %}
                     {% for week in weeks %}
@@ -43,7 +43,7 @@
                     {% endif %}
                         <td style="text-align: left">{{ ps.player.username }}</td>
                         <td>{% if ps.is_paid %}✅{% endif %}</td>
-                        <td>{{ ps.win_count }} - {{ ps.loss_count }}</td>
+                        <td>{{ ps.win_count }}-{{ ps.loss_count }}</td>
                             <td style="border-right: 5px solid var(--body-color);"
                                 {% with picks|last as current %}
                                     {% if current.result == "R" %}

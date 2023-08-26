@@ -8,7 +8,7 @@
         </tr>
         {% for payout in payouts %}
             <tr>
-                <td>{{ payout.player__username }}</td>
+                <td style="text-align:left;">{{ payout.player__username }}</td>
                 <td style="text-align: right;">{{ payout.total|floatformat:"0" }}</td>
             </tr>
         {% endfor %}

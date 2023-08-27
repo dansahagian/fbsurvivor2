@@ -27,8 +27,9 @@ class TestPicks:
         this_season = seasons[1]
 
         qs = Pick.objects.for_board(p1, this_season)
+        picks = list(reversed(picks["p1"]["this_season"]))
 
-        assert list(qs) == picks["p1"]["this_season"][:4]  # last pick isn't locked
+        assert list(qs) == picks[1:]  # latest pick isn't locked
 
     def test_pick_for_results(self, db, weeks, picks):
         first_week = weeks["this_season"][0]

@@ -95,10 +95,6 @@ li a {
     font-weight: 800;
 }
 
-.space {
-    padding: .4em;
-}
-
 .red-button {
     padding: .75em 1.0em;
     text-decoration: none;
@@ -125,10 +121,11 @@ li a {
 
 .logo a {
     text-decoration: none;
+    padding-left: 0px;
 }
 
-.footer li {
-    padding-top: 1.0em;
+.vertical-links li {
+    padding-top: 2.0em;
     text-align: left;
     float: none;
 }

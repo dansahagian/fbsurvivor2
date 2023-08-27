@@ -1,6 +1,6 @@
 {% extends "./base.html" %}
 {% block content %}
-    <div class="footer">
+    <div class="vertical-links">
         <ul>
             <li><a href="{% url 'logout' %}">logout</a></li>
             {% if player and player.is_dark_mode or is_dark_mode %}

@@ -1,11 +1,9 @@
 {% extends "./base.html" %}
     {% block content %}
         {% if can_play %}
-            <strong>{{ player_count }}</strong> players have joined! Will you?<br><br>
-            <span class="space">
+            <strong>{{ player_count }}</strong> players have joined! Will you?<br><br><br>
                 <a class="blue-button" href="{% url 'play' season.year %}">Play</a>
             <br><br><br><br>
-            </span>
         {% else %}
             {% if playable and playable not in years %}
                 <a href="{% url 'board' playable %}">Join the {{ playable }} season!</a>

@@ -1,10 +1,10 @@
 {% extends "./base.html" %}
 {% block content %}
-    <br>
-    {% for username in players %}
-        <span class="space">
-            <a href="{% url 'assume' username %}">{{ username }}</a>
-        </span>
-        <br><br>
-    {% endfor %}
+    <div class="vertical-links">
+        <ul>
+            {% for username in players %}
+                <li><a href="{% url 'assume' username %}">{{ username }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
 {% endblock %}

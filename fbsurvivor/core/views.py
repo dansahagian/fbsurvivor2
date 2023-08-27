@@ -106,13 +106,15 @@ def board(request, year, **kwargs):
     except Season.DoesNotExist:
         playable = None
 
+    context["next_week"] = None
     if next_week := Week.objects.get_next(season):
         try:
-            pick = Pick.objects.get(player=player, week=next_week)
-            next_pick = pick.team.team_code if pick.team else "None"
+            player_pick = Pick.objects.get(player=player, week=next_week)
+            next_pick = player_pick.team.team_code if player_pick.team else "None"
+            context["next_week"] = next_week.week_num
             context["next_pick"] = next_pick
         except Pick.DoesNotExist:
-            pass
+            context["next_pick"] = None
 
     context.update(
         {
@@ -122,7 +124,6 @@ def board(request, year, **kwargs):
             "player_count": player_statuses.count(),
             "playable": playable,
             "venmo": VENMO,
-            "next_week": next_week.week_num if next_week else None,
         }
     )
 

@@ -23,7 +23,6 @@ from fbsurvivor.core.utils.auth import (
     get_season_context,
     send_magic_link,
 )
-from fbsurvivor.core.utils.deadlines import get_next_deadline, get_picks_count_display
 from fbsurvivor.core.utils.helpers import (
     get_current_season,
     get_player_context,
@@ -101,17 +100,16 @@ def board(request, year, **kwargs):
         Week.objects.for_display(season).order_by("-week_num").values_list("week_num", flat=True)
     )
     player_statuses, leader_board = get_board(season, player.league)
-    survivors = player_statuses.filter(is_survivor=True)
 
     try:
         playable = Season.objects.get(is_current=True, is_locked=False).year
     except Season.DoesNotExist:
         playable = None
 
-    deadline = get_next_deadline(season)
-    picks_display = get_picks_count_display(season)
-
-    survivor = survivors[0].player.username if len(survivors) == 1 else ""
+    if next_week := Week.objects.get_next(season):
+        pick = Pick.objects.get(player=player, week=next_week)
+        next_pick = pick.team.team_code if pick.team else "None"
+        context["next_pick"] = next_pick
 
     context.update(
         {
@@ -119,12 +117,9 @@ def board(request, year, **kwargs):
             "weeks": weeks,
             "board": leader_board,
             "player_count": player_statuses.count(),
-            "survivor": survivor,
-            "deadline": deadline,
-            "picks_display": picks_display,
             "playable": playable,
             "venmo": VENMO,
-            "show_footer": True,
+            "next_week": next_week.week_num if next_week else None,
         }
     )
 
@@ -370,7 +365,7 @@ def pick(request, year, week, **kwargs):
         else:
             messages.info(request, "Bad form submission")
 
-        return redirect(reverse("picks", args=[year]))
+        return redirect(reverse("board", args=[year]))
 
 
 @authenticate_admin

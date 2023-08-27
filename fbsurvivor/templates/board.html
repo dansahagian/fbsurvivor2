@@ -19,6 +19,9 @@
                 </div>
                 <br>
             {% endif %}
+            {% if next_week %}
+                Week {{ next_week|stringformat:"02d" }} Pick: <a href="{% url 'pick' season.year next_week %}">{{ next_pick }}</a><br><br>
+            {% endif %}
             <table>
                 <tr>
                     <th>{{ season }}</th>

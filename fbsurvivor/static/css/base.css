@@ -62,8 +62,7 @@ li {
 li a {
     text-align: center;
     text-decoration: none;
-    /*padding-left: 1.0em;*/
-    padding-right: 2.0em;
+    padding-right: 1.75em;
 }
 
 .messages {

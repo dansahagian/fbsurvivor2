@@ -22,13 +22,11 @@
             <table>
                 <tr>
                     <th>{{ season }}</th>
-                    <th>$</th>
                     <th>Record</th>
-                    <th style="border-right: 5px solid #f9f9f9;">Pick</th>
                     {% if board %}
-                    {% for week in weeks %}
-                        <th>{{ week|stringformat:"02d" }}</th>
-                    {% endfor %}
+                        {% for week in weeks %}
+                            <th>{{ week|stringformat:"02d" }}</th>
+                        {% endfor %}
                     {% endif %}
                 </tr>
                 {% for ps, picks in board %}
@@ -42,29 +40,7 @@
                         <tr>
                     {% endif %}
                         <td style="text-align: left">{{ ps.player.username }}</td>
-                        <td>{% if ps.is_paid %}✅{% endif %}</td>
                         <td>{{ ps.win_count }}-{{ ps.loss_count }}</td>
-                            <td style="border-right: 5px solid var(--body-color);"
-                                {% with picks|last as current %}
-                                    {% if current.result == "R" %}
-                                        class="none"
-                                    {% elif current.result == "W" %}
-                                        class="win"
-                                    {% elif current.result == "L" %}
-                                        class="loss"
-                                    {% endif %}
-                                    >
-                                    {% if current.team %}
-                                        {{ current.team.team_code }}
-                                    {% else %}
-                                        {% if current.result == "L" %}
-                                            🤬
-                                        {% elif current.result == "R" %}
-                                            🌴
-                                        {% endif %}
-                                    {% endif %}
-                                {% endwith %}
-                            </td>
                         {% for pick in picks %}
                             <td
                                 {% if pick.result == "R" %}

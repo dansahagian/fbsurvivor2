@@ -97,7 +97,9 @@ def board(request, year, **kwargs):
         return send_to_latest_season_played(request)
 
     can_play = not player_status and season.is_current and not season.is_locked
-    weeks = Week.objects.for_display(season).values_list("week_num", flat=True)
+    weeks = (
+        Week.objects.for_display(season).order_by("-week_num").values_list("week_num", flat=True)
+    )
     player_statuses, leader_board = get_board(season, player.league)
     survivors = player_statuses.filter(is_survivor=True)
 

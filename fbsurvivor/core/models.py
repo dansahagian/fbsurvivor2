@@ -239,8 +239,12 @@ class PickQuerySet(models.QuerySet):
         return self.filter(player=player, week__season=season).order_by("week__week_num")
 
     def for_board(self, player, season):
-        return self.for_player_season(player, season).filter(
-            week__lock_datetime__lte=arrow.now().datetime,
+        return (
+            self.for_player_season(player, season)
+            .order_by("-week__week_num")
+            .filter(
+                week__lock_datetime__lte=arrow.now().datetime,
+            )
         )
 
     def for_results(self, week):

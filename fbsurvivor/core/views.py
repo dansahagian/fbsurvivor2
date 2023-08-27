@@ -192,6 +192,18 @@ def retire(request, year, **kwargs):
 
 
 @authenticate_player
+def more(request, **kwargs):
+    player = kwargs["player"]
+    current_season = get_current_season()
+
+    context = {
+        "player": player,
+        "current_season": current_season,
+    }
+    return render(request, "more.html", context=context)
+
+
+@authenticate_player
 def payouts(request, **kwargs):
     player = kwargs["player"]
     player_payouts = Payout.objects.for_payout_table(player.league)
@@ -201,7 +213,7 @@ def payouts(request, **kwargs):
         "player": player,
         "payouts": player_payouts,
         "season": current_season,
-        "current_season": get_current_season(),
+        "current_season": current_season,
     }
 
     return render(request, "payouts.html", context=context)

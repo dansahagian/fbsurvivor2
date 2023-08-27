@@ -29,6 +29,7 @@ from fbsurvivor.core.views import (
     update_board_cache,
     send_message,
     send_message_all,
+    more,
 )
 
 urlpatterns = [
@@ -40,6 +41,7 @@ urlpatterns = [
     path("board/<int:year>/", board, name="board"),
     path("play/<int:year>/", play, name="play"),
     path("retire/<int:year>/", retire, name="retire"),
+    path("more/", more, name="more"),
     path("payouts/", payouts, name="payouts"),
     path("rules/", rules, name="rules"),
     path("seasons/", seasons, name="seasons"),

@@ -146,6 +146,7 @@ def play(request, year, **kwargs):
         {
             "player": player,
             "season": season,
+            "contact": CONTACT,
         }
     )
 

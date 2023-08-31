@@ -285,7 +285,7 @@ def update_reminders(request, kind, status, **kwargs):
         "off": False,
     }
 
-    if status not in statuses or kind not in ["email", "sms"]:
+    if status not in statuses or kind not in ["email"]:
         raise Http404
 
     if kind == "email":

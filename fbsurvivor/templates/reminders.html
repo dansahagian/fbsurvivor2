@@ -12,24 +12,24 @@
         Email reminders are disabled!<br><br>
         <a class="blue-button" href="{% url 'update_reminders' 'email' 'on' %}">Enable</a>
     {% endif %}
-    <br><br><br><br>
-    <h3>SMS Text Reminders</h3>
-    {% if player.phone_number %}
-        Phone number on file ends in: **{{ last_two }}<br><br>
-        {% if player.has_sms_reminders %}
-            SMS reminders are enabled!<br><br>
-            Changing this will trigger a confirmation.<br>
-            Contact Dan if you don't receive one!<br><br>
-            <a class="red-button" href="{% url 'update_reminders' 'sms' 'off' %}">Disable</a>
-        {% else %}
-            SMS reminders are disabled!<br><br>
-            Changing this will trigger a confirmation.<br>
-            Contact Dan if you don't receive one!<br><br>
-            <a class="blue-button" href="{% url 'update_reminders' 'sms' 'on' %}">Enable</a>
-        {% endif %}
-    {% else %}
-        Sorry! 😢<br>
-        We don't have a phone number on file.<br>
-        Contact Dan to add your phone number.
-    {% endif %}
+{#    <br><br><br><br>#}
+{#    <h3>SMS Text Reminders</h3>#}
+{#    {% if player.phone_number %}#}
+{#        Phone number on file ends in: **{{ last_two }}<br><br>#}
+{#        {% if player.has_sms_reminders %}#}
+{#            SMS reminders are enabled!<br><br>#}
+{#            Changing this will trigger a confirmation.<br>#}
+{#            Contact Dan if you don't receive one!<br><br>#}
+{#            <a class="red-button" href="{% url 'update_reminders' 'sms' 'off' %}">Disable</a>#}
+{#        {% else %}#}
+{#            SMS reminders are disabled!<br><br>#}
+{#            Changing this will trigger a confirmation.<br>#}
+{#            Contact Dan if you don't receive one!<br><br>#}
+{#            <a class="blue-button" href="{% url 'update_reminders' 'sms' 'on' %}">Enable</a>#}
+{#        {% endif %}#}
+{#    {% else %}#}
+{#        Sorry! 😢<br>#}
+{#        We don't have a phone number on file.<br>#}
+{#        Contact Dan to add your phone number.#}
+{#    {% endif %}#}
 {% endblock %}

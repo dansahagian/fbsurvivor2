@@ -24,14 +24,15 @@ def send_reminders_task():
         return
 
     subject = f"🏈 Survivor Week {next_week.week_num} Reminder"
-    message = f"🏈 Survivor Week {next_week.week_num} Locks\n\n" + message
+    message = f"Week {next_week.week_num} Locks:\n\n" + message
 
     if email_recipients := list(PlayerStatus.objects.for_email_reminders(next_week)):
         send_email_task.delay(subject, email_recipients, message)
 
     if sms_recipients := list(PlayerStatus.objects.for_sms_reminders(next_week)):
+        sms_message = f"{subject}\n\n{message}"
         for recipient in sms_recipients:
-            send_sms_task.delay(recipient, message)
+            send_sms_task.delay(recipient, sms_message)
 
 
 @app.task()

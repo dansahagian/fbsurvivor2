@@ -40,7 +40,7 @@
                     {% else %}
                         <tr>
                     {% endif %}
-                        <td style="text-align: left">{{ ps.player.username }}</td>
+                        <td style="text-align: left; white-space: nowrap;">{{ ps.player.username }}</td>
                         <td>{{ ps.win_count }}-{{ ps.loss_count }}</td>
                         {% for pick in picks %}
                             <td

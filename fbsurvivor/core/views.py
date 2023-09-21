@@ -512,3 +512,10 @@ def send_message_all(request, year, **kwargs):
             send_email_task.delay(subject, recipients, message)
 
             return redirect(reverse("board", args=[year]))
+
+
+@authenticate_player
+def trigger_error(request, **kwargs):
+    division_by_zero = 1 / 0
+
+    return division_by_zero

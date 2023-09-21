@@ -1,6 +1,7 @@
 import hashlib
 
 import arrow
+import sentry_sdk
 from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse
 from jwt import encode, decode, ExpiredSignatureError, InvalidSignatureError
@@ -28,6 +29,7 @@ def authenticate_player(view):
     def inner(*args, **kwargs):
         request = args[0]
         if player := get_authenticated_player(request):
+            sentry_sdk.set_user({"username": player.username})
             kwargs["player"] = player
             kwargs["path"] = request.session.get("path")
             request.session["path"] = request.path

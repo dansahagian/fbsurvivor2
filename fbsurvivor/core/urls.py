@@ -30,6 +30,7 @@ from fbsurvivor.core.views import (
     send_message,
     send_message_all,
     more,
+    trigger_error,
 )
 
 urlpatterns = [
@@ -62,4 +63,5 @@ urlpatterns = [
     path("message-all/<int:year>/", send_message_all, name="send_message_all"),
     path("reminders/", reminders, name="reminders"),
     path("reminders/<str:kind>/<str:status>/", update_reminders, name="update_reminders"),
+    path("sentry-debug/", trigger_error),
 ]

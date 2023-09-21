@@ -11,3 +11,4 @@ requests
 celery
 gunicorn
 PyJWT
+sentry-sdk

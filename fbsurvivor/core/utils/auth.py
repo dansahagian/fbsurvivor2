@@ -34,6 +34,7 @@ def authenticate_player(view):
             kwargs["path"] = request.session.get("path")
             request.session["path"] = request.path
             return view(*args, **kwargs)
+        request.session.delete("token")
 
         return redirect(reverse("signin"))
 
@@ -48,6 +49,7 @@ def authenticate_admin(view):
             kwargs["path"] = request.session.get("path")
             request.session["path"] = request.path
             return view(*args, **kwargs)
+        request.session.delete("token")
 
         return redirect(reverse("signin"))
 

@@ -6,3 +6,5 @@ factory-boy
 django-debug-toolbar
 black
 ruff
+pip-tools
+pre-commit

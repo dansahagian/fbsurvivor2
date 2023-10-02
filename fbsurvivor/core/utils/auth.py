@@ -45,6 +45,7 @@ def authenticate_admin(view):
     def inner(*args, **kwargs):
         request = args[0]
         if player := get_authenticated_admin(request):
+            sentry_sdk.set_user({"username": player.username})
             kwargs["player"] = player
             kwargs["path"] = request.session.get("path")
             request.session["path"] = request.path
@@ -57,31 +58,39 @@ def authenticate_admin(view):
 
 
 def check_token_and_get_player(request, payload, token):
-    if username := payload.get("username"):
-        player = get_object_or_404(Player, username=username)
-        try:
-            player.tokens.get(hash=get_token_hash(token))
-            return player
-        except TokenHash.DoesNotExist:
-            request.session.delete("token")
-            return None
-    request.session.delete("token")
-    return None
+    username = payload.get("username")
+
+    if not username:
+        return None
+
+    try:
+        player = Player.objects.get(username=username)
+    except Player.DoesNotExist:
+        return None
+
+    try:
+        player.tokens.get(hash=get_token_hash(token))
+        return player
+    except TokenHash.DoesNotExist:
+        return None
 
 
 def get_authenticated_player(request) -> Player | None:
-    if token := request.session.get("token"):
-        try:
-            payload = decode(token, SECRET_KEY, algorithms="HS256")
-            return check_token_and_get_player(request, payload, token)
-        except (ExpiredSignatureError, InvalidSignatureError):
-            return None
-    return None
+    token = request.session.get("token")
+
+    if not token:
+        return None
+
+    try:
+        payload = decode(token, SECRET_KEY, algorithms="HS256")
+        return check_token_and_get_player(request, payload, token)
+    except (ExpiredSignatureError, InvalidSignatureError):
+        return None
 
 
 def get_authenticated_admin(request) -> Player | None:
-    if player := get_authenticated_player(request):
-        return player if player.is_admin else None
+    player = get_authenticated_player(request)
+    return player if player and player.is_admin else None
 
 
 def get_season_context(year, **kwargs):

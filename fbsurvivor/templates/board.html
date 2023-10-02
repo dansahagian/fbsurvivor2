@@ -55,10 +55,10 @@
                             {% if pick.team %}
                                 {{ pick.team.team_code }}
                             {% else %}
-                                 {% if pick.result == "L" %}
-                                     🤬
-                                 {% else %}
+                                 {% if ps.is_retired %}
                                      🌴
+                                 {% else %}
+                                     🤬
                                  {% endif %}
                             {% endif %}
                             </td>

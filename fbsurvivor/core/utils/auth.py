@@ -57,7 +57,7 @@ def authenticate_admin(view):
     return inner
 
 
-def check_token_and_get_player(request, payload, token):
+def check_token_and_get_player(payload, token):
     username = payload.get("username")
 
     if not username:
@@ -83,7 +83,7 @@ def get_authenticated_player(request) -> Player | None:
 
     try:
         payload = decode(token, SECRET_KEY, algorithms="HS256")
-        return check_token_and_get_player(request, payload, token)
+        return check_token_and_get_player(payload, token)
     except (ExpiredSignatureError, InvalidSignatureError):
         return None
 

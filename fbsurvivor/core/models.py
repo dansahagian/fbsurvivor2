@@ -28,8 +28,6 @@ class Player(models.Model):
     is_dark_mode = models.BooleanField(default=False)
 
     has_email_reminders = models.BooleanField(default=True)
-    has_sms_reminders = models.BooleanField(default=False)
-    phone_number = models.CharField(max_length=10, blank=True, default="")
 
     class Meta:
         indexes = [models.Index(fields=["username"]), models.Index(fields=["email"])]

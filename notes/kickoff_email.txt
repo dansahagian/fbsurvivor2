@@ -8,8 +8,7 @@ I've made some changes to the website so let me know if you have any issues.
 Logins - We are using magic links.
 Head to https://fbsurvivor.com/ and enter your email. We will send you a link to login.
 
-Reminders - Control if you want email/SMS, both, or none.
-Once you log in, go to https://fbsurvivor.com/reminders/ to control your settings.
+Once you log in, go to https://fbsurvivor.com/reminders/ to control your email reminders.
 
 As always, if you have friends or family that want to play, have them email me.
 Let's make this season the biggest season yet.

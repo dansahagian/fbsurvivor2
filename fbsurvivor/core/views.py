@@ -3,7 +3,7 @@ from django.http import Http404
 from django.shortcuts import redirect, render, get_object_or_404
 from django.urls import reverse
 
-from fbsurvivor.celery import send_email_task, send_sms_task, send_reminders_task
+from fbsurvivor.celery import send_email_task, send_reminders_task
 from fbsurvivor.core.forms import EmailForm, PickForm, MessageForm
 from fbsurvivor.core.models import (
     Week,
@@ -270,7 +270,6 @@ def reminders(request, **kwargs):
         "season": current_season,
         "current_season": current_season,
         "contact": CONTACT,
-        "last_two": player.phone_number[-2:],
     }
 
     return render(request, "reminders.html", context=context)
@@ -285,15 +284,10 @@ def update_reminders(request, kind, status, **kwargs):
         "off": False,
     }
 
-    if status not in statuses or kind not in ["email"]:
+    if status not in statuses or kind != "email":
         raise Http404
 
-    if kind == "email":
-        player.has_email_reminders = statuses[status]
-    if kind == "sms":
-        player.has_sms_reminders = statuses[status]
-        body = f"🏈 Survivor\n\nYou have turned SMS Reminders {status.upper()}"
-        send_sms_task.delay(player.phone_number, body)
+    player.has_email_reminders = statuses[status]
 
     player.save()
 

@@ -29,11 +29,6 @@ def send_reminders_task():
     if email_recipients := list(PlayerStatus.objects.for_email_reminders(next_week)):
         send_email_task.delay(subject, email_recipients, message)
 
-    if sms_recipients := list(PlayerStatus.objects.for_sms_reminders(next_week)):
-        sms_message = f"{subject}\n\n{message}"
-        for recipient in sms_recipients:
-            send_sms_task.delay(recipient, sms_message)
-
 
 @app.task()
 def send_email_task(subject, recipients, message):
@@ -58,23 +53,6 @@ def send_email_task(subject, recipients, message):
         conn.sendmail(SMTP_SENDER, recipients, msg.as_string())
     finally:
         conn.quit()
-
-
-@app.task()
-def send_sms_task(recipient, body):
-    from twilio.rest import Client
-    from fbsurvivor.settings import ENV, TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, TWILIO_PHONE_NUMBER
-
-    if ENV == "dev":
-        print(f"\n\nSending SMS...\n\n{body}\n\n")
-        return
-
-    client = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
-    client.messages.create(
-        body=body,
-        from_=f"+1{TWILIO_PHONE_NUMBER}",
-        to=f"+1{recipient}",
-    )
 
 
 @app.task()

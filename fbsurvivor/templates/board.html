@@ -52,14 +52,12 @@
                                     class="loss"
                                 {% endif %}
                             >
-                            {% if pick.team %}
+                            {% if pick.result == "R" %}
+                                🌴
+                            {% elif pick.team %}
                                 {{ pick.team.team_code }}
                             {% else %}
-                                 {% if ps.is_retired %}
-                                     🌴
-                                 {% else %}
-                                     🤬
-                                 {% endif %}
+                                🤬
                             {% endif %}
                             </td>
                         {% endfor %}

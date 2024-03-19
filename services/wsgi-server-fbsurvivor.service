@@ -3,7 +3,7 @@ Description=fbsurvivor wsgi
 
 [Service]
 User=dan
-ExecStart=/usr/bin/zsh /opt/fbsurvivor2/services/scripts/run-wsgi-server
+ExecStart=/usr/bin/zsh /usr/local/bin/run-wsgi-server-fbsurvivor
 
 [Install]
 WantedBy=multi-user.target

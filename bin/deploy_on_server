@@ -6,7 +6,7 @@ venv/bin/pip install --upgrade pip
 venv/bin/pip install -r ./requirements/base.txt
 
 echo "\nStopping services...\n"
-sudo systemctl stop wsgi-server-survivor.service
+sudo systemctl stop wsgi-server-fbsurvivor.service
 sudo systemctl stop celeryworker.service
 sudo systemctl stop celerybeat.service
 

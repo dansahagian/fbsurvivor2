@@ -55,8 +55,4 @@ def send_email_task(subject, recipients, message):
         conn.quit()
 
 
-@app.task()
-def update_board_cache():
-    from fbsurvivor.core.utils.helpers import update_league_caches
 
-    update_league_caches()

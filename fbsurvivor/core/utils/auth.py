@@ -6,7 +6,7 @@ from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse
 from jwt import encode, decode, ExpiredSignatureError, InvalidSignatureError
 
-from fbsurvivor.celery import send_email_task
+from fbsurvivor.core.utils.emails import send_email
 from fbsurvivor.core.models import TokenHash, Player, Season
 from fbsurvivor.core.utils.helpers import get_current_season
 from fbsurvivor.settings import SECRET_KEY, DOMAIN
@@ -103,4 +103,4 @@ def send_magic_link(player):
     token = create_token(player)
     subject = "🏈 Survivor Sign in"
     message = f"Click the link below to signin\n\n{DOMAIN}/enter/{token}"
-    send_email_task(subject, [player.email], message)
+    send_email(subject, [player.email], message)

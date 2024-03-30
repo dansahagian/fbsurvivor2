@@ -3,7 +3,8 @@ from django.http import Http404
 from django.shortcuts import redirect, render, get_object_or_404
 from django.urls import reverse
 
-from fbsurvivor.celery import send_email_task, send_reminders_task
+from fbsurvivor.core.utils.emails import send_email
+from fbsurvivor.core.utils.reminders import send_reminders
 from fbsurvivor.core.forms import EmailForm, PickForm, MessageForm
 from fbsurvivor.core.models import (
     Week,
@@ -162,7 +163,7 @@ def play(request, year, **kwargs):
 
         recipient = Player.objects.get(username="DanTheAutomator").email
         message = f"{player.username} in for {season.year}"
-        send_email_task.delay("🏈 New Player! 🏈", [recipient], message)
+        send_email("🏈 New Player! 🏈", [recipient], message)
 
         return redirect(reverse("board", args=[year]))
 
@@ -428,7 +429,7 @@ def result(request, year, week, team, outcome, **kwargs):
 
 @authenticate_admin
 def remind(request, year, **kwargs):
-    send_reminders_task.delay()
+    send_reminders()
     messages.info(request, "Reminder task kicked off")
     return redirect(reverse("manager", args=[year]))
 
@@ -468,7 +469,7 @@ def send_message(request, year, **kwargs):
 
             subject = f"🏈 Survivor {subject}"
 
-            send_email_task.delay(subject, recipients, message)
+            send_email(subject, recipients, message)
 
             return redirect(reverse("board", args=[year]))
 
@@ -492,7 +493,7 @@ def send_message_all(request, year, **kwargs):
 
             subject = f"🏈 Survivor {subject}"
 
-            send_email_task.delay(subject, recipients, message)
+            send_email(subject, recipients, message)
 
             return redirect(reverse("board", args=[year]))
 

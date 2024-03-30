@@ -4,7 +4,7 @@ from django.db.models import Sum
 from django.db.models.functions import Lower
 
 from fbsurvivor import settings
-from fbsurvivor.celery import send_email_task
+from fbsurvivor.core.utils.emails import send_email
 
 
 class League(models.Model):
@@ -46,7 +46,7 @@ class Player(models.Model):
             recipients = [self.email]
             message = f"You can login here:\n\n{signin}\n\n{ps}"
 
-            send_email_task.delay(subject, recipients, message)
+            send_email(subject, recipients, message)
 
 
 class TokenHash(models.Model):

@@ -1,9 +1,8 @@
 from django.contrib import messages
-from django.core.cache import cache
 from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse
 
-from fbsurvivor.core.models import League, Player, PlayerStatus, Season, Pick
+from fbsurvivor.core.models import Player, PlayerStatus, Season, Pick
 
 
 def get_player_context(player: Player, year: int):
@@ -69,11 +68,3 @@ def get_board(season, league):
     ]
 
     return ps, board
-
-
-def update_league_caches(season=None):
-    if not season:
-        season = Season.objects.get(is_current=True)
-    leagues = League.objects.all()
-    for league in leagues:
-        get_board(season, league, overwrite_cache=True)

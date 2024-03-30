@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django_extensions",
-    "django_celery_beat",
     "fbsurvivor.core",
 ]
 
@@ -93,18 +92,6 @@ DATABASES = {
     }
 }
 
-REDIS_SERVER = config("REDIS_SERVER", default="127.0.0.1")
-
-CACHES = {
-    "default": {
-        "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": f"redis://{REDIS_SERVER}:6379/1",
-        "OPTIONS": {
-            "CLIENT_CLASS": "django_redis.client.DefaultClient",
-        },
-    }
-}
-
 SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
 SESSION_COOKIE_HTTPONLY = True
 SESSION_CACHE_ALIAS = "default"
@@ -154,10 +141,6 @@ SMTP_SENDER = config("SMTP_SENDER", "")
 SMTP_USER = config("SMTP_USER", "")
 SMTP_PASSWORD = config("SMTP_PASSWORD", "")
 SMTP_PORT = config("SMTP_PORT", "")
-
-# CELERY
-BROKER_URL = f"redis://{REDIS_SERVER}:6379/0"
-CELERY_TIMEZONE = "America/Los_Angeles"
 
 if ENV == "dev":
     DEBUG = True

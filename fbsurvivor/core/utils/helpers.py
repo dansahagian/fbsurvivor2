@@ -1,9 +1,8 @@
 from django.contrib import messages
-from django.core.cache import cache
 from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse
 
-from fbsurvivor.core.models import League, Player, PlayerStatus, Season, Pick
+from fbsurvivor.core.models import Player, PlayerStatus, Season, Pick
 
 
 def get_player_context(player: Player, year: int):
@@ -62,34 +61,10 @@ def update_record(player_status):
     return True
 
 
-def _get_board(season, league):
+def get_board(season, league):
     ps = PlayerStatus.objects.for_season_board(season, league).prefetch_related("player")
     board = [
         (x, list(Pick.objects.for_board(x.player, season).select_related("team"))) for x in ps
     ]
 
     return ps, board
-
-
-def get_board(season, league, overwrite_cache=False):
-    if overwrite_cache:
-        player_statuses, board = _get_board(season, league)
-        cache.set(f"player_statuses_{season.year}_{league.name}", player_statuses, timeout=None)
-        cache.set(f"board_{season.year}_{league.name}", board, timeout=None)
-        print("\nBoard Cached!")
-        return player_statuses, board
-
-    player_statuses = cache.get(f"player_statuses_{season.year}_{league.name}")
-    board = cache.get(f"board_{season.year}_{league.name}")
-    if not (player_statuses and board):
-        return get_board(season, league, overwrite_cache=True)
-    print("Using cached board!")
-    return player_statuses, board
-
-
-def update_league_caches(season=None):
-    if not season:
-        season = Season.objects.get(is_current=True)
-    leagues = League.objects.all()
-    for league in leagues:
-        get_board(season, league, overwrite_cache=True)

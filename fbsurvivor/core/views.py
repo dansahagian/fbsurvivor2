@@ -3,7 +3,8 @@ from django.http import Http404
 from django.shortcuts import redirect, render, get_object_or_404
 from django.urls import reverse
 
-from fbsurvivor.celery import send_email_task, send_reminders_task
+from fbsurvivor.core.utils.emails import send_email
+from fbsurvivor.core.utils.reminders import send_reminders
 from fbsurvivor.core.forms import EmailForm, PickForm, MessageForm
 from fbsurvivor.core.models import (
     Week,
@@ -28,7 +29,6 @@ from fbsurvivor.core.utils.helpers import (
     get_player_context,
     send_to_latest_season_played,
     get_board,
-    update_league_caches,
     update_player_records,
 )
 from fbsurvivor.settings import VENMO, CONTACT
@@ -158,12 +158,12 @@ def play(request, year, **kwargs):
         weeks = Week.objects.filter(season=season)
         picks = [Pick(player=player, week=week) for week in weeks]
         Pick.objects.bulk_create(picks)
-        get_board(season, player.league, overwrite_cache=True)
+        get_board(season, player.league)
         messages.info(request, f"Good luck in the {year} season!")
 
         recipient = Player.objects.get(username="DanTheAutomator").email
         message = f"{player.username} in for {season.year}"
-        send_email_task.delay("🏈 New Player! 🏈", [recipient], message)
+        send_email("🏈 New Player! 🏈", [recipient], message)
 
         return redirect(reverse("board", args=[year]))
 
@@ -185,7 +185,7 @@ def retire(request, year, **kwargs):
         Pick.objects.filter(player=player, week__season=season, result__isnull=True).update(
             result="R"
         )
-        get_board(season, player.league, overwrite_cache=True)
+        get_board(season, player.league)
         messages.info(request, "You have retired. See you next year!")
 
     return redirect(reverse("board", args=[year]))
@@ -394,7 +394,6 @@ def user_paid(request, year, username, **kwargs):
     ps = get_object_or_404(PlayerStatus, player__username=username, season=season)
     ps.is_paid = True
     ps.save()
-    update_league_caches(season)
     messages.info(request, f"{ps.player.username} marked as paid!")
     return redirect(reverse("paid", args=[year]))
 
@@ -423,7 +422,6 @@ def result(request, year, week, team, outcome, **kwargs):
     messages.info(request, f"Picks for week {week.week_num} of {team} updated!")
 
     player_records_updated = update_player_records(year)
-    update_league_caches(season)
     messages.info(request, f"{player_records_updated} player records updated!")
 
     return redirect(reverse("results", args=[year]))
@@ -431,7 +429,7 @@ def result(request, year, week, team, outcome, **kwargs):
 
 @authenticate_admin
 def remind(request, year, **kwargs):
-    send_reminders_task.delay()
+    send_reminders()
     messages.info(request, "Reminder task kicked off")
     return redirect(reverse("manager", args=[year]))
 
@@ -446,14 +444,6 @@ def get_players(request, year, **kwargs):
     )
 
     return render(request, "players.html", context=context)
-
-
-@authenticate_admin
-def update_board_cache(request, year, **kwargs):
-    season, context = get_season_context(year, **kwargs)
-    update_league_caches(season)
-
-    return redirect(reverse("board", args=[year]))
 
 
 @authenticate_admin
@@ -479,7 +469,7 @@ def send_message(request, year, **kwargs):
 
             subject = f"🏈 Survivor {subject}"
 
-            send_email_task.delay(subject, recipients, message)
+            send_email(subject, recipients, message)
 
             return redirect(reverse("board", args=[year]))
 
@@ -503,7 +493,7 @@ def send_message_all(request, year, **kwargs):
 
             subject = f"🏈 Survivor {subject}"
 
-            send_email_task.delay(subject, recipients, message)
+            send_email(subject, recipients, message)
 
             return redirect(reverse("board", args=[year]))
 

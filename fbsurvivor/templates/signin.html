@@ -2,15 +2,17 @@
     {% block content %}
         <div class="center">
             Private NFL Survivor Pool<br><br>
-            Have an account?<br><br>
-            Enter your email address!
-            <br><br>
-            <form action="{% url 'signin' %}" method="POST">
-                {% csrf_token %}
-                <label for="{{ form.email.id_for_label }}"></label>
-                {{ form.email }}
-                <br><br>
-                <input class="blue-button" type="submit" value="Send Magic Link" />
-            </form>
+            Survivor is maintenance mode for the off season.<br>
+            Reach out to Dan if you have any questions.
+{#            Have an account?<br><br>#}
+{#            Enter your email address!#}
+{#            <br><br>#}
+{#            <form action="{% url 'signin' %}" method="POST">#}
+{#                {% csrf_token %}#}
+{#                <label for="{{ form.email.id_for_label }}"></label>#}
+{#                {{ form.email }}#}
+{#                <br><br>#}
+{#                <input class="blue-button" type="submit" value="Send Magic Link" />#}
+{#            </form>#}
         </div>
     {% endblock %}

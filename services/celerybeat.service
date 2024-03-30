@@ -1,9 +1,0 @@
-[Unit]
-Description=fbsurvivor beat
-
-[Service]
-User=dan
-ExecStart=/usr/bin/zsh /opt/fbsurvivor2/services/scripts/run-celerybeat
-
-[Install]
-WantedBy=multi-user.target

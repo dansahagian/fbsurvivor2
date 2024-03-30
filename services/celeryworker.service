@@ -1,9 +1,0 @@
-[Unit]
-Description=fbsurvivor worker
-
-[Service]
-User=dan
-ExecStart=/usr/bin/zsh /opt/fbsurvivor2/services/scripts/run-celeryworker
-
-[Install]
-WantedBy=multi-user.target

@@ -7,16 +7,10 @@ venv/bin/pip install -r ./requirements/base.txt
 
 echo "\nStopping services...\n"
 sudo systemctl stop wsgi-server-fbsurvivor.service
-sudo systemctl stop celeryworker.service
-sudo systemctl stop celerybeat.service
 
-venv/bin/python manage.py clearcache
 venv/bin/python manage.py migrate
 venv/bin/python manage.py collectstatic --no-input
 venv/bin/python manage.py check --deploy
-venv/bin/python manage.py updatecache
 
 echo "\nStarting services...\n"
 sudo systemctl start wsgi-server-fbsurvivor.service
-sudo systemctl start celeryworker.service
-sudo systemctl start celerybeat.service

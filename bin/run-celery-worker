@@ -1,3 +1,0 @@
-#!/bin/zsh
-
-venv/bin/python -m celery -A fbsurvivor worker -l INFO

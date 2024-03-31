@@ -1,0 +1,4 @@
+#!/bin/zsh
+
+./venv/bin/ruff check --select I --fix
+./venv/bin/ruff format

@@ -9,3 +9,4 @@ requests
 gunicorn
 PyJWT
 sentry-sdk
+pip-tools

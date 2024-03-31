@@ -2,14 +2,14 @@ from django.contrib import admin
 
 from fbsurvivor.core.models import (
     League,
+    Lock,
+    Payout,
+    Pick,
     Player,
     PlayerStatus,
-    Payout,
     Season,
-    Week,
     Team,
-    Lock,
-    Pick,
+    Week,
 )
 
 admin.AdminSite.enable_nav_sidebar = False

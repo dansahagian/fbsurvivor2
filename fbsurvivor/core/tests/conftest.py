@@ -3,13 +3,13 @@ import factory
 import pytest
 
 from fbsurvivor.core.tests.factories import (
+    LeagueFactory,
+    PickFactory,
     PlayerFactory,
     PlayerStatusFactory,
     SeasonFactory,
-    WeekFactory,
-    PickFactory,
     TeamFactory,
-    LeagueFactory,
+    WeekFactory,
 )
 
 

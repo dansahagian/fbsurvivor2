@@ -1,6 +1,6 @@
 from django.contrib import admin
-from django.http import HttpResponse, FileResponse
-from django.urls import path, include
+from django.http import FileResponse, HttpResponse
+from django.urls import include, path
 from django.views.decorators.cache import cache_control
 from django.views.decorators.http import require_GET
 

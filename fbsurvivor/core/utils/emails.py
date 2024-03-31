@@ -1,6 +1,7 @@
 import smtplib
 from email.mime.text import MIMEText
-from fbsurvivor.settings import ENV, SMTP_SENDER, SMTP_USER, SMTP_PASSWORD, SMTP_SERVER
+
+from fbsurvivor.settings import ENV, SMTP_PASSWORD, SMTP_SENDER, SMTP_SERVER, SMTP_USER
 
 
 def send_email(subject, recipients, message):

@@ -1,7 +1,7 @@
 import arrow as arrow
 import factory.django
 
-from fbsurvivor.core.models import Player, PlayerStatus, Season, Week, Team, Pick, League
+from fbsurvivor.core.models import League, Pick, Player, PlayerStatus, Season, Team, Week
 
 
 class PlayerFactory(factory.django.DjangoModelFactory):

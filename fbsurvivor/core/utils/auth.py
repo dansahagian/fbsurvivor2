@@ -2,14 +2,14 @@ import hashlib
 
 import arrow
 import sentry_sdk
-from django.shortcuts import redirect, get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
-from jwt import encode, decode, ExpiredSignatureError, InvalidSignatureError
+from jwt import ExpiredSignatureError, InvalidSignatureError, decode, encode
 
+from fbsurvivor.core.models import Player, Season, TokenHash
 from fbsurvivor.core.utils.emails import send_email
-from fbsurvivor.core.models import TokenHash, Player, Season
 from fbsurvivor.core.utils.helpers import get_current_season
-from fbsurvivor.settings import SECRET_KEY, DOMAIN
+from fbsurvivor.settings import DOMAIN, SECRET_KEY
 
 
 def get_token_hash(token):

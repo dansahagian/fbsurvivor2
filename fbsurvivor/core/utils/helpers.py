@@ -1,8 +1,8 @@
 from django.contrib import messages
-from django.shortcuts import redirect, get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
 
-from fbsurvivor.core.models import Player, PlayerStatus, Season, Pick
+from fbsurvivor.core.models import Pick, Player, PlayerStatus, Season
 
 
 def get_player_context(player: Player, year: int):

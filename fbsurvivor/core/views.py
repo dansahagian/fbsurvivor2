@@ -1,37 +1,37 @@
 from django.contrib import messages
 from django.http import Http404
-from django.shortcuts import redirect, render, get_object_or_404
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 
-from fbsurvivor.core.utils.emails import send_email
-from fbsurvivor.core.utils.reminders import send_reminders
-from fbsurvivor.core.forms import EmailForm, PickForm, MessageForm
+from fbsurvivor.core.forms import EmailForm, MessageForm, PickForm
 from fbsurvivor.core.models import (
-    Week,
-    Season,
-    PlayerStatus,
+    Payout,
     Pick,
     Player,
-    Payout,
-    TokenHash,
+    PlayerStatus,
+    Season,
     Team,
+    TokenHash,
+    Week,
 )
 from fbsurvivor.core.utils.auth import (
-    get_token_hash,
-    create_token,
-    authenticate_player,
     authenticate_admin,
+    authenticate_player,
+    create_token,
     get_season_context,
+    get_token_hash,
     send_magic_link,
 )
+from fbsurvivor.core.utils.emails import send_email
 from fbsurvivor.core.utils.helpers import (
+    get_board,
     get_current_season,
     get_player_context,
     send_to_latest_season_played,
-    get_board,
     update_player_records,
 )
-from fbsurvivor.settings import VENMO, CONTACT
+from fbsurvivor.core.utils.reminders import send_reminders
+from fbsurvivor.settings import CONTACT, VENMO
 
 
 def signin(request):

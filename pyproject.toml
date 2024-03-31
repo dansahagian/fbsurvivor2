@@ -1,9 +1,10 @@
-[tool.black]
-line-length = 99
-target-version = ['py311']
-
 [tool.ruff]
 line-length = 99
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+docstring-code-format = true
 
 exclude = [
     ".git",

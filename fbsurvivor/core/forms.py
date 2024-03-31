@@ -1,6 +1,6 @@
 from django import forms
 
-from fbsurvivor.core.models import Team, Pick
+from fbsurvivor.core.models import Pick, Team
 
 
 class EmailForm(forms.Form):

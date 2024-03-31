@@ -1,7 +1,7 @@
 import arrow
 from django.core.management.base import BaseCommand
 
-from fbsurvivor.core.models import Season, Week, Team, Lock
+from fbsurvivor.core.models import Lock, Season, Team, Week
 
 
 class Command(BaseCommand):

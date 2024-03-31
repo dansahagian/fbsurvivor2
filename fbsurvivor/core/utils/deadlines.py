@@ -1,6 +1,6 @@
 import arrow
 
-from fbsurvivor.core.models import PlayerStatus, Season, Week, Lock, Pick
+from fbsurvivor.core.models import Lock, Pick, PlayerStatus, Season, Week
 
 
 def _zero_pad_number(number):

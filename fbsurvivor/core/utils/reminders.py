@@ -1,6 +1,4 @@
-from fbsurvivor.core.models import PlayerStatus
-from fbsurvivor.core.models import Season
-from fbsurvivor.core.models import Week
+from fbsurvivor.core.models import PlayerStatus, Season, Week
 from fbsurvivor.core.utils.deadlines import get_reminder_message
 from fbsurvivor.core.utils.emails import send_email
 

@@ -3,7 +3,7 @@
 echo "\nInstalling Dependencies...\n"
 cd /opt/fbsurvivor2
 venv/bin/pip install --upgrade pip
-venv/bin/pip-sync install -r ./requirements/base.txt
+venv/bin/pip-sync install ./requirements/base.txt
 
 echo "\nStopping services...\n"
 sudo systemctl stop wsgi-server-fbsurvivor.service

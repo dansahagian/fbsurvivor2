@@ -9,5 +9,3 @@ This project is used to run a family and friends NFL Survivor League. The league
 ## About the Deployment
 - Runs on a single [Linode](https://www.linode.com/) running Debian Linux
 - Deployed with a simple deploy script
-- Async tasks (reminders) with Celery and Celery Beat
-- Redis is used for caching and the Celery queue

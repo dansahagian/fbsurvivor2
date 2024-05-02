@@ -12,4 +12,5 @@ exclude = [
     ".pytest_cache",
     ".ruff_cache",
     "venv",
+    ".venv",
 ]
